@@ -64,6 +64,10 @@ add_library(MissionManager
 	ComplexMissionItem.h
 	CorridorScanComplexItem.cc
 	CorridorScanComplexItem.h
+	Corridor2.cc
+	Corridor2.h
+	Corridor2PlanCreator.cc
+	Corridor2PlanCreator.h
 	CorridorScanPlanCreator.cc
 	CorridorScanPlanCreator.h
 	FixedWingLandingComplexItem.cc

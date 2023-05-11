@@ -20,6 +20,7 @@
 #include "VTOLLandingComplexItem.h"
 #include "StructureScanComplexItem.h"
 #include "CorridorScanComplexItem.h"
+#include "Corridor2.h"
 #include "JsonHelper.h"
 #include "ParameterManager.h"
 #include "QGroundControlQmlGlobal.h"
@@ -451,6 +452,8 @@ VisualMissionItem* MissionController::insertComplexMissionItem(QString itemName,
         newItem = new StructureScanComplexItem(_masterController, _flyView, QString() /* kmlFile */);
     } else if (itemName == CorridorScanComplexItem::name) {
         newItem = new CorridorScanComplexItem(_masterController, _flyView, QString() /* kmlFile */);
+    } else if (itemName == Corridor2::name) {
+        newItem = new Corridor2(_masterController, _flyView, QString() /* kmlFile */);
     } else {
         qWarning() << "Internal error: Unknown complex item:" << itemName;
         return nullptr;
@@ -471,6 +474,8 @@ VisualMissionItem* MissionController::insertComplexMissionItemFromKMLOrSHP(QStri
         newItem = new StructureScanComplexItem(_masterController, _flyView, file);
     } else if (itemName == CorridorScanComplexItem::name) {
         newItem = new CorridorScanComplexItem(_masterController, _flyView, file);
+    } else if (itemName == Corridor2::name) {
+        newItem = new Corridor2(_masterController, _flyView, file);
     } else {
         qWarning() << "Internal error: Unknown complex item:" << itemName;
         return nullptr;
@@ -486,6 +491,7 @@ void MissionController::_insertComplexMissionItemWorker(const QGeoCoordinate& ma
     int sequenceNumber = _nextSequenceNumber();
     bool surveyStyleItem = qobject_cast<SurveyComplexItem*>(complexItem) ||
             qobject_cast<CorridorScanComplexItem*>(complexItem) ||
+            qobject_cast<Corridor2*>(complexItem)|| 
             qobject_cast<StructureScanComplexItem*>(complexItem);
 
     if (surveyStyleItem) {
@@ -545,7 +551,7 @@ void MissionController::removeVisualItem(int viIndex)
         return;
     }
 
-    bool removeSurveyStyle = _visualItems->value<SurveyComplexItem*>(viIndex) || _visualItems->value<CorridorScanComplexItem*>(viIndex);
+    bool removeSurveyStyle = _visualItems->value<SurveyComplexItem*>(viIndex) || _visualItems->value<CorridorScanComplexItem*>(viIndex) || _visualItems->value<Corridor2*>(viIndex);
     VisualMissionItem* item = qobject_cast<VisualMissionItem*>(_visualItems->removeAt(viIndex));
 
     if (item == _takeoffMissionItem) {
@@ -559,7 +565,7 @@ void MissionController::removeVisualItem(int viIndex)
         // Determine if the mission still has another survey style item in it
         bool foundSurvey = false;
         for (int i=1; i<_visualItems->count(); i++) {
-            if (_visualItems->value<SurveyComplexItem*>(i) || _visualItems->value<CorridorScanComplexItem*>(i)) {
+            if (_visualItems->value<SurveyComplexItem*>(i) || _visualItems->value<CorridorScanComplexItem*>(i)|| _visualItems->value<Corridor2*>(i)) {
                 foundSurvey = true;
                 break;
             }
@@ -873,7 +879,16 @@ bool MissionController::_loadJsonMissionFileV2(const QJsonObject& json, QmlObjec
                 nextSequenceNumber = corridorItem->lastSequenceNumber() + 1;
                 qCDebug(MissionControllerLog) << "Corridor Scan load complete: nextSequenceNumber" << nextSequenceNumber;
                 visualItems->append(corridorItem);
-            } else {
+            } else if (complexItemType == Corridor2::jsonComplexItemTypeValue) {
+                qCDebug(MissionControllerLog) << "Loading Corridor Scan: nextSequenceNumber" << nextSequenceNumber;
+                Corridor2* corridorItem = new Corridor2(_masterController, _flyView, QString() /* kmlFile */);
+                if (!corridorItem->load(itemObject, nextSequenceNumber++, errorString)) {
+                    return false;
+                }
+                nextSequenceNumber = corridorItem->lastSequenceNumber() + 1;
+                qCDebug(MissionControllerLog) << "Corridor Scan load complete: nextSequenceNumber" << nextSequenceNumber;
+                visualItems->append(corridorItem);
+            }  else {
                 errorString = tr("Unsupported complex item type: %1").arg(complexItemType);
             }
         } else {
@@ -2258,6 +2273,7 @@ QStringList MissionController::complexMissionItemNames(void) const
 
     complexItems.append(SurveyComplexItem::name);
     complexItems.append(CorridorScanComplexItem::name);
+    complexItems.append(Corridor2::name);
     if (_controllerVehicle->multiRotor() || _controllerVehicle->vtol()) {
         complexItems.append(StructureScanComplexItem::name);
     }
@@ -2643,6 +2659,11 @@ QString MissionController::surveyComplexItemName(void) const
 QString MissionController::corridorScanComplexItemName(void) const
 {
     return CorridorScanComplexItem::name;
+}
+
+QString MissionController::corridor2Name(void) const
+{
+    return Corridor2::name;
 }
 
 QString MissionController::structureScanComplexItemName(void) const
