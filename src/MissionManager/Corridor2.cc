@@ -36,7 +36,7 @@ Corridor2::Corridor2(PlanMasterController* masterController, bool flyView, const
     , _metaDataMap              (FactMetaData::createMapFromJsonFile(QStringLiteral(":/json/Corridor2.SettingsGroup.json"), this))
     , _corridorWidthFact        (settingsGroup, _metaDataMap[corridorWidthName])
 {
-    _editorQml = "qrc:/qml/CorridorScanEditor.qml";
+    _editorQml = "qrc:/qml/Corridor2Editor.qml";
 
     // We override the altitude to the mission default
     if (_cameraCalc.isManualCamera() || !_cameraCalc.valueSetIsDistance()->rawValue().toBool()) {
