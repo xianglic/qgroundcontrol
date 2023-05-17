@@ -38,9 +38,10 @@ void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rg
         return;
     }
 
-    // QDomElement itemFolderElement = createElement("Folder");
-    // _rootDocumentElement.appendChild(itemFolderElement);
-    // addTextElement(itemFolderElement, "name", "Items");
+    QDomElement itemFolderElement = createElement("Folder");
+    _rootDocumentElement.appendChild(itemFolderElement);
+
+    addTextElement(itemFolderElement, "name", "Items");
 
     QDomElement flightPathElement = createElement("Placemark");
     _rootDocumentElement.appendChild(flightPathElement);
@@ -48,7 +49,7 @@ void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rg
     addTextElement(flightPathElement, "styleUrl",     QStringLiteral("#%1").arg(_missionLineStyleName));
     addTextElement(flightPathElement, "name",         "Flight Path");
     addTextElement(flightPathElement, "visibility",   "1");
-    // addLookAt(flightPathElement, rgMissionItems[0]->coordinate());
+    addLookAt(flightPathElement, rgMissionItems[0]->coordinate());
 
     // Build up the mission trajectory line coords
     QList<QGeoCoordinate> rgFlightCoords;
@@ -74,29 +75,29 @@ void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rg
 
                 // Add a place mark for each WP
 
-                // QDomElement wpPlacemarkElement = createElement("Placemark");
-                // addTextElement(wpPlacemarkElement, "name",     QStringLiteral("%1 %2").arg(QString::number(item->sequenceNumber())).arg(item->command() == MAV_CMD_NAV_WAYPOINT ? "" : uiInfo->friendlyName()));
-                // addTextElement(wpPlacemarkElement, "styleUrl", QStringLiteral("#%1").arg(balloonStyleName));
+                QDomElement wpPlacemarkElement = createElement("Placemark");
+                addTextElement(wpPlacemarkElement, "name",     QStringLiteral("%1 %2").arg(QString::number(item->sequenceNumber())).arg(item->command() == MAV_CMD_NAV_WAYPOINT ? "" : uiInfo->friendlyName()));
+                addTextElement(wpPlacemarkElement, "styleUrl", QStringLiteral("#%1").arg(balloonStyleName));
 
-                // QDomElement wpPointElement = createElement("Point");
-                // addTextElement(wpPointElement, "altitudeMode", "absolute");
-                // addTextElement(wpPointElement, "coordinates",  kmlCoordString(coord));
-                // addTextElement(wpPointElement, "extrude",      "1");
+                QDomElement wpPointElement = createElement("Point");
+                addTextElement(wpPointElement, "altitudeMode", "absolute");
+                addTextElement(wpPointElement, "coordinates",  kmlCoordString(coord));
+                addTextElement(wpPointElement, "extrude",      "1");
 
-                // QDomElement descriptionElement = createElement("description");
-                // QString htmlString;
-                // htmlString += QStringLiteral("Index: %1\n").arg(item->sequenceNumber());
-                // htmlString += uiInfo->friendlyName() + "\n";
-                // htmlString += QStringLiteral("Alt AMSL: %1 %2\n").arg(QString::number(FactMetaData::metersToAppSettingsHorizontalDistanceUnits(coord.altitude()).toDouble(), 'f', 2)).arg(FactMetaData::appSettingsHorizontalDistanceUnitsString());
-                // htmlString += QStringLiteral("Alt Rel: %1 %2\n").arg(QString::number(FactMetaData::metersToAppSettingsHorizontalDistanceUnits(coord.altitude() - homeCoord.altitude()).toDouble(), 'f', 2)).arg(FactMetaData::appSettingsHorizontalDistanceUnitsString());
-                // htmlString += QStringLiteral("Lat: %1\n").arg(QString::number(coord.latitude(), 'f', 7));
-                // htmlString += QStringLiteral("Lon: %1\n").arg(QString::number(coord.longitude(), 'f', 7));
-                // QDomCDATASection cdataSection = createCDATASection(htmlString);
-                // descriptionElement.appendChild(cdataSection);
+                QDomElement descriptionElement = createElement("description");
+                QString htmlString;
+                htmlString += QStringLiteral("Index: %1\n").arg(item->sequenceNumber());
+                htmlString += uiInfo->friendlyName() + "\n";
+                htmlString += QStringLiteral("Alt AMSL: %1 %2\n").arg(QString::number(FactMetaData::metersToAppSettingsHorizontalDistanceUnits(coord.altitude()).toDouble(), 'f', 2)).arg(FactMetaData::appSettingsHorizontalDistanceUnitsString());
+                htmlString += QStringLiteral("Alt Rel: %1 %2\n").arg(QString::number(FactMetaData::metersToAppSettingsHorizontalDistanceUnits(coord.altitude() - homeCoord.altitude()).toDouble(), 'f', 2)).arg(FactMetaData::appSettingsHorizontalDistanceUnitsString());
+                htmlString += QStringLiteral("Lat: %1\n").arg(QString::number(coord.latitude(), 'f', 7));
+                htmlString += QStringLiteral("Lon: %1\n").arg(QString::number(coord.longitude(), 'f', 7));
+                QDomCDATASection cdataSection = createCDATASection(htmlString);
+                descriptionElement.appendChild(cdataSection);
 
-                // wpPlacemarkElement.appendChild(descriptionElement);
-                // wpPlacemarkElement.appendChild(wpPointElement);
-                // itemFolderElement.appendChild(wpPlacemarkElement);
+                wpPlacemarkElement.appendChild(descriptionElement);
+                wpPlacemarkElement.appendChild(wpPointElement);
+                itemFolderElement.appendChild(wpPlacemarkElement);
             }
         }
     }
