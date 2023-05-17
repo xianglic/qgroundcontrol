@@ -19,6 +19,10 @@
 #include <QDomDocument>
 #include <QStringList>
 
+#include "TransectStyleComplexItem.h"
+#include <iostream>
+#include <QVariant>
+
 const char* KMLPlanDomDocument::_missionLineStyleName =     "MissionLineStyle";
 const char* KMLPlanDomDocument::surveyPolygonStyleName =   "SurveyPolygonStyle";
 
@@ -97,14 +101,6 @@ void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rg
         }
     }
 
-    // add description of the task
-    QDomElement descriptionElement = createElement("description");
-    QString htmlString;
-    htmlString += QStringLiteral("DetectTask: {model: 'coco'}\n");
-    QDomCDATASection cdataSection = createCDATASection(htmlString);
-    descriptionElement.appendChild(cdataSection);
-    flightPathElement.appendChild(descriptionElement);
-
     // Create a LineString element from the coords
 
     QDomElement lineStringElement = createElement("LineString");
@@ -123,18 +119,40 @@ void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rg
 
 void KMLPlanDomDocument::_addComplexItems(QmlObjectListModel* visualItems)
 {
+    QDomElement placemarkElement = createElement("Placemark");
+    _rootDocumentElement.appendChild(placemarkElement);
+    // add description of the task
+    QDomElement descriptionElement = createElement("description");
+
     for (int i=0; i<visualItems->count(); i++) {
-        ComplexMissionItem* complexItem = visualItems->value<ComplexMissionItem*>(i);
+        TransectStyleComplexItem* complexItem = visualItems->value<TransectStyleComplexItem*>(i);
         if (complexItem) {
-            complexItem->addKMLVisuals(*this);
+
+            Fact* detectFact = (complexItem->detectTask());
+            // Read the value using the appropriate getter function
+            QVariant value = detectFact->cookedValue();
+
+            // Convert the QVariant to the desired type if needed
+            double convertedValue = value.toDouble();
+
+
+            std::cout << "chen test " << convertedValue << "\n"; 
+            //complexItem->addKMLVisuals(*this);
         }
     }
+
+    QString htmlString;
+    htmlString += QStringLiteral("DetectTask: {model: 'coco'}\n");
+    QDomCDATASection cdataSection = createCDATASection(htmlString);
+    descriptionElement.appendChild(cdataSection);
+    placemarkElement.appendChild(descriptionElement);
+ 
 }
 
 void KMLPlanDomDocument::addMission(Vehicle* vehicle, QmlObjectListModel* visualItems, QList<MissionItem*> rgMissionItems)
 {
     _addFlightPath(vehicle, rgMissionItems);
-    //_addComplexItems(visualItems);
+    _addComplexItems(visualItems);
 }
 
 void KMLPlanDomDocument::_addStyles(void)

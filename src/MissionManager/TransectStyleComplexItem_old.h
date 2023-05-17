@@ -32,7 +32,6 @@ public:
     Q_PROPERTY(QGCMapPolygon*   surveyAreaPolygon           READ surveyAreaPolygon                                  CONSTANT)
     Q_PROPERTY(CameraCalc*      cameraCalc                  READ cameraCalc                                         CONSTANT)
     Q_PROPERTY(Fact*            turnAroundDistance          READ turnAroundDistance                                 CONSTANT)
-    Q_PROPERTY(Fact*            detectTask                  READ detectTask                                         CONSTANT)
     Q_PROPERTY(Fact*            cameraTriggerInTurnAround   READ cameraTriggerInTurnAround                          CONSTANT)
     Q_PROPERTY(Fact*            hoverAndCapture             READ hoverAndCapture                                    CONSTANT)
     Q_PROPERTY(Fact*            refly90Degrees              READ refly90Degrees                                     CONSTANT)
@@ -52,7 +51,6 @@ public:
     QVariantList    visualTransectPoints(void) { return _visualTransectPoints; }
 
     Fact* turnAroundDistance            (void) { return &_turnAroundDistanceFact; }
-    Fact* detectTask                    (void) { return &_detectTaskFact; }
     Fact* cameraTriggerInTurnAround     (void) { return &_cameraTriggerInTurnAroundFact; }
     Fact* hoverAndCapture               (void) { return &_hoverAndCaptureFact; }
     Fact* refly90Degrees                (void) { return &_refly90DegreesFact; }
@@ -113,7 +111,6 @@ public:
     double              maxAMSLAltitude             (void) const final;
 
     static const char* turnAroundDistanceName;
-    static const char* detectTaskName;
     static const char* turnAroundDistanceMultiRotorName;
     static const char* cameraTriggerInTurnAroundName;
     static const char* hoverAndCaptureName;
@@ -148,7 +145,6 @@ protected:
     double  _triggerDistance                (void) const;
     bool    _hasTurnaround                  (void) const;
     double  _turnAroundDistance             (void) const;
-    double  _detectTask                     (void) const;
     void    _appendWaypoint                 (QList<MissionItem*>& items, QObject* missionItemParent, int& seqNum, MAV_FRAME mavFrame, float holdTime, const QGeoCoordinate& coordinate);
     void    _appendSinglePhotoCapture       (QList<MissionItem*>& items, QObject* missionItemParent, int& seqNum);
     void    _appendConditionGate            (QList<MissionItem*>& items, QObject* missionItemParent, int& seqNum, MAV_FRAME mavFrame, const QGeoCoordinate& coordinate);
@@ -199,7 +195,6 @@ protected:
     QMap<QString, FactMetaData*> _metaDataMap;
 
     SettingsFact _turnAroundDistanceFact;
-    SettingsFact _detectTaskFact;
     SettingsFact _cameraTriggerInTurnAroundFact;
     SettingsFact _hoverAndCaptureFact;
     SettingsFact _refly90DegreesFact;
@@ -230,7 +225,6 @@ private:
         bool hasTurnarounds;
         bool addTriggerAtFirstAndLastPoint;
         bool useConditionGate;
-        bool hasDetectTask;
     } BuildMissionItemsState_t;
 
     void    _queryTransectsPathHeightInfo                                   (void);

@@ -26,7 +26,6 @@
 QGC_LOGGING_CATEGORY(TransectStyleComplexItemLog, "TransectStyleComplexItemLog")
 
 const char* TransectStyleComplexItem::turnAroundDistanceName                = "TurnAroundDistance";
-const char* TransectStyleComplexItem::detectTaskName                        = "DetectTaskName";
 const char* TransectStyleComplexItem::turnAroundDistanceMultiRotorName      = "TurnAroundDistanceMultiRotor";
 const char* TransectStyleComplexItem::cameraTriggerInTurnAroundName         = "CameraTriggerInTurnAround";
 const char* TransectStyleComplexItem::hoverAndCaptureName                   = "HoverAndCapture";
@@ -49,7 +48,6 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     , _cameraCalc                       (masterController, settingsGroup)
     , _metaDataMap                      (FactMetaData::createMapFromJsonFile(QStringLiteral(":/json/TransectStyle.SettingsGroup.json"), this))
     , _turnAroundDistanceFact           (settingsGroup, _metaDataMap[_controllerVehicle->multiRotor() ? turnAroundDistanceMultiRotorName : turnAroundDistanceName])
-    , _detectTaskFact                   (settingsGroup, _metaDataMap[detectTaskName])
     , _cameraTriggerInTurnAroundFact    (settingsGroup, _metaDataMap[cameraTriggerInTurnAroundName])
     , _hoverAndCaptureFact              (settingsGroup, _metaDataMap[hoverAndCaptureName])
     , _refly90DegreesFact               (settingsGroup, _metaDataMap[refly90DegreesName])
@@ -66,7 +64,6 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     qgcApp()->addCompressedSignal(QMetaMethod::fromSignal(&TransectStyleComplexItem::_updateFlightPathSegmentsSignal));
 
     connect(&_turnAroundDistanceFact,                   &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
-    connect(&_detectTaskFact,                           &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
     connect(&_hoverAndCaptureFact,                      &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
     connect(&_refly90DegreesFact,                       &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
     connect(&_terrainAdjustMaxClimbRateFact,            &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
@@ -90,7 +87,6 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     connect(&_surveyAreaPolygon,                        &QGCMapPolygon::pathChanged,    this, &TransectStyleComplexItem::greatestDistanceToChanged);
 
     connect(&_turnAroundDistanceFact,                   &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
-    connect(&_detectTaskFact,                           &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_cameraTriggerInTurnAroundFact,            &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_hoverAndCaptureFact,                      &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_refly90DegreesFact,                       &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
@@ -154,7 +150,6 @@ void TransectStyleComplexItem::_save(QJsonObject& complexObject)
 
     innerObject[JsonHelper::jsonVersionKey] =       2;
     innerObject[turnAroundDistanceName] =           _turnAroundDistanceFact.rawValue().toDouble();
-    innerObject[detectTaskName] =                   _detectTaskFact.rawValue().toDouble();
     innerObject[cameraTriggerInTurnAroundName] =    _cameraTriggerInTurnAroundFact.rawValue().toBool();
     innerObject[hoverAndCaptureName] =              _hoverAndCaptureFact.rawValue().toBool();
     innerObject[refly90DegreesName] =               _refly90DegreesFact.rawValue().toBool();
@@ -242,7 +237,6 @@ bool TransectStyleComplexItem::_load(const QJsonObject& complexObject, bool forP
     QList<JsonHelper::KeyValidateInfo> innerKeyInfoList = {
         { JsonHelper::jsonVersionKey,       QJsonValue::Double, true },
         { turnAroundDistanceName,           QJsonValue::Double, true },
-        { detectTaskName,                   QJsonValue::Double, true },
         { cameraTriggerInTurnAroundName,    QJsonValue::Bool,   true },
         { hoverAndCaptureName,              QJsonValue::Bool,   true },
         { refly90DegreesName,               QJsonValue::Bool,   true },
@@ -285,7 +279,6 @@ bool TransectStyleComplexItem::_load(const QJsonObject& complexObject, bool forP
 
     // Load TransectStyleComplexItem individual values
     _turnAroundDistanceFact.setRawValue         (innerObject[turnAroundDistanceName].toDouble());
-    _detectTaskFact.setRawValue                 (innerObject[detectTaskName].toDouble());
     _cameraTriggerInTurnAroundFact.setRawValue  (innerObject[cameraTriggerInTurnAroundName].toBool());
     _hoverAndCaptureFact.setRawValue            (innerObject[hoverAndCaptureName].toBool());
     _refly90DegreesFact.setRawValue             (innerObject[refly90DegreesName].toBool());
@@ -401,11 +394,6 @@ bool TransectStyleComplexItem::_hasTurnaround(void) const
 double TransectStyleComplexItem::_turnAroundDistance(void) const
 {
     return _turnAroundDistanceFact.rawValue().toDouble();
-}
-
-double TransectStyleComplexItem::_detectTask(void) const
-{
-    return _detectTaskFact.rawValue().toDouble();
 }
 
 bool TransectStyleComplexItem::hoverAndCaptureAllowed(void) const
@@ -1232,7 +1220,6 @@ TransectStyleComplexItem::BuildMissionItemsState_t TransectStyleComplexItem::_bu
 
     state.imagesInTurnaround        = _cameraTriggerInTurnAroundFact.rawValue().toBool();
     state.hasTurnarounds            = _turnAroundDistance() != 0;
-    state.hasDetectTask             = _detectTask() != 0;
     state.addTriggerAtFirstAndLastPoint  = !hoverAndCaptureEnabled() && state.imagesInTurnaround && triggerCamera();
     state.useConditionGate          = _controllerVehicle->firmwarePlugin()->supportedMissionCommands(QGCMAVLink::VehicleClassGeneric).contains(MAV_CMD_CONDITION_GATE) &&
             triggerCamera() &&
@@ -1341,7 +1328,6 @@ void TransectStyleComplexItem::_appendLoadedMissionItems(QList<MissionItem*>& it
 void TransectStyleComplexItem::addKMLVisuals(KMLPlanDomDocument& domDocument)
 {
     // We add the survey area polygon as a Placemark
-
 
     QDomElement placemarkElement = domDocument.addPlacemark(QStringLiteral("Survey Area"), true);
     QDomElement polygonElement = _surveyAreaPolygon.kmlPolygonElement(domDocument);

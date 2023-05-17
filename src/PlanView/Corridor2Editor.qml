@@ -58,6 +58,16 @@ TransectStyleComplexItemEditor {
                 enabled:            _missionItem.hoverAndCaptureAllowed ? !_missionItem.hoverAndCapture.rawValue : true
                 visible:            !forPresets
             }
+
+            QGCLabel {
+                text:       qsTr("DetectTask")
+                visible:    !forPresets
+            }
+            FactTextField {
+                fact:               _missionItem.DetectTask
+                Layout.fillWidth:   true
+                visible:            !forPresets
+            }
         }
     }
 }
