@@ -46,6 +46,15 @@
     "min":              0,
     "units":            "m",
     "default":     30
+},
+{
+    "name":             "detectTask",
+    "shortDesc": "task detection",
+    "type":             "double",
+    "decimalPlaces":    2,
+    "min":              0,
+    "units":            "m",
+    "default":     30
 }
 ]
 }

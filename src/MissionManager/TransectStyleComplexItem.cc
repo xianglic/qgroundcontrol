@@ -26,7 +26,7 @@
 QGC_LOGGING_CATEGORY(TransectStyleComplexItemLog, "TransectStyleComplexItemLog")
 
 const char* TransectStyleComplexItem::turnAroundDistanceName                = "TurnAroundDistance";
-const char* TransectStyleComplexItem::detectTaskName                        = "DetectTaskName";
+const char* TransectStyleComplexItem::detectTaskName                        = "DetectTask";
 const char* TransectStyleComplexItem::turnAroundDistanceMultiRotorName      = "TurnAroundDistanceMultiRotor";
 const char* TransectStyleComplexItem::cameraTriggerInTurnAroundName         = "CameraTriggerInTurnAround";
 const char* TransectStyleComplexItem::hoverAndCaptureName                   = "HoverAndCapture";
@@ -66,7 +66,7 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     qgcApp()->addCompressedSignal(QMetaMethod::fromSignal(&TransectStyleComplexItem::_updateFlightPathSegmentsSignal));
 
     connect(&_turnAroundDistanceFact,                   &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
-    connect(&_detectTaskFact,                           &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
+    //connect(&_detectTaskFact,                           &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
     connect(&_hoverAndCaptureFact,                      &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
     connect(&_refly90DegreesFact,                       &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
     connect(&_terrainAdjustMaxClimbRateFact,            &Fact::valueChanged,                this, &TransectStyleComplexItem::_rebuildTransects);
@@ -1232,7 +1232,7 @@ TransectStyleComplexItem::BuildMissionItemsState_t TransectStyleComplexItem::_bu
 
     state.imagesInTurnaround        = _cameraTriggerInTurnAroundFact.rawValue().toBool();
     state.hasTurnarounds            = _turnAroundDistance() != 0;
-    state.hasDetectTask             = _detectTask() != 0;
+    // state.hasDetectTask             = _detectTask() != 0;
     state.addTriggerAtFirstAndLastPoint  = !hoverAndCaptureEnabled() && state.imagesInTurnaround && triggerCamera();
     state.useConditionGate          = _controllerVehicle->firmwarePlugin()->supportedMissionCommands(QGCMAVLink::VehicleClassGeneric).contains(MAV_CMD_CONDITION_GATE) &&
             triggerCamera() &&

@@ -64,7 +64,7 @@ TransectStyleComplexItemEditor {
                 visible:    !forPresets
             }
             FactTextField {
-                fact:               _missionItem.DetectTask
+                fact:               _missionItem.detectTask
                 Layout.fillWidth:   true
                 visible:            !forPresets
             }
