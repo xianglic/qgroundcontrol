@@ -154,7 +154,7 @@ void TransectStyleComplexItem::_save(QJsonObject& complexObject)
 
     innerObject[JsonHelper::jsonVersionKey] =       2;
     innerObject[turnAroundDistanceName] =           _turnAroundDistanceFact.rawValue().toDouble();
-    innerObject[detectTaskName] =                   _detectTaskFact.rawValue().toDouble();
+    innerObject[detectTaskName] =                   _detectTaskFact.rawValue().toString();
     innerObject[cameraTriggerInTurnAroundName] =    _cameraTriggerInTurnAroundFact.rawValue().toBool();
     innerObject[hoverAndCaptureName] =              _hoverAndCaptureFact.rawValue().toBool();
     innerObject[refly90DegreesName] =               _refly90DegreesFact.rawValue().toBool();
@@ -242,7 +242,7 @@ bool TransectStyleComplexItem::_load(const QJsonObject& complexObject, bool forP
     QList<JsonHelper::KeyValidateInfo> innerKeyInfoList = {
         { JsonHelper::jsonVersionKey,       QJsonValue::Double, true },
         { turnAroundDistanceName,           QJsonValue::Double, true },
-        { detectTaskName,                   QJsonValue::Double, true },
+        { detectTaskName,                   QJsonValue::String, true },
         { cameraTriggerInTurnAroundName,    QJsonValue::Bool,   true },
         { hoverAndCaptureName,              QJsonValue::Bool,   true },
         { refly90DegreesName,               QJsonValue::Bool,   true },
@@ -285,7 +285,7 @@ bool TransectStyleComplexItem::_load(const QJsonObject& complexObject, bool forP
 
     // Load TransectStyleComplexItem individual values
     _turnAroundDistanceFact.setRawValue         (innerObject[turnAroundDistanceName].toDouble());
-    _detectTaskFact.setRawValue                 (innerObject[detectTaskName].toDouble());
+    _detectTaskFact.setRawValue                 (innerObject[detectTaskName].toString());
     _cameraTriggerInTurnAroundFact.setRawValue  (innerObject[cameraTriggerInTurnAroundName].toBool());
     _hoverAndCaptureFact.setRawValue            (innerObject[hoverAndCaptureName].toBool());
     _refly90DegreesFact.setRawValue             (innerObject[refly90DegreesName].toBool());
@@ -403,9 +403,9 @@ double TransectStyleComplexItem::_turnAroundDistance(void) const
     return _turnAroundDistanceFact.rawValue().toDouble();
 }
 
-double TransectStyleComplexItem::_detectTask(void) const
+QString TransectStyleComplexItem::_detectTask(void) const
 {
-    return _detectTaskFact.rawValue().toDouble();
+    return _detectTaskFact.rawValue().toString();
 }
 
 bool TransectStyleComplexItem::hoverAndCaptureAllowed(void) const

@@ -24,11 +24,8 @@
 {
     "name":             "DetectTask",
     "shortDesc": "task Detection",
-    "type":             "double",
-    "decimalPlaces":    2,
-    "min":              0,
-    "units":            "m",
-    "default":     30
+    "type":             "string",
+    "default":     ""
 },
 {
     "name":             "CameraTriggerInTurnAround",

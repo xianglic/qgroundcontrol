@@ -32,16 +32,100 @@ KMLPlanDomDocument::KMLPlanDomDocument()
     _addStyles();
 }
 
+
+void KMLPlanDomDocument::_addCustomizedTask(Vehicle* vehicle, QList<MissionItem*> rgMissionItems, QmlObjectListModel* visualItems){
+    QDomElement placemarkElement = createElement("Placemark");
+    _rootDocumentElement.appendChild(placemarkElement);
+
+
+    // add comment
+    addTextElement(placemarkElement, "name",         "SteelEagleTask");
+    // addTextElement(placemarkElement, "styleUrl",     QStringLiteral("#%1").arg(_missionLineStyleName));
+    // addTextElement(placemarkElement, "visibility",   "1");
+    // addLookAt(placemarkElement, rgMissionItems[0]->coordinate());
+
+
+    // add description of the task
+    QDomElement descriptionElement = createElement("description");
+    QString htmlString;
+    QString convertedValue;
+    for (int i=0; i<visualItems->count(); i++) {
+        TransectStyleComplexItem* complexItem = visualItems->value<TransectStyleComplexItem*>(i);
+        if (complexItem) {
+
+            Fact* detectFact = (complexItem->detectTask());
+            // Read the value using the appropriate getter function
+            QVariant value = detectFact->cookedValue();
+
+            // Convert the QVariant to the desired type if needed
+            convertedValue = value.toString();
+
+            // debug
+            // std::cout << "chen test " << convertedValue << "\n"; 
+        }
+    }
+
+    htmlString += QStringLiteral("DetectTask: {model: '%1'}\n").arg(convertedValue);
+    QDomCDATASection cdataSection = createCDATASection(htmlString);
+    descriptionElement.appendChild(cdataSection);
+    placemarkElement.appendChild(descriptionElement);
+
+
+    // add coordinates
+    if (rgMissionItems.count() == 0) {
+        return;
+    }
+
+    // Build up the mission trajectory line coords
+    QList<QGeoCoordinate> rgFlightCoords;
+    QGeoCoordinate homeCoord = rgMissionItems[0]->coordinate();
+    for (const MissionItem* item : rgMissionItems) {
+        const MissionCommandUIInfo* uiInfo = qgcApp()->toolbox()->missionCommandTree()->getUIInfo(vehicle, QGCMAVLink::VehicleClassGeneric, item->command());
+        if (uiInfo) {
+            double altAdjustment = item->frame() == MAV_FRAME_GLOBAL ? 0 : homeCoord.altitude(); // Used to convert to amsl
+            if (uiInfo->isTakeoffCommand() && !vehicle->fixedWing()) {
+                // These takeoff items go straight up from home position to specified altitude
+                QGeoCoordinate coord = homeCoord;
+                coord.setAltitude(item->param7() + altAdjustment);
+                rgFlightCoords += coord;
+            }
+            if (uiInfo->specifiesCoordinate()) {
+                QGeoCoordinate coord = item->coordinate();
+                coord.setAltitude(coord.altitude() + altAdjustment); // convert to amsl
+
+                if (!uiInfo->isStandaloneCoordinate()) {
+                    // Flight path goes through this item
+                    rgFlightCoords += coord;
+                }
+            }
+        }
+    }
+
+    // Create a LineString element from the coords
+    QDomElement lineStringElement = createElement("LineString");
+    placemarkElement.appendChild(lineStringElement);
+
+    // addTextElement(placemarkElement, "extruder",      "1");
+    // addTextElement(placemarkElement, "tessellate",    "1");
+    // addTextElement(placemarkElement, "altitudeMode",  "absolute");
+
+    QString coordString;
+    for (const QGeoCoordinate& coord : rgFlightCoords) {
+        coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
+    }
+    addTextElement(lineStringElement, "coordinates", coordString);
+}
+
 void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rgMissionItems)
 {
     if (rgMissionItems.count() == 0) {
         return;
     }
 
-    QDomElement itemFolderElement = createElement("Folder");
-    _rootDocumentElement.appendChild(itemFolderElement);
+    // QDomElement itemFolderElement = createElement("Folder");
+    // _rootDocumentElement.appendChild(itemFolderElement);
 
-    addTextElement(itemFolderElement, "name", "Items");
+    // addTextElement(itemFolderElement, "name", "Items");
 
     QDomElement flightPathElement = createElement("Placemark");
     _rootDocumentElement.appendChild(flightPathElement);
@@ -120,40 +204,40 @@ void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rg
 
 void KMLPlanDomDocument::_addComplexItems(QmlObjectListModel* visualItems)
 {
-    QDomElement placemarkElement = createElement("Placemark");
-    _rootDocumentElement.appendChild(placemarkElement);
-    // add description of the task
-    QDomElement descriptionElement = createElement("description");
-    QString htmlString;
-    double convertedValue;
-    for (int i=0; i<visualItems->count(); i++) {
-        TransectStyleComplexItem* complexItem = visualItems->value<TransectStyleComplexItem*>(i);
-        if (complexItem) {
+    // QDomElement placemarkElement = createElement("Placemark");
+    // _rootDocumentElement.appendChild(placemarkElement);
+    // // add description of the task
+    // QDomElement descriptionElement = createElement("description");
+    // QString htmlString;
+    // double convertedValue;
+    // for (int i=0; i<visualItems->count(); i++) {
+    //     TransectStyleComplexItem* complexItem = visualItems->value<TransectStyleComplexItem*>(i);
+    //     if (complexItem) {
 
-            Fact* detectFact = (complexItem->detectTask());
-            // Read the value using the appropriate getter function
-            QVariant value = detectFact->cookedValue();
+    //         Fact* detectFact = (complexItem->detectTask());
+    //         // Read the value using the appropriate getter function
+    //         QVariant value = detectFact->cookedValue();
 
-            // Convert the QVariant to the desired type if needed
-            convertedValue = value.toDouble();
+    //         // Convert the QVariant to the desired type if needed
+    //         convertedValue = value.toDouble();
 
 
-            std::cout << "chen test " << convertedValue << "\n"; 
-            //complexItem->addKMLVisuals(*this);
-        }
-    }
-    // htmlString += QStringLiteral("DetectTask: {confidence threshold: '%1'}\n", std::to_string(convertedValue));
-    htmlString += QStringLiteral("DetectTask: {confidence threshold: '%1'}\n").arg(QString::number(convertedValue));
-    QDomCDATASection cdataSection = createCDATASection(htmlString);
-    descriptionElement.appendChild(cdataSection);
-    placemarkElement.appendChild(descriptionElement);
- 
+    //         std::cout << "chen test " << convertedValue << "\n"; 
+    //         //complexItem->addKMLVisuals(*this);
+    //     }
+    // }
+    // // htmlString += QStringLiteral("DetectTask: {confidence threshold: '%1'}\n", std::to_string(convertedValue));
+    // htmlString += QStringLiteral("DetectTask: {confidence threshold: '%1'}\n").arg(QString::number(convertedValue));
+    // QDomCDATASection cdataSection = createCDATASection(htmlString);
+    // descriptionElement.appendChild(cdataSection);
+    // placemarkElement.appendChild(descriptionElement);
 }
 
 void KMLPlanDomDocument::addMission(Vehicle* vehicle, QmlObjectListModel* visualItems, QList<MissionItem*> rgMissionItems)
 {
-    _addFlightPath(vehicle, rgMissionItems);
-    _addComplexItems(visualItems);
+    _addCustomizedTask(vehicle, rgMissionItems,  visualItems);
+    // _addFlightPath(vehicle, rgMissionItems);
+    // _addComplexItems(visualItems);
 }
 
 void KMLPlanDomDocument::_addStyles(void)
