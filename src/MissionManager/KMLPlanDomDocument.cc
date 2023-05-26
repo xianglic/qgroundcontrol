@@ -20,8 +20,13 @@
 #include <QStringList>
 
 #include "TransectStyleComplexItem.h"
+#include "SimpleMissionItem.h"
+
 #include <iostream>
 #include <QVariant>
+#include <QString>
+#include <iostream>
+#include <iomanip>
 
 const char* KMLPlanDomDocument::_missionLineStyleName =     "MissionLineStyle";
 const char* KMLPlanDomDocument::surveyPolygonStyleName =   "SurveyPolygonStyle";
@@ -32,88 +37,81 @@ KMLPlanDomDocument::KMLPlanDomDocument()
     _addStyles();
 }
 
-
 void KMLPlanDomDocument::_addCustomizedTask(Vehicle* vehicle, QList<MissionItem*> rgMissionItems, QmlObjectListModel* visualItems){
-    QDomElement placemarkElement = createElement("Placemark");
-    _rootDocumentElement.appendChild(placemarkElement);
 
-
-    // add comment
-    addTextElement(placemarkElement, "name",         "SteelEagleTask");
-    // addTextElement(placemarkElement, "styleUrl",     QStringLiteral("#%1").arg(_missionLineStyleName));
-    // addTextElement(placemarkElement, "visibility",   "1");
-    // addLookAt(placemarkElement, rgMissionItems[0]->coordinate());
-
-
-    // add description of the task
-    QDomElement descriptionElement = createElement("description");
-    QString htmlString;
-    QString convertedValue;
+    // build up the flight path points
+    int taskCounter = 1;
     for (int i=0; i<visualItems->count(); i++) {
+        // debug
+        std::cout << "chen test " << "\n";
         TransectStyleComplexItem* complexItem = visualItems->value<TransectStyleComplexItem*>(i);
+
         if (complexItem) {
 
+            // add place mark
+            QDomElement placemarkElement = createElement("Placemark");
+            _rootDocumentElement.appendChild(placemarkElement);
+            addTextElement(placemarkElement, "name",         "SteelEagleTask"+ QString::number(taskCounter));
+            taskCounter++;
+
+            // add description of the task
+            QDomElement descriptionElement = createElement("description");
+            QString htmlString;
+            QString convertedValue;
             Fact* detectFact = (complexItem->detectTask());
             // Read the value using the appropriate getter function
             QVariant value = detectFact->cookedValue();
-
             // Convert the QVariant to the desired type if needed
             convertedValue = value.toString();
-
-            // debug
-            // std::cout << "chen test " << convertedValue << "\n"; 
-        }
-    }
-
-    htmlString += QStringLiteral("DetectTask: {model: '%1'}\n").arg(convertedValue);
-    QDomCDATASection cdataSection = createCDATASection(htmlString);
-    descriptionElement.appendChild(cdataSection);
-    placemarkElement.appendChild(descriptionElement);
+            htmlString += QStringLiteral("DetectTask: {model: '%1'}\n").arg(convertedValue);
+            QDomCDATASection cdataSection = createCDATASection(htmlString);
+            descriptionElement.appendChild(cdataSection);
+            placemarkElement.appendChild(descriptionElement);
 
 
-    // add coordinates
-    if (rgMissionItems.count() == 0) {
-        return;
-    }
+            // Build up all missions points for task
+            QList<QGeoCoordinate> rgFlightCoords;
 
-    // Build up the mission trajectory line coords
-    QList<QGeoCoordinate> rgFlightCoords;
-    QGeoCoordinate homeCoord = rgMissionItems[0]->coordinate();
-    for (const MissionItem* item : rgMissionItems) {
-        const MissionCommandUIInfo* uiInfo = qgcApp()->toolbox()->missionCommandTree()->getUIInfo(vehicle, QGCMAVLink::VehicleClassGeneric, item->command());
-        if (uiInfo) {
-            double altAdjustment = item->frame() == MAV_FRAME_GLOBAL ? 0 : homeCoord.altitude(); // Used to convert to amsl
-            if (uiInfo->isTakeoffCommand() && !vehicle->fixedWing()) {
-                // These takeoff items go straight up from home position to specified altitude
-                QGeoCoordinate coord = homeCoord;
-                coord.setAltitude(item->param7() + altAdjustment);
-                rgFlightCoords += coord;
-            }
-            if (uiInfo->specifiesCoordinate()) {
-                QGeoCoordinate coord = item->coordinate();
-                coord.setAltitude(coord.altitude() + altAdjustment); // convert to amsl
+            QmlObjectListModel* subseqItemsList = complexItem->flightPathSegments();
+            for (int i=0; i<subseqItemsList->count(); i++){
+                FlightPathSegment* flightPath = subseqItemsList->value<FlightPathSegment*>(i);
+                QGeoCoordinate coordi_1 = flightPath->coordinate1();
+                double altitude = qIsNaN(flightPath->coord1AMSLAlt() ) ? 0 : flightPath->coord1AMSLAlt();
+                coordi_1.setAltitude(altitude);
 
-                if (!uiInfo->isStandaloneCoordinate()) {
-                    // Flight path goes through this item
-                    rgFlightCoords += coord;
+                //debug
+                std::cout << std::fixed << std::setprecision(7) << "subLongitude1: " << coordi_1.longitude() << " ";
+                std::cout << std::fixed << std::setprecision(7) << "subLatitude1: " << coordi_1.latitude() << " ";
+                std::cout << std::fixed << std::setprecision(7) << "subaltitude1: " << altitude << std::endl;
+
+                rgFlightCoords += coordi_1;
+                
+                if (i == subseqItemsList->count() - 1){ // last one coordinate 2 must be included
+                    QGeoCoordinate coordi_2 = flightPath->coordinate2();
+                    double altitude = qIsNaN(flightPath->coord2AMSLAlt() ) ? 0 : flightPath->coord2AMSLAlt();
+                    coordi_2.setAltitude(altitude);
+
+                    // debug
+                    std::cout << std::fixed << std::setprecision(7) << "subLongitude2: " << coordi_2.longitude() << " ";
+                    std::cout << std::fixed << std::setprecision(7) << "subLatitude2: " << coordi_2.latitude() << " ";
+                    std::cout << std::fixed << std::setprecision(7) << "subaltitude2: " << altitude << std::endl;
+                   
+                    
+                    rgFlightCoords += coordi_2;
                 }
             }
+
+            // Create a LineString element from the coords
+            QDomElement lineStringElement = createElement("LineString");
+            placemarkElement.appendChild(lineStringElement);
+
+            QString coordString;
+            for (const QGeoCoordinate& coord : rgFlightCoords) {
+                coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
+            }
+            addTextElement(lineStringElement, "coordinates", coordString);
         }
     }
-
-    // Create a LineString element from the coords
-    QDomElement lineStringElement = createElement("LineString");
-    placemarkElement.appendChild(lineStringElement);
-
-    // addTextElement(placemarkElement, "extruder",      "1");
-    // addTextElement(placemarkElement, "tessellate",    "1");
-    // addTextElement(placemarkElement, "altitudeMode",  "absolute");
-
-    QString coordString;
-    for (const QGeoCoordinate& coord : rgFlightCoords) {
-        coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
-    }
-    addTextElement(lineStringElement, "coordinates", coordString);
 }
 
 void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rgMissionItems)
