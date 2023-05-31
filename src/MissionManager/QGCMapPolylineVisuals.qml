@@ -71,6 +71,14 @@ Item {
         mapPolyline.endReset()
     }
 
+    // get the aihelper call
+    function _aiHelperCall() {
+        mapPolyline.beginReset()
+        mapPolyline.clear()
+        mapPolyline.aiHelper()
+        mapPolyline.endReset()
+    }
+
     function _saveCurrentVertices() {
         _savedVertices = [ ]
         for (var i=0; i<mapPolyline.count; i++) {
@@ -133,7 +141,22 @@ Item {
             mapPolyline.loadKMLFile(file)
             close()
         }
+ 
     }
+
+    // QGCFileDialog {
+    //     id:             aiHelperDialog
+    //     folder:         QGroundControl.settingsManager.appSettings.missionSavePath
+    //     title:          qsTr("AIHelper")
+    //     selectExisting: true
+    //     nameFilters:    ShapeFileHelper.fileDialogKMLFilters
+
+    //     onAcceptedForLoad: {
+    //         mapPolyline.aiHelper(file)
+    //         close()
+    //     }
+ 
+    // }
 
     QGCMenu {
         id: menu
@@ -357,6 +380,13 @@ Item {
                 _horizontalPadding: 0
                 text:               qsTr("Load KML...")
                 onClicked:          kmlLoadDialog.openForLoad()
+                visible:            !mapPolyline.traceMode
+            }
+
+            QGCButton {
+                _horizontalPadding: 0
+                text:               qsTr("AI Helper")
+                onClicked:          _aiHelperCall()
                 visible:            !mapPolyline.traceMode
             }
         }

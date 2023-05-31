@@ -55,6 +55,7 @@ public:
     /// Loads a polyline from a KML file
     /// @return true: success
     Q_INVOKABLE bool loadKMLFile(const QString& kmlFile);
+    Q_INVOKABLE bool aiHelper();
 
     Q_INVOKABLE void beginReset (void);
     Q_INVOKABLE void endReset   (void);
@@ -123,6 +124,7 @@ private:
     void            _init                   (void);
     QGeoCoordinate  _coordFromPointF        (const QPointF& point) const;
     QPointF         _pointFFromCoord        (const QGeoCoordinate& coordinate) const;
+    // QString         _readFile(const QString&);
     void            _beginResetIfNotActive  (void);
     void            _endResetIfNotActive    (void);
 

@@ -20,6 +20,7 @@
 #include <QLineF>
 #include <QFile>
 #include <QDomDocument>
+#include <iostream>
 
 const char* QGCMapPolyline::jsonPolylineKey = "polyline";
 
@@ -367,6 +368,47 @@ bool QGCMapPolyline::loadKMLFile(const QString& kmlFile)
     appendVertices(rgCoords);
 
     _endResetIfNotActive();
+
+    return true;
+}
+
+// QString QGCMapPolyline::_readFile(const QString& filePath) {
+//     QFile file(filePath);
+//     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+//         qWarning() << "Failed to open file:" << file.errorString();
+//         return QString();
+//     }
+
+//     QTextStream in(&file);
+//     QString content = in.readAll();
+
+//     file.close();
+
+//     return content;
+// }
+
+bool QGCMapPolyline::aiHelper()
+{
+    // Python script file name
+    const char* pythonScript = "/home/xianglic/PycharmProjects/pythonProject/main.py";
+
+    // Command to execute Python script
+    std::string command = "python3 ";
+    command += pythonScript;
+
+    // Execute the command
+    int result = system(command.c_str());
+
+    // Check the return value of the system command
+    if (result == 0) {
+        std::cout << "Python script executed successfully." << std::endl;
+    } else {
+        std::cout << "Failed to execute Python script." << std::endl;
+    }
+
+    QString filePath = "/home/xianglic/PycharmProjects/pythonProject/flight_route.kml";
+    // QString fileContent = QGCMapPolyline::_readFile(filePath);
+    QGCMapPolyline::loadKMLFile(filePath);
 
     return true;
 }
