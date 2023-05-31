@@ -372,20 +372,6 @@ bool QGCMapPolyline::loadKMLFile(const QString& kmlFile)
     return true;
 }
 
-// QString QGCMapPolyline::_readFile(const QString& filePath) {
-//     QFile file(filePath);
-//     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-//         qWarning() << "Failed to open file:" << file.errorString();
-//         return QString();
-//     }
-
-//     QTextStream in(&file);
-//     QString content = in.readAll();
-
-//     file.close();
-
-//     return content;
-// }
 
 bool QGCMapPolyline::aiHelper()
 {
@@ -407,7 +393,7 @@ bool QGCMapPolyline::aiHelper()
     }
 
     QString filePath = "/home/xianglic/PycharmProjects/pythonProject/flight_route.kml";
-    // QString fileContent = QGCMapPolyline::_readFile(filePath);
+  
     QGCMapPolyline::loadKMLFile(filePath);
 
     return true;
