@@ -24,6 +24,12 @@
     "shortDesc": "Split mission concave polygons into separate regular, convex polygons.",
     "type":             "bool",
     "default":     false
+},
+{
+    "name":             "DetectTask",
+    "shortDesc": "task Detection",
+    "type":             "string",
+    "default":     ""
 }
 ]
 }
