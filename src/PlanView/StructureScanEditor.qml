@@ -126,6 +126,15 @@ Rectangle {
                         rowSpacing:     _margin
                         columns:        2
 
+
+                        QGCLabel {
+                            text:       qsTr("Detect Model")
+                        }
+                        FactTextField {
+                            fact:               missionItem.detectModel
+                            Layout.fillWidth:   true
+                        }
+
                         FactComboBox {
                             fact:               missionItem.startFromTop
                             indexModel:         true

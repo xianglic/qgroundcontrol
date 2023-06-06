@@ -46,6 +46,12 @@
     "default":     100
 },
 {
+    "name":             "DetectModel",
+    "shortDesc": "Detect Model",
+    "type":             "String",
+    "default":     ""
+},
+{
     "name":             "StartFromTop",
     "shortDesc": "Start scanning from top of structure.",
     "type":             "bool",

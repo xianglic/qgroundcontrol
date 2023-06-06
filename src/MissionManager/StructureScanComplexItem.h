@@ -34,6 +34,7 @@ public:
     Q_PROPERTY(CameraCalc*      cameraCalc                  READ cameraCalc                                                 CONSTANT)
     Q_PROPERTY(Fact*            entranceAlt                 READ entranceAlt                                                CONSTANT)
     Q_PROPERTY(Fact*            structureHeight             READ structureHeight                                            CONSTANT)
+    Q_PROPERTY(Fact*            detectModel                 READ detectModel                                                CONSTANT)
     Q_PROPERTY(Fact*            scanBottomAlt               READ scanBottomAlt                                              CONSTANT)
     Q_PROPERTY(Fact*            layers                      READ layers                                                     CONSTANT)
     Q_PROPERTY(Fact*            gimbalPitch                 READ gimbalPitch                                                CONSTANT)
@@ -49,6 +50,7 @@ public:
     Fact* entranceAlt       (void) { return &_entranceAltFact; }
     Fact* scanBottomAlt     (void) { return &_scanBottomAltFact; }
     Fact* structureHeight   (void) { return &_structureHeightFact; }
+    Fact* detectModel       (void) { return &_detectModelFact; }
     Fact* layers            (void) { return &_layersFact; }
     Fact* gimbalPitch       (void) { return &_gimbalPitchFact; }
     Fact* startFromTop      (void) { return &_startFromTopFact; }
@@ -107,6 +109,7 @@ public:
     static const char* settingsGroup;
     static const char* scanBottomAltName;
     static const char* structureHeightName;
+    static const char* detectModelName;
     static const char* layersName;
     static const char* gimbalPitchName;
     static const char* startFromTopName;
@@ -155,6 +158,7 @@ private:
 
     SettingsFact    _scanBottomAltFact;
     SettingsFact    _structureHeightFact;
+    SettingsFact    _detectModelFact;
     SettingsFact    _layersFact;
     SettingsFact    _gimbalPitchFact;
     SettingsFact    _startFromTopFact;
