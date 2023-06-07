@@ -32,6 +32,7 @@ add_custom_target(PlanViewQml
 		TransectStyleComplexItemStats.qml
 		TransectStyleComplexItemTabBar.qml
 		TransectStyleComplexItemTerrainFollow.qml
+		TransectStyleComplexItemScottyFollow.qml
 		TransectStyleMapVisuals.qml
 		VTOLLandingPatternEditor.qml
 		VTOLLandingPatternMapVisual.qml
