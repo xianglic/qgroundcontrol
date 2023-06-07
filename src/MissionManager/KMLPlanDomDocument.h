@@ -31,6 +31,6 @@ private:
     void _addFlightPath     (Vehicle* vehicle, QList<MissionItem*> rgMissionItems);
     void _addComplexItems   (QmlObjectListModel* visualItems);
     void _addCustomizedTask (Vehicle* vehicle, QList<MissionItem*> rgMissionItems, QmlObjectListModel* visualItems);
-
+    void _formatKML         (QString convertedValue, int& taskCounter, QmlObjectListModel* subseqItemsList);
     static const char* _missionLineStyleName;
 };
