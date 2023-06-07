@@ -38,7 +38,9 @@ KMLPlanDomDocument::KMLPlanDomDocument()
     _addStyles();
 }
 
+// void KMLPlanDomDocument::_formatKML(){
 
+// }
 void KMLPlanDomDocument::_addCustomizedTask(Vehicle* vehicle, QList<MissionItem*> rgMissionItems, QmlObjectListModel* visualItems){
 
     // build up the flight path points
@@ -47,7 +49,7 @@ void KMLPlanDomDocument::_addCustomizedTask(Vehicle* vehicle, QList<MissionItem*
         // debug
         std::cout << "chen test " << "\n";
         TransectStyleComplexItem* complexItem = visualItems->value<TransectStyleComplexItem*>(i);
-        StructureScanComplexItem* complexItem_1 = visualItems->value<StructureScanComplexItem*>(i);
+        StructureScanComplexItem* structureScanItem = visualItems->value<StructureScanComplexItem*>(i);
         if (complexItem) {
 
             // add place mark
@@ -112,14 +114,71 @@ void KMLPlanDomDocument::_addCustomizedTask(Vehicle* vehicle, QList<MissionItem*
                 coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
             }
             addTextElement(lineStringElement, "coordinates", coordString);
-        }else if (complexItem_1){
+        }else if (structureScanItem){
             std::cout << "HI ";
-            Fact* detectModel = (complexItem_1->detectModel());
+            Fact* detectModel = (structureScanItem->detectModel());
             // Read the value using the appropriate getter function
             QVariant value = detectModel->cookedValue();
             // Convert the QVariant to the desired type if needed
             QString convertedValue = value.toString();
             std::cout << "HI "<<convertedValue.toStdString();
+            
+            // add place mark
+            QDomElement placemarkElement = createElement("Placemark");
+            _rootDocumentElement.appendChild(placemarkElement);
+            addTextElement(placemarkElement, "name",         "SteelEagleTask"+ QString::number(taskCounter));
+            taskCounter++;
+
+            // add description of the task
+            QDomElement descriptionElement = createElement("description");
+            QString htmlString;
+            htmlString += QStringLiteral("DetectTask: {model: '%1'}\n").arg(convertedValue);
+            QDomCDATASection cdataSection = createCDATASection(htmlString);
+            descriptionElement.appendChild(cdataSection);
+            placemarkElement.appendChild(descriptionElement);
+
+
+            // Build up all missions points for task
+            QList<QGeoCoordinate> rgFlightCoords;
+
+            QmlObjectListModel* subseqItemsList = structureScanItem->flightPathSegments();
+            for (int i=0; i<subseqItemsList->count(); i++){
+                FlightPathSegment* flightPath = subseqItemsList->value<FlightPathSegment*>(i);
+                QGeoCoordinate coordi_1 = flightPath->coordinate1();
+                double altitude = qIsNaN(flightPath->coord1AMSLAlt() ) ? 0 : flightPath->coord1AMSLAlt();
+                coordi_1.setAltitude(altitude);
+
+                //debug
+                std::cout << std::fixed << std::setprecision(7) << "subLongitude1: " << coordi_1.longitude() << " ";
+                std::cout << std::fixed << std::setprecision(7) << "subLatitude1: " << coordi_1.latitude() << " ";
+                std::cout << std::fixed << std::setprecision(7) << "subaltitude1: " << altitude << std::endl;
+
+                rgFlightCoords += coordi_1;
+                
+                if (i == subseqItemsList->count() - 1){ // last one coordinate 2 must be included
+                    QGeoCoordinate coordi_2 = flightPath->coordinate2();
+                    double altitude = qIsNaN(flightPath->coord2AMSLAlt() ) ? 0 : flightPath->coord2AMSLAlt();
+                    coordi_2.setAltitude(altitude);
+
+                    // debug
+                    std::cout << std::fixed << std::setprecision(7) << "subLongitude2: " << coordi_2.longitude() << " ";
+                    std::cout << std::fixed << std::setprecision(7) << "subLatitude2: " << coordi_2.latitude() << " ";
+                    std::cout << std::fixed << std::setprecision(7) << "subaltitude2: " << altitude << std::endl;
+                   
+                    
+                    rgFlightCoords += coordi_2;
+                }
+            }
+
+            // Create a LineString element from the coords
+            QDomElement lineStringElement = createElement("LineString");
+            placemarkElement.appendChild(lineStringElement);
+
+            QString coordString;
+            for (const QGeoCoordinate& coord : rgFlightCoords) {
+                coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
+            }
+            addTextElement(lineStringElement, "coordinates", coordString);
         }
     }
 }
