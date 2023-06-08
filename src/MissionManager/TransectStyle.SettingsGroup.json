@@ -28,6 +28,12 @@
     "default":     ""
 },
 {
+    "name":             "DetectTask_gimbal_pitch",
+    "shortDesc": "DetectTask: Gimbal Pitch",
+    "type":             "string",
+    "default":     ""
+},
+{
     "name":             "CameraTriggerInTurnAround",
     "shortDesc": "Camera continues taking images in turn arounds.",
     "type":             "bool",

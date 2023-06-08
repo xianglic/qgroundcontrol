@@ -3,7 +3,7 @@ Module QGroundControl.Controls
 AnalyzePage                             1.0 AnalyzePage.qml
 AppMessages                             1.0 AppMessages.qml
 AltModeDialog                           1.0 AltModeDialog.qml
-DetectModeDialog                        1.0 DetectModeDialog.qml
+SteelEagleModeDialog                    1.0 SteelEagleModeDialog.qml
 AxisMonitor                             1.0 AxisMonitor.qml
 CameraCalcCamera                        1.0 CameraCalcCamera.qml
 CameraCalcGrid                          1.0 CameraCalcGrid.qml

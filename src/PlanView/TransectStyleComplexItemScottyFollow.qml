@@ -20,23 +20,23 @@ ColumnLayout {
 
         onClicked: {
             var removeModes = []
-            var updateFunction = function(altMode){ missionItem.cameraCalc.distanceMode = altMode }
-            removeModes.push(QGroundControl.AltitudeModeMixed)
-            if (!missionItem.masterController.controllerVehicle.supportsTerrainFrame) {
-                removeModes.push(QGroundControl.AltitudeModeTerrainFrame)
-            }
-            if (!QGroundControl.corePlugin.options.showMissionAbsoluteAltitude || !_missionItem.cameraCalc.isManualCamera) {
-                removeModes.push(QGroundControl.AltitudeModeAbsolute)
-            }
-            detectModeDialogComponent.createObject(mainWindow, { rgRemoveModes: removeModes, updateAltModeFn: updateFunction }).open()
+            var updateFunction = function(seMode){ missionItem.steelEagleMode = seMode }
+            // removeModes.push(QGroundControl.AltitudeModeMixed)
+            // if (!missionItem.masterController.controllerVehicle.supportsTerrainFrame) {
+            //     removeModes.push(QGroundControl.AltitudeModeTerrainFrame)
+            // }
+            // if (!QGroundControl.corePlugin.options.showMissionAbsoluteAltitude || !_missionItem.cameraCalc.isManualCamera) {
+            //     removeModes.push(QGroundControl.AltitudeModeAbsolute)
+            // }
+            steelEagleModeDialogComponent.createObject(mainWindow, { rgRemoveModes: removeModes, updateSEModeFn: updateFunction }).open()
         }
 
-        Component { id: detectModeDialogComponent; DetectModeDialog { } }
+        Component { id: steelEagleModeDialogComponent; SteelEagleModeDialog { } }
 
         RowLayout {
             spacing: ScreenTools.defaultFontPixelWidth / 2
 
-            QGCLabel { text: QGroundControl.altitudeModeShortDescription(missionItem.cameraCalc.distanceMode) }
+            QGCLabel { text: QGroundControl.steelEagleModeShortDescription(missionItem.steelEagleMode) }
             QGCColoredImage {
                 height:     ScreenTools.defaultFontPixelHeight / 2
                 width:      height
@@ -46,52 +46,95 @@ ColumnLayout {
         }
     }
 
+
+
+    // detect
     GridLayout {
         Layout.fillWidth:   true
         columnSpacing:      _margin
         rowSpacing:         _margin
         columns:            2
-        enabled:            missionItem.cameraCalc.distanceMode === QGroundControl.AltitudeModeCalcAboveTerrain
+        enabled:            missionItem.steelEagleMode === QGroundControl.DetectTask
 
-        QGCLabel { text: qsTr("Tolerance") }
+        QGCLabel { text: qsTr("gimbal_pitch") }
         FactTextField {
-            fact:               missionItem.terrainAdjustTolerance
+            fact:               missionItem.detectTask_gimbal_pitch
             Layout.fillWidth:   true
         }
 
-        QGCLabel { text: qsTr("Max Climb Rate") }
+        QGCLabel { text: qsTr("drone_rotation") }
         FactTextField {
             fact:               missionItem.terrainAdjustMaxClimbRate
             Layout.fillWidth:   true
         }
 
-        QGCLabel { text: qsTr("Max Descent Rate") }
+        QGCLabel { text: qsTr("sample_rate") }
+        FactTextField {
+            fact:               missionItem.terrainAdjustMaxDescentRate
+            Layout.fillWidth:   true
+        }
+
+        QGCLabel { text: qsTr("hover_delay") }
+        FactTextField {
+            fact:               missionItem.terrainAdjustMaxDescentRate
+            Layout.fillWidth:   true
+        }
+
+        QGCLabel { text: qsTr("model") }
         FactTextField {
             fact:               missionItem.terrainAdjustMaxDescentRate
             Layout.fillWidth:   true
         }
     }
 
+    // obstacle
     GridLayout {
         Layout.fillWidth:   true
         columnSpacing:      _margin
         rowSpacing:         _margin
         columns:            2
-        enabled:            missionItem.cameraCalc.distanceMode === QGroundControl.AltitudeModeRelative
+        enabled:            missionItem.steelEagleMode === QGroundControl.ObstacleTask
 
-        QGCLabel { text: qsTr("Tolerance1") }
+        QGCLabel { text: qsTr("model") }
         FactTextField {
             fact:               missionItem.terrainAdjustTolerance
             Layout.fillWidth:   true
         }
 
-        QGCLabel { text: qsTr("Max Climb Rate2") }
+        QGCLabel { text: qsTr("speed") }
         FactTextField {
             fact:               missionItem.terrainAdjustMaxClimbRate
             Layout.fillWidth:   true
         }
 
-        QGCLabel { text: qsTr("Max Descent Rate3") }
+        QGCLabel { text: qsTr("altitude") }
+        FactTextField {
+            fact:               missionItem.terrainAdjustMaxDescentRate
+            Layout.fillWidth:   true
+        }
+    }
+
+    // tracking
+    GridLayout {
+        Layout.fillWidth:   true
+        columnSpacing:      _margin
+        rowSpacing:         _margin
+        columns:            2
+        enabled:            missionItem.steelEagleMode === QGroundControl.TrackingTask
+
+        QGCLabel { text: qsTr("gimbal_pitch") }
+        FactTextField {
+            fact:               missionItem.terrainAdjustTolerance
+            Layout.fillWidth:   true
+        }
+
+        QGCLabel { text: qsTr("model") }
+        FactTextField {
+            fact:               missionItem.terrainAdjustMaxClimbRate
+            Layout.fillWidth:   true
+        }
+
+        QGCLabel { text: qsTr("class") }
         FactTextField {
             fact:               missionItem.terrainAdjustMaxDescentRate
             Layout.fillWidth:   true

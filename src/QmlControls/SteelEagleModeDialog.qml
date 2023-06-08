@@ -17,28 +17,28 @@ import QGroundControl.Controls      1.0
 import QGroundControl.ScreenTools   1.0
 
 QGCPopupDialog {
-    title:   qsTr("Detect Mode")
+    title:   qsTr("Steel Eagle Mode")
     buttons: StandardButton.Close
 
     property var rgRemoveModes
-    property var updateAltModeFn
-    property var currentAltMode
+    property var updateSEModeFn
+    property var currentSEMode
 
     Component.onCompleted: {
         // Check for custom build override on AMSL usage
-        if (!QGroundControl.corePlugin.options.showMissionAbsoluteAltitude && currentAltMode != QGroundControl.AltitudeModeAbsolute) {
-            rgRemoveModes.push(QGroundControl.AltitudeModeAbsolute)
-        }
+        // if (!QGroundControl.corePlugin.options.showMissionAbsoluteAltitude && currentSEMode != QGroundControl.AltitudeModeAbsolute) {
+        //     rgRemoveModes.push(QGroundControl.AltitudeModeAbsolute)
+        // }
 
         // Remove modes specified by consumer
-        for (var i=0; i<rgRemoveModes.length; i++) {
-            for (var j=0; j<buttonModel.count; j++) {
-                if (buttonModel.get(j).modeValue == rgRemoveModes[i]) {
-                    buttonModel.remove(j)
-                    break
-                }
-            }
-        }
+        // for (var i=0; i<rgRemoveModes.length; i++) {
+        //     for (var j=0; j<buttonModel.count; j++) {
+        //         if (buttonModel.get(j).modeValue == rgRemoveModes[i]) {
+        //             buttonModel.remove(j)
+        //             break
+        //         }
+        //     }
+        // }
 
 
         buttonRepeater.model = buttonModel
@@ -48,14 +48,20 @@ QGCPopupDialog {
         id: buttonModel
 
         ListElement {
-            modeName:   qsTr("Coco")
-            help:       qsTr("Detect Model")
-            modeValue:  QGroundControl.AltitudeModeRelative
+            modeName:   qsTr("Detect Task")
+            help:       qsTr("Instruct drone to detect objects along the specified path using the specified pitch, rotation, sampling rate, and detection model ")
+            modeValue:  QGroundControl.DetectTask
+        }
+
+        ListElement {
+            modeName:   qsTr("Obstacle Task")
+            help:       qsTr("Fly from coordinate A to coordinate B while avoiding obstacles")
+            modeValue:  QGroundControl.ObstacleTask
         }
         ListElement {
-            modeName:   qsTr("Coco2")
-            help:       qsTr("Detect Model")
-            modeValue:  QGroundControl.AltitudeModeCalcAboveTerrain
+            modeName:   qsTr("Tracking Task")
+            help:       qsTr("Track specified class using a paritcular model for inteferencing")
+            modeValue:  QGroundControl.TrackingTask
         }
     }
 
@@ -67,7 +73,7 @@ QGCPopupDialog {
 
             Button {
                 hoverEnabled:   true
-                checked:        modeValue == currentAltMode
+                checked:        modeValue == currentSEMode
 
                 background: Rectangle {
                     radius: ScreenTools.defaultFontPixelHeight / 2
@@ -93,7 +99,7 @@ QGCPopupDialog {
                 }
 
                 onClicked: {
-                    updateAltModeFn(modeValue)
+                    updateSEModeFn(modeValue)
                     close()
                 }
             }

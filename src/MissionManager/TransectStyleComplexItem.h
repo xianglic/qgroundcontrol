@@ -33,6 +33,12 @@ public:
     Q_PROPERTY(CameraCalc*      cameraCalc                  READ cameraCalc                                         CONSTANT)
     Q_PROPERTY(Fact*            turnAroundDistance          READ turnAroundDistance                                 CONSTANT)
     Q_PROPERTY(Fact*            detectTask                  READ detectTask                                         CONSTANT)
+    Q_PROPERTY(Fact*            detectTask_gimbal_pitch     READ detectTask_gimbal_pitch                            CONSTANT)
+    // Q_PROPERTY(Fact*            steelEagleMode              READ steelEagleMode                                     CONSTANT)
+    // Q_PROPERTY(Fact*            detectTask_model            READ detectTask_Model                                   CONSTANT)
+    // Q_PROPERTY(Fact*            detectTask_drone_rotation   READ detectTask_drone_rotation                          CONSTANT)
+    // Q_PROPERTY(Fact*            detectTask_sample_rate      READ detectTask_sample_rate                             CONSTANT) 
+    // Q_PROPERTY(Fact*            detectTask_hover_delay      READ detectTask_hover_delay                             CONSTANT) 
     Q_PROPERTY(Fact*            cameraTriggerInTurnAround   READ cameraTriggerInTurnAround                          CONSTANT)
     Q_PROPERTY(Fact*            hoverAndCapture             READ hoverAndCapture                                    CONSTANT)
     Q_PROPERTY(Fact*            refly90Degrees              READ refly90Degrees                                     CONSTANT)
@@ -42,7 +48,6 @@ public:
     Q_PROPERTY(double           coveredArea                 READ coveredArea                                        NOTIFY coveredAreaChanged)
     Q_PROPERTY(bool             hoverAndCaptureAllowed      READ hoverAndCaptureAllowed                             CONSTANT)
     Q_PROPERTY(QVariantList     visualTransectPoints        READ visualTransectPoints                               NOTIFY visualTransectPointsChanged)
-
     Q_PROPERTY(Fact*            terrainAdjustTolerance      READ terrainAdjustTolerance                             CONSTANT)
     Q_PROPERTY(Fact*            terrainAdjustMaxDescentRate READ terrainAdjustMaxDescentRate                        CONSTANT)
     Q_PROPERTY(Fact*            terrainAdjustMaxClimbRate   READ terrainAdjustMaxClimbRate                          CONSTANT)
@@ -52,7 +57,11 @@ public:
     QVariantList    visualTransectPoints(void) { return _visualTransectPoints; }
 
     Fact* turnAroundDistance            (void) { return &_turnAroundDistanceFact; }
+
+    // Fact* steelEagleMode                (void) { return &_steelEagleModeFact; }
     Fact* detectTask                    (void) { return &_detectTaskFact; }
+    Fact* detectTask_gimbal_pitch       (void) { return &_detectTask_gimbal_pitchFact; }
+
     Fact* cameraTriggerInTurnAround     (void) { return &_cameraTriggerInTurnAroundFact; }
     Fact* hoverAndCapture               (void) { return &_hoverAndCaptureFact; }
     Fact* refly90Degrees                (void) { return &_refly90DegreesFact; }
@@ -112,8 +121,11 @@ public:
     double              minAMSLAltitude             (void) const final;
     double              maxAMSLAltitude             (void) const final;
 
-    static const char* turnAroundDistanceName;
+    // static const char* steelEagleModeName;
     static const char* detectTaskName;
+    static const char* detectTask_gimbal_pitchName;
+
+    static const char* turnAroundDistanceName;
     static const char* turnAroundDistanceMultiRotorName;
     static const char* cameraTriggerInTurnAroundName;
     static const char* hoverAndCaptureName;
@@ -198,8 +210,12 @@ protected:
 
     QMap<QString, FactMetaData*> _metaDataMap;
 
-    SettingsFact _turnAroundDistanceFact;
+
+    // SettingsFact _SteelEagleModeFact;
     SettingsFact _detectTaskFact;
+    SettingsFact _detectTask_gimbal_pitchFact;
+
+    SettingsFact _turnAroundDistanceFact;
     SettingsFact _cameraTriggerInTurnAroundFact;
     SettingsFact _hoverAndCaptureFact;
     SettingsFact _refly90DegreesFact;

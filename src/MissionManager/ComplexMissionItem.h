@@ -16,7 +16,7 @@
 #include "KMLPlanDomDocument.h"
 #include "QmlObjectListModel.h"
 #include "FlightPathSegment.h"
-
+#include "QGroundControlQmlGlobal.h"
 #include <QSettings>
 
 class PlanMasterController;
@@ -41,6 +41,14 @@ public:
     Q_PROPERTY(bool                 isSingleItem        READ isSingleItem           CONSTANT)
     Q_PROPERTY(QmlObjectListModel*  flightPathSegments  READ flightPathSegments     CONSTANT)
     Q_PROPERTY(bool                 terrainCollision    READ terrainCollision       NOTIFY terrainCollisionChanged)
+    // Q_PROPERTY(QGroundControlQmlGlobal::SteelEagleMode steelEagleMode READ steelEagleMode WRITE setSteelEagleMode NOTIFY steelEagleModeChanged)
+    Q_PROPERTY(QGroundControlQmlGlobal::SteelEagleMode steelEagleMode READ steelEagleMode WRITE setSteelEagleMode NOTIFY steelEagleModeChanged)
+
+
+
+    QGroundControlQmlGlobal::SteelEagleMode steelEagleMode(void) const { return _steelEagleMode; }
+    void setSteelEagleMode               (QGroundControlQmlGlobal::SteelEagleMode seMode);
+    // static const char* steelEagleModeName;
 
     QmlObjectListModel* flightPathSegments  (void) { return &_flightPathSegments; }
 
@@ -111,6 +119,8 @@ signals:
     void minAMSLAltitudeChanged     (void);
     void maxAMSLAltitudeChanged     (void);
     void terrainCollisionChanged    (bool terrainCollision);
+    void steelEagleModeChanged      (int seMode);
+
 
 protected slots:
     virtual void _segmentTerrainCollisionChanged (bool terrainCollision);
@@ -132,4 +142,5 @@ protected:
     SettingsManager* _settingsManager;
 
 private:
+    QGroundControlQmlGlobal::SteelEagleMode    _steelEagleMode               = QGroundControlQmlGlobal::DetectTask;
 };
