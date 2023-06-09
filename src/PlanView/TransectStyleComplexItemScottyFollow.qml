@@ -64,25 +64,25 @@ ColumnLayout {
 
         QGCLabel { text: qsTr("drone_rotation") }
         FactTextField {
-            fact:               missionItem.terrainAdjustMaxClimbRate
+            fact:               missionItem.detectTask_drone_rotation
             Layout.fillWidth:   true
         }
 
         QGCLabel { text: qsTr("sample_rate") }
         FactTextField {
-            fact:               missionItem.terrainAdjustMaxDescentRate
+            fact:               missionItem.detectTask_sample_rate
             Layout.fillWidth:   true
         }
 
         QGCLabel { text: qsTr("hover_delay") }
         FactTextField {
-            fact:               missionItem.terrainAdjustMaxDescentRate
+            fact:               missionItem.detectTask_hover_delay
             Layout.fillWidth:   true
         }
 
         QGCLabel { text: qsTr("model") }
         FactTextField {
-            fact:               missionItem.terrainAdjustMaxDescentRate
+            fact:               missionItem.detectTask_model
             Layout.fillWidth:   true
         }
     }
@@ -97,19 +97,19 @@ ColumnLayout {
 
         QGCLabel { text: qsTr("model") }
         FactTextField {
-            fact:               missionItem.terrainAdjustTolerance
+            fact:               missionItem.obstacleTask_model
             Layout.fillWidth:   true
         }
 
         QGCLabel { text: qsTr("speed") }
         FactTextField {
-            fact:               missionItem.terrainAdjustMaxClimbRate
+            fact:               missionItem.obstacleTask_speed
             Layout.fillWidth:   true
         }
 
         QGCLabel { text: qsTr("altitude") }
         FactTextField {
-            fact:               missionItem.terrainAdjustMaxDescentRate
+            fact:               missionItem.obstacleTask_altitude
             Layout.fillWidth:   true
         }
     }
@@ -124,19 +124,19 @@ ColumnLayout {
 
         QGCLabel { text: qsTr("gimbal_pitch") }
         FactTextField {
-            fact:               missionItem.terrainAdjustTolerance
+            fact:               missionItem.trackingTask_gimbal_pitch
             Layout.fillWidth:   true
         }
 
         QGCLabel { text: qsTr("model") }
         FactTextField {
-            fact:               missionItem.terrainAdjustMaxClimbRate
+            fact:               missionItem.trackingTask_model
             Layout.fillWidth:   true
         }
 
         QGCLabel { text: qsTr("class") }
         FactTextField {
-            fact:               missionItem.terrainAdjustMaxDescentRate
+            fact:               missionItem.trackingTask_class
             Layout.fillWidth:   true
         }
     }

@@ -38,6 +38,105 @@ KMLPlanDomDocument::KMLPlanDomDocument()
     _addStyles();
 }
 
+void getDescription(QString& htmlString, TransectStyleComplexItem* complexItem){
+
+    QString convertedValue;
+    QGroundControlQmlGlobal::SteelEagleMode mode = (complexItem->steelEagleMode());
+    
+    switch (mode)
+    {
+    case QGroundControlQmlGlobal::SteelEagleMode::DetectTask:
+        
+        convertedValue = (complexItem->detectTask_gimbal_pitch())->cookedValue().toString();
+        htmlString += QStringLiteral("DetectTask: {gimbal_pitch: '%1',").arg(convertedValue);
+        convertedValue = (complexItem->detectTask_drone_rotation())->cookedValue().toString();
+        htmlString += QStringLiteral("drone_rotation: '%1',").arg(convertedValue);
+        convertedValue = (complexItem->detectTask_sample_rate())->cookedValue().toString();
+        htmlString += QStringLiteral("sample_rate: '%1',").arg(convertedValue);
+        convertedValue = (complexItem->detectTask_hover_delay())->cookedValue().toString();
+        htmlString += QStringLiteral("hover_delay: '%1',").arg(convertedValue);
+        convertedValue = (complexItem->detectTask_model())->cookedValue().toString();
+        htmlString += QStringLiteral("model: '%1'}").arg(convertedValue);
+
+        break;
+    case QGroundControlQmlGlobal::SteelEagleMode::ObstacleTask:
+        convertedValue = (complexItem->obstacleTask_model())->cookedValue().toString();
+        htmlString += QStringLiteral("ObstacleTask: {model: '%1',").arg(convertedValue);
+        convertedValue = (complexItem->obstacleTask_speed())->cookedValue().toString();
+        htmlString += QStringLiteral("speed: '%1',").arg(convertedValue);
+        convertedValue = (complexItem->obstacleTask_altitude())->cookedValue().toString();
+        htmlString += QStringLiteral("altitude: '%1'}").arg(convertedValue);
+        break;
+    case QGroundControlQmlGlobal::SteelEagleMode::TrackingTask:
+        convertedValue = (complexItem->trackingTask_gimbal_pitch())->cookedValue().toString();
+        htmlString += QStringLiteral("TrackingTask: {gimbal_pitch: '%1',").arg(convertedValue);
+        convertedValue = (complexItem->trackingTask_model())->cookedValue().toString();
+        htmlString += QStringLiteral("model: '%1',").arg(convertedValue);
+        convertedValue = (complexItem->trackingTask_class())->cookedValue().toString();
+        htmlString += QStringLiteral("class: '%1'}").arg(convertedValue);
+        break;
+    default:
+        break;
+    }
+}
+
+void KMLPlanDomDocument::_formatKMLComplex(QString htmlString, int& taskCounter, QmlObjectListModel* subseqItemsList ){
+    // add place mark
+    QDomElement placemarkElement = createElement("Placemark");
+    _rootDocumentElement.appendChild(placemarkElement);
+    addTextElement(placemarkElement, "name",         "SteelEagleTask"+ QString::number(taskCounter));
+    taskCounter++;
+
+    // add description of the task
+    QDomElement descriptionElement = createElement("description");
+
+    // add html string
+    QDomCDATASection cdataSection = createCDATASection(htmlString);
+    descriptionElement.appendChild(cdataSection);
+    placemarkElement.appendChild(descriptionElement);
+
+
+    // Build up all missions points for task
+    QList<QGeoCoordinate> rgFlightCoords;
+    for (int i=0; i<subseqItemsList->count(); i++){
+        FlightPathSegment* flightPath = subseqItemsList->value<FlightPathSegment*>(i);
+        QGeoCoordinate coordi_1 = flightPath->coordinate1();
+        double altitude = qIsNaN(flightPath->coord1AMSLAlt() ) ? 0 : flightPath->coord1AMSLAlt();
+        coordi_1.setAltitude(altitude);
+
+        //debug
+        std::cout << std::fixed << std::setprecision(7) << "subLongitude1: " << coordi_1.longitude() << " ";
+        std::cout << std::fixed << std::setprecision(7) << "subLatitude1: " << coordi_1.latitude() << " ";
+        std::cout << std::fixed << std::setprecision(7) << "subaltitude1: " << altitude << std::endl;
+
+        rgFlightCoords += coordi_1;
+        
+        if (i == subseqItemsList->count() - 1){ // last one coordinate 2 must be included
+            QGeoCoordinate coordi_2 = flightPath->coordinate2();
+            double altitude = qIsNaN(flightPath->coord2AMSLAlt() ) ? 0 : flightPath->coord2AMSLAlt();
+            coordi_2.setAltitude(altitude);
+
+            // debug
+            std::cout << std::fixed << std::setprecision(7) << "subLongitude2: " << coordi_2.longitude() << " ";
+            std::cout << std::fixed << std::setprecision(7) << "subLatitude2: " << coordi_2.latitude() << " ";
+            std::cout << std::fixed << std::setprecision(7) << "subaltitude2: " << altitude << std::endl;
+            
+            
+            rgFlightCoords += coordi_2;
+        }
+    }
+
+    // Create a LineString element from the coords
+    QDomElement lineStringElement = createElement("LineString");
+    placemarkElement.appendChild(lineStringElement);
+
+    QString coordString;
+    for (const QGeoCoordinate& coord : rgFlightCoords) {
+        coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
+    }
+    addTextElement(lineStringElement, "coordinates", coordString);
+}
+
 void KMLPlanDomDocument::_formatKML(QString convertedValue, int& taskCounter, QmlObjectListModel* subseqItemsList ){
     // add place mark
     QDomElement placemarkElement = createElement("Placemark");
@@ -111,10 +210,13 @@ void KMLPlanDomDocument::_addCustomizedTask(Vehicle* vehicle, QList<MissionItem*
             QVariant value = detectFact->cookedValue();
             // Convert the QVariant to the desired type if needed
             convertedValue = value.toString();
-
-
             QmlObjectListModel* subseqItemsList = complexItem->flightPathSegments();
-            _formatKML(convertedValue, taskCounter, subseqItemsList);
+
+            QString htmlString;
+            getDescription(htmlString, complexItem);
+
+            _formatKMLComplex(htmlString, taskCounter, subseqItemsList);
+
         }else if (structureScanItem){
             std::cout << "HI ";
             Fact* detectModel = (structureScanItem->detectModel());

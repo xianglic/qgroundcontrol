@@ -29,16 +29,27 @@ class TransectStyleComplexItem : public ComplexMissionItem
 public:
     TransectStyleComplexItem(PlanMasterController* masterController, bool flyView, QString settignsGroup);
 
+    // detect task
+    Q_PROPERTY(Fact*            detectTask                  READ detectTask                                         CONSTANT)
+    Q_PROPERTY(Fact*            detectTask_gimbal_pitch     READ detectTask_gimbal_pitch                            CONSTANT)
+    Q_PROPERTY(Fact*            detectTask_model            READ detectTask_model                                   CONSTANT)
+    Q_PROPERTY(Fact*            detectTask_drone_rotation   READ detectTask_drone_rotation                          CONSTANT)
+    Q_PROPERTY(Fact*            detectTask_sample_rate      READ detectTask_sample_rate                             CONSTANT) 
+    Q_PROPERTY(Fact*            detectTask_hover_delay      READ detectTask_hover_delay                             CONSTANT)
+    
+    // obstacle task
+    Q_PROPERTY(Fact*            obstacleTask_model          READ obstacleTask_model                                 CONSTANT)
+    Q_PROPERTY(Fact*            obstacleTask_speed          READ obstacleTask_speed                                 CONSTANT)
+    Q_PROPERTY(Fact*            obstacleTask_altitude       READ obstacleTask_altitude                              CONSTANT)
+
+    // tracking task 
+    Q_PROPERTY(Fact*            trackingTask_gimbal_pitch   READ trackingTask_gimbal_pitch                          CONSTANT)
+    Q_PROPERTY(Fact*            trackingTask_model          READ trackingTask_model                                 CONSTANT)
+    Q_PROPERTY(Fact*            trackingTask_class          READ trackingTask_class                                 CONSTANT)
+
     Q_PROPERTY(QGCMapPolygon*   surveyAreaPolygon           READ surveyAreaPolygon                                  CONSTANT)
     Q_PROPERTY(CameraCalc*      cameraCalc                  READ cameraCalc                                         CONSTANT)
     Q_PROPERTY(Fact*            turnAroundDistance          READ turnAroundDistance                                 CONSTANT)
-    Q_PROPERTY(Fact*            detectTask                  READ detectTask                                         CONSTANT)
-    Q_PROPERTY(Fact*            detectTask_gimbal_pitch     READ detectTask_gimbal_pitch                            CONSTANT)
-    // Q_PROPERTY(Fact*            steelEagleMode              READ steelEagleMode                                     CONSTANT)
-    // Q_PROPERTY(Fact*            detectTask_model            READ detectTask_Model                                   CONSTANT)
-    // Q_PROPERTY(Fact*            detectTask_drone_rotation   READ detectTask_drone_rotation                          CONSTANT)
-    // Q_PROPERTY(Fact*            detectTask_sample_rate      READ detectTask_sample_rate                             CONSTANT) 
-    // Q_PROPERTY(Fact*            detectTask_hover_delay      READ detectTask_hover_delay                             CONSTANT) 
     Q_PROPERTY(Fact*            cameraTriggerInTurnAround   READ cameraTriggerInTurnAround                          CONSTANT)
     Q_PROPERTY(Fact*            hoverAndCapture             READ hoverAndCapture                                    CONSTANT)
     Q_PROPERTY(Fact*            refly90Degrees              READ refly90Degrees                                     CONSTANT)
@@ -58,9 +69,27 @@ public:
 
     Fact* turnAroundDistance            (void) { return &_turnAroundDistanceFact; }
 
-    // Fact* steelEagleMode                (void) { return &_steelEagleModeFact; }
+    //detect task
     Fact* detectTask                    (void) { return &_detectTaskFact; }
     Fact* detectTask_gimbal_pitch       (void) { return &_detectTask_gimbal_pitchFact; }
+    Fact* detectTask_model              (void) {return &_detectTask_modelFact;}
+    Fact* detectTask_drone_rotation     (void) {return &_detectTask_drone_rotationFact;}
+    Fact* detectTask_sample_rate        (void) {return &_detectTask_sample_rateFact;} 
+    Fact* detectTask_hover_delay        (void) {return &_detectTask_hover_delayFact;}
+
+        
+    // obstacle task
+
+    Fact* obstacleTask_model            (void) { return &_obstacleTask_modelFact; }
+    Fact* obstacleTask_speed            (void) { return &_obstacleTask_speedFact; }
+    Fact* obstacleTask_altitude         (void) {return &_obstacleTask_altitudeFact;}
+
+
+    // tracking task
+    Fact* trackingTask_gimbal_pitch     (void) { return &_trackingTask_gimbal_pitchFact; }
+    Fact* trackingTask_model            (void) { return &_trackingTask_modelFact; }
+    Fact* trackingTask_class            (void) {return &_trackingTask_classFact;} 
+
 
     Fact* cameraTriggerInTurnAround     (void) { return &_cameraTriggerInTurnAroundFact; }
     Fact* hoverAndCapture               (void) { return &_hoverAndCaptureFact; }
@@ -121,9 +150,26 @@ public:
     double              minAMSLAltitude             (void) const final;
     double              maxAMSLAltitude             (void) const final;
 
-    // static const char* steelEagleModeName;
+    //detect task
     static const char* detectTaskName;
     static const char* detectTask_gimbal_pitchName;
+    static const char* detectTask_modelName;            
+    static const char* detectTask_drone_rotationName;
+    static const char* detectTask_sample_rateName;
+    static const char* detectTask_hover_delayName;
+
+    // obstacle task
+    static const char* obstacleTask_modelName;
+    static const char* obstacleTask_speedName;
+    static const char* obstacleTask_altitudeName;  
+
+
+    // tracking task
+    static const char* trackingTask_gimbal_pitchName;
+    static const char* trackingTask_modelName;
+    static const char* trackingTask_className;  
+
+    
 
     static const char* turnAroundDistanceName;
     static const char* turnAroundDistanceMultiRotorName;
@@ -211,9 +257,24 @@ protected:
     QMap<QString, FactMetaData*> _metaDataMap;
 
 
-    // SettingsFact _SteelEagleModeFact;
+    // detect task
     SettingsFact _detectTaskFact;
     SettingsFact _detectTask_gimbal_pitchFact;
+    SettingsFact _detectTask_modelFact;            
+    SettingsFact _detectTask_drone_rotationFact;
+    SettingsFact _detectTask_sample_rateFact;
+    SettingsFact _detectTask_hover_delayFact;
+
+    // obstacle task
+    SettingsFact _obstacleTask_modelFact;
+    SettingsFact _obstacleTask_speedFact;
+    SettingsFact _obstacleTask_altitudeFact;  
+
+
+    // tracking task
+    SettingsFact _trackingTask_gimbal_pitchFact;
+    SettingsFact _trackingTask_modelFact;
+    SettingsFact _trackingTask_classFact;  
 
     SettingsFact _turnAroundDistanceFact;
     SettingsFact _cameraTriggerInTurnAroundFact;

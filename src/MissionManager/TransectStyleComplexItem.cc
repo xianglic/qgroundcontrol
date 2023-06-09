@@ -25,9 +25,28 @@
 
 QGC_LOGGING_CATEGORY(TransectStyleComplexItemLog, "TransectStyleComplexItemLog")
 
-const char* TransectStyleComplexItem::turnAroundDistanceName                = "TurnAroundDistance";
+
+// detect task
 const char* TransectStyleComplexItem::detectTaskName                        = "DetectTask";
 const char* TransectStyleComplexItem::detectTask_gimbal_pitchName           = "DetectTask_gimbal_pitch";
+const char* TransectStyleComplexItem::detectTask_modelName                  = "DetectTask_model";
+const char* TransectStyleComplexItem::detectTask_drone_rotationName         = "DetectTask_drone_rotation";
+const char* TransectStyleComplexItem::detectTask_sample_rateName            = "DetectTask_sample_rate";
+const char* TransectStyleComplexItem::detectTask_hover_delayName            = "DetectTask_hover_delay";
+
+// obstacle task
+const char* TransectStyleComplexItem::obstacleTask_modelName                = "ObstacleTask_model";
+const char* TransectStyleComplexItem::obstacleTask_speedName                = "ObstacleTask_speed";
+const char* TransectStyleComplexItem::obstacleTask_altitudeName             = "ObstacleTask_altitude";
+
+
+// tracking task
+const char* TransectStyleComplexItem::trackingTask_gimbal_pitchName         = "TrackingTask_gimbal_pitch";
+const char* TransectStyleComplexItem::trackingTask_modelName                = "TrackingTask_model";
+const char* TransectStyleComplexItem::trackingTask_className                = "TrackingTask_class";
+
+
+const char* TransectStyleComplexItem::turnAroundDistanceName                = "TurnAroundDistance";
 const char* TransectStyleComplexItem::turnAroundDistanceMultiRotorName      = "TurnAroundDistanceMultiRotor";
 const char* TransectStyleComplexItem::cameraTriggerInTurnAroundName         = "CameraTriggerInTurnAround";
 const char* TransectStyleComplexItem::hoverAndCaptureName                   = "HoverAndCapture";
@@ -49,8 +68,18 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     : ComplexMissionItem                (masterController, flyView)
     , _cameraCalc                       (masterController, settingsGroup)
     , _metaDataMap                      (FactMetaData::createMapFromJsonFile(QStringLiteral(":/json/TransectStyle.SettingsGroup.json"), this))
-    , _detectTaskFact                   (settingsGroup, _metaDataMap[detectTaskName])
+    , _detectTaskFact                   (settingsGroup, _metaDataMap[detectTaskName]) // detect task
     , _detectTask_gimbal_pitchFact      (settingsGroup, _metaDataMap[detectTask_gimbal_pitchName])
+    , _detectTask_modelFact             (settingsGroup, _metaDataMap[detectTask_modelName])
+    , _detectTask_drone_rotationFact    (settingsGroup, _metaDataMap[detectTask_drone_rotationName])
+    , _detectTask_sample_rateFact       (settingsGroup, _metaDataMap[detectTask_sample_rateName])
+    , _detectTask_hover_delayFact       (settingsGroup, _metaDataMap[detectTask_hover_delayName])
+    , _obstacleTask_modelFact           (settingsGroup, _metaDataMap[obstacleTask_modelName]) // obstacle task
+    , _obstacleTask_speedFact           (settingsGroup, _metaDataMap[obstacleTask_speedName])
+    , _obstacleTask_altitudeFact        (settingsGroup, _metaDataMap[obstacleTask_altitudeName])
+    , _trackingTask_gimbal_pitchFact    (settingsGroup, _metaDataMap[trackingTask_gimbal_pitchName]) // tracking task
+    , _trackingTask_modelFact           (settingsGroup, _metaDataMap[trackingTask_modelName])
+    , _trackingTask_classFact           (settingsGroup, _metaDataMap[trackingTask_className])
     , _turnAroundDistanceFact           (settingsGroup, _metaDataMap[_controllerVehicle->multiRotor() ? turnAroundDistanceMultiRotorName : turnAroundDistanceName])
     , _cameraTriggerInTurnAroundFact    (settingsGroup, _metaDataMap[cameraTriggerInTurnAroundName])
     , _hoverAndCaptureFact              (settingsGroup, _metaDataMap[hoverAndCaptureName])
@@ -91,14 +120,12 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     connect(&_surveyAreaPolygon,                        &QGCMapPolygon::pathChanged,    this, &TransectStyleComplexItem::greatestDistanceToChanged);
 
     connect(&_turnAroundDistanceFact,                   &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
-    connect(&_detectTaskFact,                           &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_cameraTriggerInTurnAroundFact,            &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_hoverAndCaptureFact,                      &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_refly90DegreesFact,                       &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_terrainAdjustMaxClimbRateFact,            &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_terrainAdjustMaxDescentRateFact,          &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_terrainAdjustToleranceFact,               &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
-    connect(&_detectTask_gimbal_pitchFact,              &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_surveyAreaPolygon,                        &QGCMapPolygon::pathChanged,    this, &TransectStyleComplexItem::_setDirty);
 
     connect(&_surveyAreaPolygon,                        &QGCMapPolygon::dirtyChanged,   this, &TransectStyleComplexItem::_setIfDirty);
@@ -128,7 +155,26 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     connect(&_surveyAreaPolygon,                        &QGCMapPolygon::isValidChanged, this, &TransectStyleComplexItem::readyForSaveStateChanged);
 
 
-    // connect(this,                                       &CameraCalc::distanceModeChanged,   this, &CameraCalc::_setDirty);
+    // detect task
+    connect(&_detectTaskFact,                           &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+    connect(&_detectTask_gimbal_pitchFact,              &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+    connect(&_detectTask_modelFact,                     &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+    connect(&_detectTask_drone_rotationFact,            &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+    connect(&_detectTask_sample_rateFact,               &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+    connect(&_detectTask_hover_delayFact,               &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+
+
+    // obstacle task
+    connect(&_obstacleTask_modelFact,                   &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+    connect(&_obstacleTask_speedFact,                   &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+    connect(&_obstacleTask_altitudeFact,                &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+
+
+
+    // tracking task
+    connect(&_trackingTask_gimbal_pitchFact,            &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+    connect(&_trackingTask_modelFact,                   &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
+    connect(&_trackingTask_classFact,                   &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
 
     setDirty(false);
 
@@ -159,9 +205,29 @@ void TransectStyleComplexItem::_save(QJsonObject& complexObject)
     QJsonObject innerObject;
 
     innerObject[JsonHelper::jsonVersionKey] =       2;
-    innerObject[turnAroundDistanceName] =           _turnAroundDistanceFact.rawValue().toDouble();
+
+    // detect task
     innerObject[detectTaskName] =                   _detectTaskFact.rawValue().toString();
-    innerObject[detectTask_gimbal_pitchName] =      _detectTask_gimbal_pitchFact.rawValue().toString();
+    innerObject[detectTask_gimbal_pitchName] =      _detectTask_gimbal_pitchFact.rawValue().toDouble();
+    innerObject[detectTask_modelName] =             _detectTask_modelFact.rawValue().toString();
+    innerObject[detectTask_drone_rotationName] =    _detectTask_drone_rotationFact.rawValue().toDouble();
+    innerObject[detectTask_sample_rateName] =       _detectTask_sample_rateFact.rawValue().toDouble();
+    innerObject[detectTask_hover_delayName] =       _detectTask_hover_delayFact.rawValue().toDouble();
+
+
+    // obstacle task
+    innerObject[obstacleTask_modelName] =            _obstacleTask_modelFact.rawValue().toString();
+    innerObject[obstacleTask_speedName] =            _obstacleTask_speedFact.rawValue().toDouble();
+    innerObject[obstacleTask_altitudeName] =         _obstacleTask_altitudeFact.rawValue().toString();
+
+
+    // tracking task
+    innerObject[trackingTask_gimbal_pitchName] =     _trackingTask_gimbal_pitchFact.rawValue().toString();
+    innerObject[trackingTask_modelName] =            _trackingTask_modelFact.rawValue().toDouble();
+    innerObject[trackingTask_className] =            _trackingTask_classFact.rawValue().toString();
+
+
+    innerObject[turnAroundDistanceName] =           _turnAroundDistanceFact.rawValue().toDouble();
     innerObject[cameraTriggerInTurnAroundName] =    _cameraTriggerInTurnAroundFact.rawValue().toBool();
     innerObject[hoverAndCaptureName] =              _hoverAndCaptureFact.rawValue().toBool();
     innerObject[refly90DegreesName] =               _refly90DegreesFact.rawValue().toBool();

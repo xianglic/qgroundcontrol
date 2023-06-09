@@ -11,6 +11,8 @@
 
 #include "KMLDomDocument.h"
 
+
+
 class MissionItem;
 class Vehicle;
 class QmlObjectListModel;
@@ -33,4 +35,5 @@ private:
     void _addCustomizedTask (Vehicle* vehicle, QList<MissionItem*> rgMissionItems, QmlObjectListModel* visualItems);
     void _formatKML         (QString convertedValue, int& taskCounter, QmlObjectListModel* subseqItemsList);
     static const char* _missionLineStyleName;
+    void _formatKMLComplex  (QString htmlString, int& taskCounter, QmlObjectListModel* subseqItemsList);
 };
