@@ -139,10 +139,22 @@ ColumnLayout {
             Layout.fillWidth:   true
         }
 
+        // QGCLabel { text: qsTr("model") }
+        // FactTextField {
+        //     fact:               missionItem.trackingTask_model
+        //     Layout.fillWidth:   true
+        // }
+
+                
         QGCLabel { text: qsTr("model") }
-        FactTextField {
-            fact:               missionItem.trackingTask_model
+        QGCComboBox {
+            
+            id:                 trackingTaskModelCombo
             Layout.fillWidth:   true
+        
+            model:              missionItem.trackingTask_modellist
+
+            onActivated:        missionItem.trackingTask_model_2 = currentText
         }
 
         QGCLabel { text: qsTr("class") }

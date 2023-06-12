@@ -163,7 +163,7 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     connect(&_detectTask_sample_rateFact,               &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_detectTask_hover_delayFact,               &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
 
-    // Build the brand list from known cameras
+    // Build the brand list from known model for detect tasks
     _detectTask_modellist.append("coco");
     _detectTask_modellist.append("oidv4");
 
@@ -180,6 +180,11 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     connect(&_trackingTask_modelFact,                   &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_trackingTask_classFact,                   &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
 
+
+    // Build the brand list from known model for detect tasks
+    _trackingTask_modellist.append("coco");
+    _trackingTask_modellist.append("robomaster");
+
     setDirty(false);
 
 
@@ -191,6 +196,13 @@ void TransectStyleComplexItem::setDetectTask_model(const QString& detectTask_mod
 {
     if (detectTask_model != _detectTask_model_2) {
         _detectTask_model_2 = detectTask_model;
+    }
+}
+
+void TransectStyleComplexItem::setTrackingTask_model(const QString& trackingTask_model)
+{
+    if (trackingTask_model != _trackingTask_model_2) {
+        _trackingTask_model_2 = trackingTask_model;
     }
 }
 

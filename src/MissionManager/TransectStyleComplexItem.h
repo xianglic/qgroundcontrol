@@ -37,7 +37,7 @@ public:
     Q_PROPERTY(Fact*            detectTask_sample_rate      READ detectTask_sample_rate                             CONSTANT) 
     Q_PROPERTY(Fact*            detectTask_hover_delay      READ detectTask_hover_delay                             CONSTANT)
     Q_PROPERTY(QStringList      detectTask_modellist        MEMBER _detectTask_modellist                            CONSTANT)
-    Q_PROPERTY(QString          detectTask_model_2          MEMBER _detectTask_model_2                               WRITE setDetectTask_model)
+    Q_PROPERTY(QString          detectTask_model_2          MEMBER _detectTask_model_2                              WRITE setDetectTask_model)
     
     // obstacle task
     Q_PROPERTY(Fact*            obstacleTask_model          READ obstacleTask_model                                 CONSTANT)
@@ -48,7 +48,9 @@ public:
     Q_PROPERTY(Fact*            trackingTask_gimbal_pitch   READ trackingTask_gimbal_pitch                          CONSTANT)
     Q_PROPERTY(Fact*            trackingTask_model          READ trackingTask_model                                 CONSTANT)
     Q_PROPERTY(Fact*            trackingTask_class          READ trackingTask_class                                 CONSTANT)
-
+    Q_PROPERTY(QStringList      trackingTask_modellist        MEMBER _trackingTask_modellist                        CONSTANT)
+    Q_PROPERTY(QString          trackingTask_model_2          MEMBER _trackingTask_model_2                          WRITE setTrackingTask_model)
+    
     Q_PROPERTY(QGCMapPolygon*   surveyAreaPolygon           READ surveyAreaPolygon                                  CONSTANT)
     Q_PROPERTY(CameraCalc*      cameraCalc                  READ cameraCalc                                         CONSTANT)
     Q_PROPERTY(Fact*            turnAroundDistance          READ turnAroundDistance                                 CONSTANT)
@@ -93,6 +95,10 @@ public:
     Fact* trackingTask_gimbal_pitch     (void) { return &_trackingTask_gimbal_pitchFact; }
     Fact* trackingTask_model            (void) { return &_trackingTask_modelFact; }
     Fact* trackingTask_class            (void) {return &_trackingTask_classFact;} 
+
+
+    void  setTrackingTask_model          (const QString& trackingTask_model);
+    QString  trackingTask_model_2        (void) {return _trackingTask_model_2;}
 
 
     Fact* cameraTriggerInTurnAround     (void) { return &_cameraTriggerInTurnAroundFact; }
@@ -279,7 +285,10 @@ protected:
     // tracking task
     SettingsFact _trackingTask_gimbal_pitchFact;
     SettingsFact _trackingTask_modelFact;
-    SettingsFact _trackingTask_classFact;  
+    SettingsFact _trackingTask_classFact;
+    QStringList  _trackingTask_modellist;
+    QString      _trackingTask_model_2 = "coco";
+      
 
     SettingsFact _turnAroundDistanceFact;
     SettingsFact _cameraTriggerInTurnAroundFact;

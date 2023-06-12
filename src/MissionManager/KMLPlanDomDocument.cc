@@ -73,10 +73,16 @@ void getDescription(QString& htmlString, TransectStyleComplexItem* complexItem){
     case QGroundControlQmlGlobal::SteelEagleMode::TrackingTask:
         convertedValue = (complexItem->trackingTask_gimbal_pitch())->cookedValue().toString();
         htmlString += QStringLiteral("TrackingTask: {gimbal_pitch: '%1',").arg(convertedValue);
-        convertedValue = (complexItem->trackingTask_model())->cookedValue().toString();
+        // convertedValue = (complexItem->trackingTask_model())->cookedValue().toString();
+        // htmlString += QStringLiteral("model: '%1',").arg(convertedValue);
+
+
+        convertedValue = (complexItem->trackingTask_model_2());
         htmlString += QStringLiteral("model: '%1',").arg(convertedValue);
+
         convertedValue = (complexItem->trackingTask_class())->cookedValue().toString();
         htmlString += QStringLiteral("class: '%1'}").arg(convertedValue);
+
         break;
     default:
         break;
@@ -325,17 +331,18 @@ void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rg
 void KMLPlanDomDocument::_addComplexItems(QmlObjectListModel* visualItems)
 {
     for (int i=0; i<visualItems->count(); i++) {
-        ComplexMissionItem* complexItem = visualItems->value<ComplexMissionItem*>(i);
-        if (complexItem) {
-            complexItem->addKMLVisuals(*this);
-        }
+        std::cout<<"hi this is one visual\n";
+        // ComplexMissionItem* complexItem = visualItems->value<ComplexMissionItem*>(i);
+        // if (complexItem) {
+        //     complexItem->addKMLVisuals(*this);
+        // }
     }
 }
 
 void KMLPlanDomDocument::addMission(Vehicle* vehicle, QmlObjectListModel* visualItems, QList<MissionItem*> rgMissionItems)
 {
     // _addFlightPath(vehicle, rgMissionItems);
-    // _addComplexItems(visualItems);
+    _addComplexItems(visualItems);
     _addCustomizedTask(vehicle, rgMissionItems,  visualItems);
 
 }
