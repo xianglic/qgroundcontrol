@@ -48,8 +48,8 @@
     "shortDesc": "DetectTask: Drone Rotation",
     "type":             "double",
     "decimalPlaces":    1,
-    "max":              30,
-    "min":              1,
+    "max":              360,
+    "min":              0,
     "units":            "deg",
     "default":     0.0
 },

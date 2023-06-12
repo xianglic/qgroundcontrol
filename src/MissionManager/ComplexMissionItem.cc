@@ -156,9 +156,7 @@ void ComplexMissionItem::setSteelEagleMode(QGroundControlQmlGlobal::SteelEagleMo
 {
     if (seMode != _steelEagleMode) {
         _steelEagleMode = seMode;
-
-
-        std::cout<< "hi test, setting the mode: "<< seMode;
+        // std::cout<< "hi test, setting the mode: "<< seMode;
         emit steelEagleModeChanged(_steelEagleMode);
     }
 }
