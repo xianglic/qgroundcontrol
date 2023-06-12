@@ -55,8 +55,11 @@ void getDescription(QString& htmlString, TransectStyleComplexItem* complexItem){
         htmlString += QStringLiteral("sample_rate: '%1',").arg(convertedValue);
         convertedValue = (complexItem->detectTask_hover_delay())->cookedValue().toString();
         htmlString += QStringLiteral("hover_delay: '%1',").arg(convertedValue);
-        convertedValue = (complexItem->detectTask_model())->cookedValue().toString();
+        
+        convertedValue = (complexItem->detectTask_model_2());
         htmlString += QStringLiteral("model: '%1'}").arg(convertedValue);
+        // convertedValue = (complexItem->detectTask_model())->cookedValue().toString();
+        // htmlString += QStringLiteral("model: '%1'}").arg(convertedValue);
 
         break;
     case QGroundControlQmlGlobal::SteelEagleMode::ObstacleTask:

@@ -80,10 +80,21 @@ ColumnLayout {
             Layout.fillWidth:   true
         }
 
+        // QGCLabel { text: qsTr("model") }
+        // FactTextField {
+        //     fact:               missionItem.detectTask_model
+        //     Layout.fillWidth:   true
+        // }
+        
         QGCLabel { text: qsTr("model") }
-        FactTextField {
-            fact:               missionItem.detectTask_model
+        QGCComboBox {
+            
+            id:                 detectTaskModelCombo
             Layout.fillWidth:   true
+        
+            model:              missionItem.detectTask_modellist
+
+            onActivated:        missionItem.detectTask_model_2 = currentText
         }
     }
 

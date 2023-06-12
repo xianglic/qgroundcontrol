@@ -163,6 +163,10 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
     connect(&_detectTask_sample_rateFact,               &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
     connect(&_detectTask_hover_delayFact,               &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
 
+    // Build the brand list from known cameras
+    _detectTask_modellist.append("coco");
+    _detectTask_modellist.append("oidv4");
+
 
     // obstacle task
     connect(&_obstacleTask_modelFact,                   &Fact::valueChanged,            this, &TransectStyleComplexItem::_setDirty);
@@ -178,6 +182,16 @@ TransectStyleComplexItem::TransectStyleComplexItem(PlanMasterController* masterC
 
     setDirty(false);
 
+
+
+
+}
+
+void TransectStyleComplexItem::setDetectTask_model(const QString& detectTask_model)
+{
+    if (detectTask_model != _detectTask_model_2) {
+        _detectTask_model_2 = detectTask_model;
+    }
 }
 
 void TransectStyleComplexItem::_setCameraShots(int cameraShots)

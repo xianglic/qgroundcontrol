@@ -36,6 +36,8 @@ public:
     Q_PROPERTY(Fact*            detectTask_drone_rotation   READ detectTask_drone_rotation                          CONSTANT)
     Q_PROPERTY(Fact*            detectTask_sample_rate      READ detectTask_sample_rate                             CONSTANT) 
     Q_PROPERTY(Fact*            detectTask_hover_delay      READ detectTask_hover_delay                             CONSTANT)
+    Q_PROPERTY(QStringList      detectTask_modellist        MEMBER _detectTask_modellist                            CONSTANT)
+    Q_PROPERTY(QString          detectTask_model_2          MEMBER _detectTask_model_2                               WRITE setDetectTask_model)
     
     // obstacle task
     Q_PROPERTY(Fact*            obstacleTask_model          READ obstacleTask_model                                 CONSTANT)
@@ -77,6 +79,8 @@ public:
     Fact* detectTask_sample_rate        (void) {return &_detectTask_sample_rateFact;} 
     Fact* detectTask_hover_delay        (void) {return &_detectTask_hover_delayFact;}
 
+    void  setDetectTask_model           (const QString& detectTask_model);
+    QString  detectTask_model_2        (void) {return _detectTask_model_2;}
         
     // obstacle task
 
@@ -264,12 +268,13 @@ protected:
     SettingsFact _detectTask_drone_rotationFact;
     SettingsFact _detectTask_sample_rateFact;
     SettingsFact _detectTask_hover_delayFact;
-
+    QStringList  _detectTask_modellist;
+    QString      _detectTask_model_2 = "coco";
+    
     // obstacle task
     SettingsFact _obstacleTask_modelFact;
     SettingsFact _obstacleTask_speedFact;
-    SettingsFact _obstacleTask_altitudeFact;  
-
+    SettingsFact _obstacleTask_altitudeFact; 
 
     // tracking task
     SettingsFact _trackingTask_gimbal_pitchFact;
