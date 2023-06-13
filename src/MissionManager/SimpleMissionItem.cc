@@ -65,6 +65,7 @@ SimpleMissionItem::SimpleMissionItem(PlanMasterController* masterController, boo
     , _param5MetaData                   (FactMetaData::valueTypeDouble)
     , _param6MetaData                   (FactMetaData::valueTypeDouble)
     , _param7MetaData                   (FactMetaData::valueTypeDouble)
+    , _steelEagleMode   (masterController->missionController()->globalSteelEagleModeDefault())
 {
     _editorQml = QStringLiteral("qrc:/qml/SimpleItemEditor.qml");
 
@@ -1101,5 +1102,15 @@ void SimpleMissionItem::_possibleRadiusChanged(void)
 {
     if (isLoiterItem()) {
         emit loiterRadiusChanged(loiterRadius());
+    }
+}
+
+
+void SimpleMissionItem::setSteelEagleMode(QGroundControlQmlGlobal::SteelEagleMode seMode)
+{
+    if (seMode != _steelEagleMode) {
+        _steelEagleMode = seMode;
+        // std::cout<< "hi test, setting the mode: "<< seMode;
+        emit steelEagleModeChanged(_steelEagleMode);
     }
 }

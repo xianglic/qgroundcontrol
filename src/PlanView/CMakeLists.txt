@@ -23,6 +23,8 @@ add_custom_target(PlanViewQml
 		RallyPointMapVisuals.qml
 		SimpleItemEditor.qml
 		SimpleItemMapVisual.qml
+		SimpleItemTabBar.qml
+		SimpleItemScottyFollow.qml
 		StructureScanEditor.qml
 		StructureScanMapVisual.qml
 		SurveyItemEditor.qml

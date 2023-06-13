@@ -1,6 +1,6 @@
-import QtQuick                      2.3
-import QtQuick.Controls             1.2
-import QtQuick.Layouts              1.2
+import QtQuick                      2.11
+import QtQuick.Controls             2.4
+import QtQuick.Layouts              1.11
 
 import QGroundControl               1.0
 import QGroundControl.ScreenTools   1.0
@@ -10,7 +10,7 @@ import QGroundControl.FactControls  1.0
 
 ColumnLayout {
     spacing: _margin
-    visible: tabBar.currentIndex === 4
+    visible: tabBar.currentIndex === 0
 
     property var missionItem
 
@@ -20,7 +20,7 @@ ColumnLayout {
 
         onClicked: {
             var removeModes = []
-            var updateFunction = function(seMode){ missionItem.steelEagleMode = seMode }
+            var updateFunction = function(seMode){ missionItem.seMode = seMode }
             // removeModes.push(QGroundControl.AltitudeModeMixed)
             // if (!missionItem.masterController.controllerVehicle.supportsTerrainFrame) {
             //     removeModes.push(QGroundControl.AltitudeModeTerrainFrame)
@@ -36,7 +36,7 @@ ColumnLayout {
         RowLayout {
             spacing: ScreenTools.defaultFontPixelWidth / 2
 
-            QGCLabel { text: QGroundControl.steelEagleModeShortDescription(missionItem.steelEagleMode) }
+            QGCLabel { text: QGroundControl.steelEagleModeShortDescription(missionItem.seMode) }
             QGCColoredImage {
                 height:     ScreenTools.defaultFontPixelHeight / 2
                 width:      height
@@ -54,7 +54,7 @@ ColumnLayout {
         columnSpacing:      _margin
         rowSpacing:         _margin
         columns:            2
-        enabled:            missionItem.steelEagleMode === QGroundControl.DetectTask
+        enabled:            missionItem.seMode === QGroundControl.DetectTask
 
         QGCLabel { text: qsTr("gimbal_pitch") }
         // FactTextField {
@@ -98,7 +98,8 @@ ColumnLayout {
         columnSpacing:      _margin
         rowSpacing:         _margin
         columns:            2
-        enabled:            missionItem.steelEagleMode === QGroundControl.ObstacleTask
+        enabled:            missionItem.seMode === QGroundControl.ObstacleTask
+
 
         QGCLabel { text: qsTr("model") }
         // FactTextField {
@@ -125,7 +126,7 @@ ColumnLayout {
         columnSpacing:      _margin
         rowSpacing:         _margin
         columns:            2
-        enabled:            missionItem.steelEagleMode === QGroundControl.TrackingTask
+        enabled:            missionItem.seMode === QGroundControl.TrackingTask
 
         QGCLabel { text: qsTr("gimbal_pitch") }
         // FactTextField {

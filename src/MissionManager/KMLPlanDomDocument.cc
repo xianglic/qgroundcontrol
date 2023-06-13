@@ -331,7 +331,13 @@ void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rg
 void KMLPlanDomDocument::_addComplexItems(QmlObjectListModel* visualItems)
 {
     for (int i=0; i<visualItems->count(); i++) {
-        std::cout<<"hi this is one visual\n";
+        std::cout<<"hi this is one count\n";
+        VisualMissionItem* simpleItem = visualItems->value<VisualMissionItem*>(i);
+        if (simpleItem) {
+            QGeoCoordinate g = simpleItem->coordinate();
+            std::cout<<"hi this is one visial\n";
+            std::cout<<"geo: "<<kmlCoordString(g).toStdString();
+        }
         // ComplexMissionItem* complexItem = visualItems->value<ComplexMissionItem*>(i);
         // if (complexItem) {
         //     complexItem->addKMLVisuals(*this);
