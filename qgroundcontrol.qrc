@@ -179,7 +179,6 @@
         <file alias="QGroundControl/Controls/SignalStrength.qml">src/ui/toolbar/SignalStrength.qml</file>
         <file alias="QGroundControl/Controls/SimpleItemMapVisual.qml">src/PlanView/SimpleItemMapVisual.qml</file>
         <file alias="QGroundControl/Controls/SimpleItemTabBar.qml">src/PlanView/SimpleItemTabBar.qml</file>
-        <file alias="QGroundControl/Controls/SimpleItemScottyFollow.qml">src/PlanView/SimpleItemScottyFollow.qml</file>
         <file alias="QGroundControl/Controls/SliderSwitch.qml">src/QmlControls/SliderSwitch.qml</file>
         <file alias="QGroundControl/Controls/StructureScanMapVisual.qml">src/PlanView/StructureScanMapVisual.qml</file>
         <file alias="QGroundControl/Controls/SubMenuButton.qml">src/QmlControls/SubMenuButton.qml</file>
@@ -278,6 +277,7 @@
         <file alias="SetupParameterEditor.qml">src/VehicleSetup/SetupParameterEditor.qml</file>
         <file alias="SetupView.qml">src/VehicleSetup/SetupView.qml</file>
         <file alias="SimpleItemEditor.qml">src/PlanView/SimpleItemEditor.qml</file>
+        <file alias="TakeoffMissionItemEditor.qml">src/PlanView/TakeoffMissionItemEditor.qml</file>
         <file alias="StructureScanEditor.qml">src/PlanView/StructureScanEditor.qml</file>
         <file alias="SurveyItemEditor.qml">src/PlanView/SurveyItemEditor.qml</file>
         <file alias="SyslinkComponent.qml">src/AutoPilotPlugins/Common/SyslinkComponent.qml</file>

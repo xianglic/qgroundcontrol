@@ -24,11 +24,11 @@ add_custom_target(PlanViewQml
 		SimpleItemEditor.qml
 		SimpleItemMapVisual.qml
 		SimpleItemTabBar.qml
-		SimpleItemScottyFollow.qml
 		StructureScanEditor.qml
 		StructureScanMapVisual.qml
 		SurveyItemEditor.qml
 		SurveyMapVisual.qml
+		TakeoffMissionItemEditor.qml
 		TakeoffItemMapVisual.qml
 		TerrainStatus.qml
 		TransectStyleComplexItemStats.qml

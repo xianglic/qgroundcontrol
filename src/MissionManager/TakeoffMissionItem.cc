@@ -20,6 +20,22 @@
 #include "SettingsManager.h"
 #include "PlanMasterController.h"
 
+
+// detect task
+const char* TakeoffMissionItem::detectTask_gimbal_pitchName           = "DetectTask_gimbal_pitch";
+const char* TakeoffMissionItem::detectTask_drone_rotationName         = "DetectTask_drone_rotation";
+const char* TakeoffMissionItem::detectTask_sample_rateName            = "DetectTask_sample_rate";
+const char* TakeoffMissionItem::detectTask_hover_delayName            = "DetectTask_hover_delay";
+
+// obstacle task
+const char* TakeoffMissionItem::obstacleTask_speedName                = "ObstacleTask_speed";
+const char* TakeoffMissionItem::obstacleTask_altitudeName             = "ObstacleTask_altitude";
+
+
+// tracking task
+const char* TakeoffMissionItem::trackingTask_gimbal_pitchName         = "TrackingTask_gimbal_pitch";
+const char* TakeoffMissionItem::trackingTask_className                = "TrackingTask_class";
+
 TakeoffMissionItem::TakeoffMissionItem(PlanMasterController* masterController, bool flyView, MissionSettingsItem* settingsItem, bool forLoad)
     : SimpleMissionItem (masterController, flyView, forLoad)
     , _settingsItem     (settingsItem)
@@ -30,9 +46,45 @@ TakeoffMissionItem::TakeoffMissionItem(PlanMasterController* masterController, b
 TakeoffMissionItem::TakeoffMissionItem(MAV_CMD takeoffCmd, PlanMasterController* masterController, bool flyView, MissionSettingsItem* settingsItem, bool forLoad)
     : SimpleMissionItem (masterController, flyView, false /* forLoad */)
     , _settingsItem     (settingsItem)
+    , _steelEagleMode   (masterController->missionController()->globalSteelEagleModeDefault())// detect task
+
 {
     setCommand(takeoffCmd);
     _init(forLoad);
+
+
+    FactMetaData md1 = FactMetaData(FactMetaData::valueTypeDouble);
+    md1.setRawMax(50);
+
+    _detectTask_gimbal_pitchFact    = Fact("Gimbal Pitch",             &md1);
+    _detectTask_drone_rotationFact   =Fact("Drone Rotation",             &md1);
+    _detectTask_sample_rateFact      = Fact("Sample Rate",             &md1);
+    _detectTask_hover_delayFact       = Fact("Hover Delay",             &md1);
+    _obstacleTask_speedFact           = Fact("Speed",             &md1); // obstacle task
+    _obstacleTask_altitudeFact        = Fact("Altitude",             &md1);
+    _trackingTask_gimbal_pitchFact    =Fact("Gimbal Pitch",             &md1);// tracking task
+    _trackingTask_classFact           =Fact(0, "Class",             FactMetaData::valueTypeString);
+
+    _detectTask_gimbal_pitchFact.setRawValue(100);
+    _detectTask_drone_rotationFact.setRawValue(qQNaN());
+    _detectTask_hover_delayFact.setRawValue(qQNaN());
+    _detectTask_sample_rateFact.setRawValue(qQNaN());
+
+    _obstacleTask_speedFact.setRawValue(qQNaN());
+    _obstacleTask_altitudeFact.setRawValue(qQNaN());
+
+    _trackingTask_gimbal_pitchFact.setRawValue(qQNaN());
+    _trackingTask_classFact.setRawValue(qQNaN());
+
+
+    // Build the brand list from known model for detect tasks
+    _detectTask_modellist.append("coco");
+    _detectTask_modellist.append("oidv4");
+
+
+    // Build the brand list from known model for detect tasks
+    _trackingTask_modellist.append("coco");
+    _trackingTask_modellist.append("robomaster");
 }
 
 TakeoffMissionItem::TakeoffMissionItem(const MissionItem& missionItem, PlanMasterController* masterController, bool flyView, MissionSettingsItem* settingsItem, bool forLoad)
@@ -47,9 +99,10 @@ TakeoffMissionItem::~TakeoffMissionItem()
 
 }
 
+
 void TakeoffMissionItem::_init(bool forLoad)
 {
-    _editorQml = QStringLiteral("qrc:/qml/SimpleItemEditor.qml");
+    _editorQml = QStringLiteral("qrc:/qml/TakeoffMissionItemEditor.qml");
 
     connect(_settingsItem, &MissionSettingsItem::coordinateChanged, this, &TakeoffMissionItem::launchCoordinateChanged);
 
@@ -186,5 +239,30 @@ void TakeoffMissionItem::setLaunchCoordinate(const QGeoCoordinate& launchCoordin
             takeoffCoordinate = launchCoordinate.atDistanceAndAzimuth(distance, 0);
         }
         SimpleMissionItem::setCoordinate(takeoffCoordinate);
+    }
+}
+
+
+void TakeoffMissionItem::setSteelEagleMode(QGroundControlQmlGlobal::SteelEagleMode seMode)
+{
+    if (seMode != _steelEagleMode) {
+        _steelEagleMode = seMode;
+        // std::cout<< "hi test, setting the mode: "<< seMode;
+        emit steelEagleModeChanged(_steelEagleMode);
+    }
+}
+
+
+void TakeoffMissionItem::setDetectTask_model(const QString& detectTask_model)
+{
+    if (detectTask_model != _detectTask_model_2) {
+        _detectTask_model_2 = detectTask_model;
+    }
+}
+
+void TakeoffMissionItem::setTrackingTask_model(const QString& trackingTask_model)
+{
+    if (trackingTask_model != _trackingTask_model_2) {
+        _trackingTask_model_2 = trackingTask_model;
     }
 }

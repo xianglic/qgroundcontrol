@@ -29,27 +29,27 @@ class TransectStyleComplexItem : public ComplexMissionItem
 public:
     TransectStyleComplexItem(PlanMasterController* masterController, bool flyView, QString settignsGroup);
 
-    // detect task
-    Q_PROPERTY(Fact*            detectTask                  READ detectTask                                         CONSTANT)
-    Q_PROPERTY(Fact*            detectTask_gimbal_pitch     READ detectTask_gimbal_pitch                            CONSTANT)
-    Q_PROPERTY(Fact*            detectTask_model            READ detectTask_model                                   CONSTANT)
-    Q_PROPERTY(Fact*            detectTask_drone_rotation   READ detectTask_drone_rotation                          CONSTANT)
-    Q_PROPERTY(Fact*            detectTask_sample_rate      READ detectTask_sample_rate                             CONSTANT) 
-    Q_PROPERTY(Fact*            detectTask_hover_delay      READ detectTask_hover_delay                             CONSTANT)
-    Q_PROPERTY(QStringList      detectTask_modellist        MEMBER _detectTask_modellist                            CONSTANT)
-    Q_PROPERTY(QString          detectTask_model_2          MEMBER _detectTask_model_2                              WRITE setDetectTask_model)
+    // // detect task
+    // Q_PROPERTY(Fact*            detectTask                  READ detectTask                                         CONSTANT)
+    // Q_PROPERTY(Fact*            detectTask_gimbal_pitch     READ detectTask_gimbal_pitch                            CONSTANT)
+    // Q_PROPERTY(Fact*            detectTask_model            READ detectTask_model                                   CONSTANT)
+    // Q_PROPERTY(Fact*            detectTask_drone_rotation   READ detectTask_drone_rotation                          CONSTANT)
+    // Q_PROPERTY(Fact*            detectTask_sample_rate      READ detectTask_sample_rate                             CONSTANT) 
+    // Q_PROPERTY(Fact*            detectTask_hover_delay      READ detectTask_hover_delay                             CONSTANT)
+    // Q_PROPERTY(QStringList      detectTask_modellist        MEMBER _detectTask_modellist                            CONSTANT)
+    // Q_PROPERTY(QString          detectTask_model_2          MEMBER _detectTask_model_2                              WRITE setDetectTask_model)
     
-    // obstacle task
-    Q_PROPERTY(Fact*            obstacleTask_model          READ obstacleTask_model                                 CONSTANT)
-    Q_PROPERTY(Fact*            obstacleTask_speed          READ obstacleTask_speed                                 CONSTANT)
-    Q_PROPERTY(Fact*            obstacleTask_altitude       READ obstacleTask_altitude                              CONSTANT)
+    // // obstacle task
+    // Q_PROPERTY(Fact*            obstacleTask_model          READ obstacleTask_model                                 CONSTANT)
+    // Q_PROPERTY(Fact*            obstacleTask_speed          READ obstacleTask_speed                                 CONSTANT)
+    // Q_PROPERTY(Fact*            obstacleTask_altitude       READ obstacleTask_altitude                              CONSTANT)
 
-    // tracking task 
-    Q_PROPERTY(Fact*            trackingTask_gimbal_pitch   READ trackingTask_gimbal_pitch                          CONSTANT)
-    Q_PROPERTY(Fact*            trackingTask_model          READ trackingTask_model                                 CONSTANT)
-    Q_PROPERTY(Fact*            trackingTask_class          READ trackingTask_class                                 CONSTANT)
-    Q_PROPERTY(QStringList      trackingTask_modellist        MEMBER _trackingTask_modellist                        CONSTANT)
-    Q_PROPERTY(QString          trackingTask_model_2          MEMBER _trackingTask_model_2                          WRITE setTrackingTask_model)
+    // // tracking task 
+    // Q_PROPERTY(Fact*            trackingTask_gimbal_pitch   READ trackingTask_gimbal_pitch                          CONSTANT)
+    // Q_PROPERTY(Fact*            trackingTask_model          READ trackingTask_model                                 CONSTANT)
+    // Q_PROPERTY(Fact*            trackingTask_class          READ trackingTask_class                                 CONSTANT)
+    // Q_PROPERTY(QStringList      trackingTask_modellist        MEMBER _trackingTask_modellist                        CONSTANT)
+    // Q_PROPERTY(QString          trackingTask_model_2          MEMBER _trackingTask_model_2                          WRITE setTrackingTask_model)
     
     Q_PROPERTY(QGCMapPolygon*   surveyAreaPolygon           READ surveyAreaPolygon                                  CONSTANT)
     Q_PROPERTY(CameraCalc*      cameraCalc                  READ cameraCalc                                         CONSTANT)
@@ -73,32 +73,32 @@ public:
 
     Fact* turnAroundDistance            (void) { return &_turnAroundDistanceFact; }
 
-    //detect task
-    Fact* detectTask                    (void) { return &_detectTaskFact; }
-    Fact* detectTask_gimbal_pitch       (void) { return &_detectTask_gimbal_pitchFact; }
-    Fact* detectTask_model              (void) {return &_detectTask_modelFact;}
-    Fact* detectTask_drone_rotation     (void) {return &_detectTask_drone_rotationFact;}
-    Fact* detectTask_sample_rate        (void) {return &_detectTask_sample_rateFact;} 
-    Fact* detectTask_hover_delay        (void) {return &_detectTask_hover_delayFact;}
+    // //detect task
+    // Fact* detectTask                    (void) { return &_detectTaskFact; }
+    // Fact* detectTask_gimbal_pitch       (void) { return &_detectTask_gimbal_pitchFact; }
+    // Fact* detectTask_model              (void) {return &_detectTask_modelFact;}
+    // Fact* detectTask_drone_rotation     (void) {return &_detectTask_drone_rotationFact;}
+    // Fact* detectTask_sample_rate        (void) {return &_detectTask_sample_rateFact;} 
+    // Fact* detectTask_hover_delay        (void) {return &_detectTask_hover_delayFact;}
 
-    void  setDetectTask_model           (const QString& detectTask_model);
-    QString  detectTask_model_2        (void) {return _detectTask_model_2;}
+    // void  setDetectTask_model           (const QString& detectTask_model);
+    // QString  detectTask_model_2        (void) {return _detectTask_model_2;}
         
-    // obstacle task
+    // // obstacle task
 
-    Fact* obstacleTask_model            (void) { return &_obstacleTask_modelFact; }
-    Fact* obstacleTask_speed            (void) { return &_obstacleTask_speedFact; }
-    Fact* obstacleTask_altitude         (void) {return &_obstacleTask_altitudeFact;}
-
-
-    // tracking task
-    Fact* trackingTask_gimbal_pitch     (void) { return &_trackingTask_gimbal_pitchFact; }
-    Fact* trackingTask_model            (void) { return &_trackingTask_modelFact; }
-    Fact* trackingTask_class            (void) {return &_trackingTask_classFact;} 
+    // Fact* obstacleTask_model            (void) { return &_obstacleTask_modelFact; }
+    // Fact* obstacleTask_speed            (void) { return &_obstacleTask_speedFact; }
+    // Fact* obstacleTask_altitude         (void) {return &_obstacleTask_altitudeFact;}
 
 
-    void  setTrackingTask_model          (const QString& trackingTask_model);
-    QString  trackingTask_model_2        (void) {return _trackingTask_model_2;}
+    // // tracking task
+    // Fact* trackingTask_gimbal_pitch     (void) { return &_trackingTask_gimbal_pitchFact; }
+    // Fact* trackingTask_model            (void) { return &_trackingTask_modelFact; }
+    // Fact* trackingTask_class            (void) {return &_trackingTask_classFact;} 
+
+
+    // void  setTrackingTask_model          (const QString& trackingTask_model);
+    // QString  trackingTask_model_2        (void) {return _trackingTask_model_2;}
 
 
     Fact* cameraTriggerInTurnAround     (void) { return &_cameraTriggerInTurnAroundFact; }
@@ -160,24 +160,24 @@ public:
     double              minAMSLAltitude             (void) const final;
     double              maxAMSLAltitude             (void) const final;
 
-    //detect task
-    static const char* detectTaskName;
-    static const char* detectTask_gimbal_pitchName;
-    static const char* detectTask_modelName;            
-    static const char* detectTask_drone_rotationName;
-    static const char* detectTask_sample_rateName;
-    static const char* detectTask_hover_delayName;
+    // //detect task
+    // static const char* detectTaskName;
+    // static const char* detectTask_gimbal_pitchName;
+    // static const char* detectTask_modelName;            
+    // static const char* detectTask_drone_rotationName;
+    // static const char* detectTask_sample_rateName;
+    // static const char* detectTask_hover_delayName;
 
-    // obstacle task
-    static const char* obstacleTask_modelName;
-    static const char* obstacleTask_speedName;
-    static const char* obstacleTask_altitudeName;  
+    // // obstacle task
+    // static const char* obstacleTask_modelName;
+    // static const char* obstacleTask_speedName;
+    // static const char* obstacleTask_altitudeName;  
 
 
-    // tracking task
-    static const char* trackingTask_gimbal_pitchName;
-    static const char* trackingTask_modelName;
-    static const char* trackingTask_className;  
+    // // tracking task
+    // static const char* trackingTask_gimbal_pitchName;
+    // static const char* trackingTask_modelName;
+    // static const char* trackingTask_className;  
 
     
 
@@ -216,7 +216,7 @@ protected:
     double  _triggerDistance                (void) const;
     bool    _hasTurnaround                  (void) const;
     double  _turnAroundDistance             (void) const;
-    QString _detectTask                     (void) const;
+    // QString _detectTask                     (void) const;
     void    _appendWaypoint                 (QList<MissionItem*>& items, QObject* missionItemParent, int& seqNum, MAV_FRAME mavFrame, float holdTime, const QGeoCoordinate& coordinate);
     void    _appendSinglePhotoCapture       (QList<MissionItem*>& items, QObject* missionItemParent, int& seqNum);
     void    _appendConditionGate            (QList<MissionItem*>& items, QObject* missionItemParent, int& seqNum, MAV_FRAME mavFrame, const QGeoCoordinate& coordinate);
@@ -267,27 +267,27 @@ protected:
     QMap<QString, FactMetaData*> _metaDataMap;
 
 
-    // detect task
-    SettingsFact _detectTaskFact;
-    SettingsFact _detectTask_gimbal_pitchFact;
-    SettingsFact _detectTask_modelFact;            
-    SettingsFact _detectTask_drone_rotationFact;
-    SettingsFact _detectTask_sample_rateFact;
-    SettingsFact _detectTask_hover_delayFact;
-    QStringList  _detectTask_modellist;
-    QString      _detectTask_model_2 = "coco";
+    // // detect task
+    // SettingsFact _detectTaskFact;
+    // SettingsFact _detectTask_gimbal_pitchFact;
+    // SettingsFact _detectTask_modelFact;            
+    // SettingsFact _detectTask_drone_rotationFact;
+    // SettingsFact _detectTask_sample_rateFact;
+    // SettingsFact _detectTask_hover_delayFact;
+    // QStringList  _detectTask_modellist;
+    // QString      _detectTask_model_2 = "coco";
     
-    // obstacle task
-    SettingsFact _obstacleTask_modelFact;
-    SettingsFact _obstacleTask_speedFact;
-    SettingsFact _obstacleTask_altitudeFact; 
+    // // obstacle task
+    // SettingsFact _obstacleTask_modelFact;
+    // SettingsFact _obstacleTask_speedFact;
+    // SettingsFact _obstacleTask_altitudeFact; 
 
-    // tracking task
-    SettingsFact _trackingTask_gimbal_pitchFact;
-    SettingsFact _trackingTask_modelFact;
-    SettingsFact _trackingTask_classFact;
-    QStringList  _trackingTask_modellist;
-    QString      _trackingTask_model_2 = "coco";
+    // // tracking task
+    // SettingsFact _trackingTask_gimbal_pitchFact;
+    // SettingsFact _trackingTask_modelFact;
+    // SettingsFact _trackingTask_classFact;
+    // QStringList  _trackingTask_modellist;
+    // QString      _trackingTask_model_2 = "coco";
       
 
     SettingsFact _turnAroundDistanceFact;
@@ -321,7 +321,7 @@ private:
         bool hasTurnarounds;
         bool addTriggerAtFirstAndLastPoint;
         bool useConditionGate;
-        bool hasDetectTask;
+        // bool hasDetectTask;
     } BuildMissionItemsState_t;
 
     void    _queryTransectsPathHeightInfo                                   (void);

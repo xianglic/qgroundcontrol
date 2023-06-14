@@ -22,6 +22,7 @@
 #include "TransectStyleComplexItem.h"
 #include "StructureScanComplexItem.h"
 #include "SimpleMissionItem.h"
+#include "TakeoffMissionItem.h"
 
 #include <iostream>
 #include <QVariant>
@@ -38,49 +39,49 @@ KMLPlanDomDocument::KMLPlanDomDocument()
     _addStyles();
 }
 
-void getDescription(QString& htmlString, TransectStyleComplexItem* complexItem){
+void getDescription(QString& htmlString, TakeoffMissionItem* item){
 
     QString convertedValue;
-    QGroundControlQmlGlobal::SteelEagleMode mode = (complexItem->steelEagleMode());
+    QGroundControlQmlGlobal::SteelEagleMode mode = (item->steelEagleMode());
     
     switch (mode)
     {
     case QGroundControlQmlGlobal::SteelEagleMode::DetectTask:
         
-        convertedValue = (complexItem->detectTask_gimbal_pitch())->cookedValue().toString();
+        convertedValue = (item->detectTask_gimbal_pitch())->cookedValue().toString();
         htmlString += QStringLiteral("DetectTask: {gimbal_pitch: '%1',").arg(convertedValue);
-        convertedValue = (complexItem->detectTask_drone_rotation())->cookedValue().toString();
+        convertedValue = (item->detectTask_drone_rotation())->cookedValue().toString();
         htmlString += QStringLiteral("drone_rotation: '%1',").arg(convertedValue);
-        convertedValue = (complexItem->detectTask_sample_rate())->cookedValue().toString();
+        convertedValue = (item->detectTask_sample_rate())->cookedValue().toString();
         htmlString += QStringLiteral("sample_rate: '%1',").arg(convertedValue);
-        convertedValue = (complexItem->detectTask_hover_delay())->cookedValue().toString();
+        convertedValue = (item->detectTask_hover_delay())->cookedValue().toString();
         htmlString += QStringLiteral("hover_delay: '%1',").arg(convertedValue);
         
-        convertedValue = (complexItem->detectTask_model_2());
+        convertedValue = (item->detectTask_model_2());
         htmlString += QStringLiteral("model: '%1'}").arg(convertedValue);
-        // convertedValue = (complexItem->detectTask_model())->cookedValue().toString();
+        // convertedValue = (item->detectTask_model())->cookedValue().toString();
         // htmlString += QStringLiteral("model: '%1'}").arg(convertedValue);
 
         break;
     case QGroundControlQmlGlobal::SteelEagleMode::ObstacleTask:
-        convertedValue = (complexItem->obstacleTask_model())->cookedValue().toString();
-        htmlString += QStringLiteral("ObstacleTask: {model: '%1',").arg(convertedValue);
-        convertedValue = (complexItem->obstacleTask_speed())->cookedValue().toString();
+        // convertedValue = (item->obstacleTask_model())->cookedValue().toString();
+        // htmlString += QStringLiteral("ObstacleTask: {model: '%1',").arg(convertedValue);
+        convertedValue = (item->obstacleTask_speed())->cookedValue().toString();
         htmlString += QStringLiteral("speed: '%1',").arg(convertedValue);
-        convertedValue = (complexItem->obstacleTask_altitude())->cookedValue().toString();
+        convertedValue = (item->obstacleTask_altitude())->cookedValue().toString();
         htmlString += QStringLiteral("altitude: '%1'}").arg(convertedValue);
         break;
     case QGroundControlQmlGlobal::SteelEagleMode::TrackingTask:
-        convertedValue = (complexItem->trackingTask_gimbal_pitch())->cookedValue().toString();
+        convertedValue = (item->trackingTask_gimbal_pitch())->cookedValue().toString();
         htmlString += QStringLiteral("TrackingTask: {gimbal_pitch: '%1',").arg(convertedValue);
-        // convertedValue = (complexItem->trackingTask_model())->cookedValue().toString();
+        // convertedValue = (item->trackingTask_model())->cookedValue().toString();
         // htmlString += QStringLiteral("model: '%1',").arg(convertedValue);
 
 
-        convertedValue = (complexItem->trackingTask_model_2());
+        convertedValue = (item->trackingTask_model_2());
         htmlString += QStringLiteral("model: '%1',").arg(convertedValue);
 
-        convertedValue = (complexItem->trackingTask_class())->cookedValue().toString();
+        convertedValue = (item->trackingTask_class())->cookedValue().toString();
         htmlString += QStringLiteral("class: '%1'}").arg(convertedValue);
 
         break;
@@ -89,157 +90,160 @@ void getDescription(QString& htmlString, TransectStyleComplexItem* complexItem){
     }
 }
 
-void KMLPlanDomDocument::_formatKMLComplex(QString htmlString, int& taskCounter, QmlObjectListModel* subseqItemsList ){
-    // add place mark
-    QDomElement placemarkElement = createElement("Placemark");
-    _rootDocumentElement.appendChild(placemarkElement);
-    addTextElement(placemarkElement, "name",         "SteelEagleTask"+ QString::number(taskCounter));
-    taskCounter++;
+// void KMLPlanDomDocument::_formatKMLComplex(QString htmlString, int& taskCounter, QmlObjectListModel* subseqItemsList ){
 
-    // add description of the task
-    QDomElement descriptionElement = createElement("description");
+//     // add place mark
+//     QDomElement placemarkElement = createElement("Placemark");
+//     _rootDocumentElement.appendChild(placemarkElement);
+//     addTextElement(placemarkElement, "name",         "SteelEagleTask"+ QString::number(taskCounter));
+//     taskCounter++;
 
-    // add html string
-    QDomCDATASection cdataSection = createCDATASection(htmlString);
-    descriptionElement.appendChild(cdataSection);
-    placemarkElement.appendChild(descriptionElement);
+//     // add description of the task
+//     QDomElement descriptionElement = createElement("description");
+
+//     // add html string
+//     QDomCDATASection cdataSection = createCDATASection(htmlString);
+//     descriptionElement.appendChild(cdataSection);
+//     placemarkElement.appendChild(descriptionElement);
 
 
-    // Build up all missions points for task
-    QList<QGeoCoordinate> rgFlightCoords;
-    for (int i=0; i<subseqItemsList->count(); i++){
-        FlightPathSegment* flightPath = subseqItemsList->value<FlightPathSegment*>(i);
-        QGeoCoordinate coordi_1 = flightPath->coordinate1();
-        double altitude = qIsNaN(flightPath->coord1AMSLAlt() ) ? 0 : flightPath->coord1AMSLAlt();
-        coordi_1.setAltitude(altitude);
+//     // Build up all missions points for task
+//     QList<QGeoCoordinate> rgFlightCoords;
+//     for (int i=0; i<subseqItemsList->count(); i++){
+//         FlightPathSegment* flightPath = subseqItemsList->value<FlightPathSegment*>(i);
+//         QGeoCoordinate coordi_1 = flightPath->coordinate1();
+//         double altitude = qIsNaN(flightPath->coord1AMSLAlt() ) ? 0 : flightPath->coord1AMSLAlt();
+//         coordi_1.setAltitude(altitude);
 
-        //debug
-        std::cout << std::fixed << std::setprecision(7) << "subLongitude1: " << coordi_1.longitude() << " ";
-        std::cout << std::fixed << std::setprecision(7) << "subLatitude1: " << coordi_1.latitude() << " ";
-        std::cout << std::fixed << std::setprecision(7) << "subaltitude1: " << altitude << std::endl;
+//         //debug
+//         std::cout << std::fixed << std::setprecision(7) << "subLongitude1: " << coordi_1.longitude() << " ";
+//         std::cout << std::fixed << std::setprecision(7) << "subLatitude1: " << coordi_1.latitude() << " ";
+//         std::cout << std::fixed << std::setprecision(7) << "subaltitude1: " << altitude << std::endl;
 
-        rgFlightCoords += coordi_1;
+//         rgFlightCoords += coordi_1;
         
-        if (i == subseqItemsList->count() - 1){ // last one coordinate 2 must be included
-            QGeoCoordinate coordi_2 = flightPath->coordinate2();
-            double altitude = qIsNaN(flightPath->coord2AMSLAlt() ) ? 0 : flightPath->coord2AMSLAlt();
-            coordi_2.setAltitude(altitude);
+//         if (i == subseqItemsList->count() - 1){ // last one coordinate 2 must be included
+//             QGeoCoordinate coordi_2 = flightPath->coordinate2();
+//             double altitude = qIsNaN(flightPath->coord2AMSLAlt() ) ? 0 : flightPath->coord2AMSLAlt();
+//             coordi_2.setAltitude(altitude);
 
-            // debug
-            std::cout << std::fixed << std::setprecision(7) << "subLongitude2: " << coordi_2.longitude() << " ";
-            std::cout << std::fixed << std::setprecision(7) << "subLatitude2: " << coordi_2.latitude() << " ";
-            std::cout << std::fixed << std::setprecision(7) << "subaltitude2: " << altitude << std::endl;
+//             // debug
+//             std::cout << std::fixed << std::setprecision(7) << "subLongitude2: " << coordi_2.longitude() << " ";
+//             std::cout << std::fixed << std::setprecision(7) << "subLatitude2: " << coordi_2.latitude() << " ";
+//             std::cout << std::fixed << std::setprecision(7) << "subaltitude2: " << altitude << std::endl;
             
             
-            rgFlightCoords += coordi_2;
-        }
-    }
+//             rgFlightCoords += coordi_2;
+//         }
+//     }
 
-    // Create a LineString element from the coords
-    QDomElement lineStringElement = createElement("LineString");
-    placemarkElement.appendChild(lineStringElement);
+//     // Create a LineString element from the coords
+//     QDomElement lineStringElement = createElement("LineString");
+//     placemarkElement.appendChild(lineStringElement);
 
-    QString coordString;
-    for (const QGeoCoordinate& coord : rgFlightCoords) {
-        coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
-    }
-    addTextElement(lineStringElement, "coordinates", coordString);
-}
+//     QString coordString;
+//     for (const QGeoCoordinate& coord : rgFlightCoords) {
+//         coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
+//     }
+//     addTextElement(lineStringElement, "coordinates", coordString);
+// }
 
-void KMLPlanDomDocument::_formatKML(QString convertedValue, int& taskCounter, QmlObjectListModel* subseqItemsList ){
-    // add place mark
-    QDomElement placemarkElement = createElement("Placemark");
-    _rootDocumentElement.appendChild(placemarkElement);
-    addTextElement(placemarkElement, "name",         "SteelEagleTask"+ QString::number(taskCounter));
-    taskCounter++;
+// void KMLPlanDomDocument::_formatKML(QString convertedValue, int& taskCounter, QmlObjectListModel* subseqItemsList ){
 
-    // add description of the task
-    QDomElement descriptionElement = createElement("description");
-    QString htmlString;
+//     // add place mark
+//     QDomElement placemarkElement = createElement("Placemark");
+//     _rootDocumentElement.appendChild(placemarkElement);
+//     addTextElement(placemarkElement, "name",         "SteelEagleTask"+ QString::number(taskCounter));
+//     taskCounter++;
 
-    htmlString += QStringLiteral("DetectTask: {model: '%1'}\n").arg(convertedValue);
-    QDomCDATASection cdataSection = createCDATASection(htmlString);
-    descriptionElement.appendChild(cdataSection);
-    placemarkElement.appendChild(descriptionElement);
+//     // add description of the task
+//     QDomElement descriptionElement = createElement("description");
+//     QString htmlString;
+
+//     htmlString += QStringLiteral("DetectTask: {model: '%1'}\n").arg(convertedValue);
+//     QDomCDATASection cdataSection = createCDATASection(htmlString);
+//     descriptionElement.appendChild(cdataSection);
+//     placemarkElement.appendChild(descriptionElement);
 
 
-    // Build up all missions points for task
-    QList<QGeoCoordinate> rgFlightCoords;
-    for (int i=0; i<subseqItemsList->count(); i++){
-        FlightPathSegment* flightPath = subseqItemsList->value<FlightPathSegment*>(i);
-        QGeoCoordinate coordi_1 = flightPath->coordinate1();
-        double altitude = qIsNaN(flightPath->coord1AMSLAlt() ) ? 0 : flightPath->coord1AMSLAlt();
-        coordi_1.setAltitude(altitude);
+//     // Build up all missions points for task
+//     QList<QGeoCoordinate> rgFlightCoords;
+//     for (int i=0; i<subseqItemsList->count(); i++){
+//         FlightPathSegment* flightPath = subseqItemsList->value<FlightPathSegment*>(i);
+//         QGeoCoordinate coordi_1 = flightPath->coordinate1();
+//         double altitude = qIsNaN(flightPath->coord1AMSLAlt() ) ? 0 : flightPath->coord1AMSLAlt();
+//         coordi_1.setAltitude(altitude);
 
-        //debug
-        std::cout << std::fixed << std::setprecision(7) << "subLongitude1: " << coordi_1.longitude() << " ";
-        std::cout << std::fixed << std::setprecision(7) << "subLatitude1: " << coordi_1.latitude() << " ";
-        std::cout << std::fixed << std::setprecision(7) << "subaltitude1: " << altitude << std::endl;
+//         //debug
+//         std::cout << std::fixed << std::setprecision(7) << "subLongitude1: " << coordi_1.longitude() << " ";
+//         std::cout << std::fixed << std::setprecision(7) << "subLatitude1: " << coordi_1.latitude() << " ";
+//         std::cout << std::fixed << std::setprecision(7) << "subaltitude1: " << altitude << std::endl;
 
-        rgFlightCoords += coordi_1;
+//         rgFlightCoords += coordi_1;
         
-        if (i == subseqItemsList->count() - 1){ // last one coordinate 2 must be included
-            QGeoCoordinate coordi_2 = flightPath->coordinate2();
-            double altitude = qIsNaN(flightPath->coord2AMSLAlt() ) ? 0 : flightPath->coord2AMSLAlt();
-            coordi_2.setAltitude(altitude);
+//         if (i == subseqItemsList->count() - 1){ // last one coordinate 2 must be included
+//             QGeoCoordinate coordi_2 = flightPath->coordinate2();
+//             double altitude = qIsNaN(flightPath->coord2AMSLAlt() ) ? 0 : flightPath->coord2AMSLAlt();
+//             coordi_2.setAltitude(altitude);
 
-            // debug
-            std::cout << std::fixed << std::setprecision(7) << "subLongitude2: " << coordi_2.longitude() << " ";
-            std::cout << std::fixed << std::setprecision(7) << "subLatitude2: " << coordi_2.latitude() << " ";
-            std::cout << std::fixed << std::setprecision(7) << "subaltitude2: " << altitude << std::endl;
+//             // debug
+//             std::cout << std::fixed << std::setprecision(7) << "subLongitude2: " << coordi_2.longitude() << " ";
+//             std::cout << std::fixed << std::setprecision(7) << "subLatitude2: " << coordi_2.latitude() << " ";
+//             std::cout << std::fixed << std::setprecision(7) << "subaltitude2: " << altitude << std::endl;
             
             
-            rgFlightCoords += coordi_2;
-        }
-    }
+//             rgFlightCoords += coordi_2;
+//         }
+//     }
 
-    // Create a LineString element from the coords
-    QDomElement lineStringElement = createElement("LineString");
-    placemarkElement.appendChild(lineStringElement);
+//     // Create a LineString element from the coords
+//     QDomElement lineStringElement = createElement("LineString");
+//     placemarkElement.appendChild(lineStringElement);
 
-    QString coordString;
-    for (const QGeoCoordinate& coord : rgFlightCoords) {
-        coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
-    }
-    addTextElement(lineStringElement, "coordinates", coordString);
-}
-void KMLPlanDomDocument::_addCustomizedTask(Vehicle* vehicle, QList<MissionItem*> rgMissionItems, QmlObjectListModel* visualItems){
+//     QString coordString;
+//     for (const QGeoCoordinate& coord : rgFlightCoords) {
+//         coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
+//     }
+//     addTextElement(lineStringElement, "coordinates", coordString);
+// }
 
-    // build up the flight path points
-    int taskCounter = 1;
-    for (int i=0; i<visualItems->count(); i++) {
-        // debug
-        std::cout << "chen test " << "\n";
-        TransectStyleComplexItem* complexItem = visualItems->value<TransectStyleComplexItem*>(i);
-        StructureScanComplexItem* structureScanItem = visualItems->value<StructureScanComplexItem*>(i);
-        if (complexItem) {
-            QString convertedValue;
-            Fact* detectFact = (complexItem->detectTask());
-            // Read the value using the appropriate getter function
-            QVariant value = detectFact->cookedValue();
-            // Convert the QVariant to the desired type if needed
-            convertedValue = value.toString();
-            QmlObjectListModel* subseqItemsList = complexItem->flightPathSegments();
+// void KMLPlanDomDocument::_addCustomizedTask(Vehicle* vehicle, QList<MissionItem*> rgMissionItems, QmlObjectListModel* visualItems){
 
-            QString htmlString;
-            getDescription(htmlString, complexItem);
+//     // build up the flight path points
+//     int taskCounter = 1;
+//     for (int i=0; i<visualItems->count(); i++) {
+//         // debug
+//         std::cout << "chen test " << "\n";
+//         TransectStyleComplexItem* complexItem = visualItems->value<TransectStyleComplexItem*>(i);
+//         StructureScanComplexItem* structureScanItem = visualItems->value<StructureScanComplexItem*>(i);
+//         if (complexItem) {
+//             QString convertedValue;
+//             Fact* detectFact = (complexItem->detectTask());
+//             // Read the value using the appropriate getter function
+//             QVariant value = detectFact->cookedValue();
+//             // Convert the QVariant to the desired type if needed
+//             convertedValue = value.toString();
+//             QmlObjectListModel* subseqItemsList = complexItem->flightPathSegments();
 
-            _formatKMLComplex(htmlString, taskCounter, subseqItemsList);
+//             QString htmlString;
+//             getDescription(htmlString, complexItem);
 
-        }else if (structureScanItem){
-            std::cout << "HI ";
-            Fact* detectModel = (structureScanItem->detectModel());
-            // Read the value using the appropriate getter function
-            QVariant value = detectModel->cookedValue();
-            // Convert the QVariant to the desired type if needed
-            QString convertedValue = value.toString();
-            std::cout << "HI "<<convertedValue.toStdString();
+//             _formatKMLComplex(htmlString, taskCounter, subseqItemsList);
 
-            QmlObjectListModel* subseqItemsList = structureScanItem->flightPathSegments();
-            _formatKML(convertedValue, taskCounter, subseqItemsList);
-        }
-    }
-}
+//         }else if (structureScanItem){
+//             std::cout << "HI ";
+//             Fact* detectModel = (structureScanItem->detectModel());
+//             // Read the value using the appropriate getter function
+//             QVariant value = detectModel->cookedValue();
+//             // Convert the QVariant to the desired type if needed
+//             QString convertedValue = value.toString();
+//             std::cout << "HI "<<convertedValue.toStdString();
+
+//             QmlObjectListModel* subseqItemsList = structureScanItem->flightPathSegments();
+//             _formatKML(convertedValue, taskCounter, subseqItemsList);
+//         }
+//     }
+// }
 
 
 void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rgMissionItems)
@@ -332,12 +336,22 @@ void KMLPlanDomDocument::_addComplexItems(QmlObjectListModel* visualItems)
 {
     for (int i=0; i<visualItems->count(); i++) {
         std::cout<<"hi this is one count\n";
-        VisualMissionItem* simpleItem = visualItems->value<VisualMissionItem*>(i);
-        if (simpleItem) {
-            QGeoCoordinate g = simpleItem->coordinate();
-            std::cout<<"hi this is one visial\n";
-            std::cout<<"geo: "<<kmlCoordString(g).toStdString();
+        TakeoffMissionItem* takeoff = visualItems->value<TakeoffMissionItem*>(i);
+        if (takeoff) {
+            std::cout<<"hi this is takeoff\n";
+
+  
+            
+            QGeoCoordinate g = takeoff->coordinate();
+            std::cout<<"geo: "<<kmlCoordString(g).toStdString()<<"\n";
+
+            QString test;
+            getDescription(test, takeoff);
+            std::cout<<"des: "<<test.toStdString()<<"\n";
+            
         }
+
+
         // ComplexMissionItem* complexItem = visualItems->value<ComplexMissionItem*>(i);
         // if (complexItem) {
         //     complexItem->addKMLVisuals(*this);
@@ -349,7 +363,7 @@ void KMLPlanDomDocument::addMission(Vehicle* vehicle, QmlObjectListModel* visual
 {
     // _addFlightPath(vehicle, rgMissionItems);
     _addComplexItems(visualItems);
-    _addCustomizedTask(vehicle, rgMissionItems,  visualItems);
+    // _addCustomizedTask(vehicle, rgMissionItems,  visualItems);
 
 }
 

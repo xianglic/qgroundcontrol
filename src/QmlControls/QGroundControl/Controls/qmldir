@@ -100,7 +100,6 @@ SetupPage                               1.0 SetupPage.qml
 SignalStrength                          1.0 SignalStrength.qml
 SimpleItemMapVisuals                    1.0 SimpleItemMapVisuals.qml
 SimpleItemTabBar                        1.0 SimpleItemTabBar.qml
-SimpleItemScottyFollow                  1.0 SimpleItemScottyFollow.qml
 SliderSwitch                            1.0 SliderSwitch.qml
 SubMenuButton                           1.0 SubMenuButton.qml
 SurveyMapVisuals                        1.0 SurveyMapVisuals.qml

@@ -27,7 +27,7 @@ ComplexMissionItem::ComplexMissionItem(PlanMasterController* masterController, b
     : VisualMissionItem (masterController, flyView)
     , _toolbox          (qgcApp()->toolbox())
     , _settingsManager  (_toolbox->settingsManager())
-    , _steelEagleMode   (masterController->missionController()->globalSteelEagleModeDefault())
+    // , _steelEagleMode   (masterController->missionController()->globalSteelEagleModeDefault())
 {
     connect(_missionController, &MissionController::plannedHomePositionChanged,         this, &ComplexMissionItem::_amslEntryAltChanged);
     connect(_missionController, &MissionController::plannedHomePositionChanged,         this, &ComplexMissionItem::_amslExitAltChanged);
@@ -152,11 +152,11 @@ void ComplexMissionItem::_segmentTerrainCollisionChanged(bool terrainCollision)
 }
 
 
-void ComplexMissionItem::setSteelEagleMode(QGroundControlQmlGlobal::SteelEagleMode seMode)
-{
-    if (seMode != _steelEagleMode) {
-        _steelEagleMode = seMode;
-        // std::cout<< "hi test, setting the mode: "<< seMode;
-        emit steelEagleModeChanged(_steelEagleMode);
-    }
-}
+// void ComplexMissionItem::setSteelEagleMode(QGroundControlQmlGlobal::SteelEagleMode seMode)
+// {
+//     if (seMode != _steelEagleMode) {
+//         _steelEagleMode = seMode;
+//         // std::cout<< "hi test, setting the mode: "<< seMode;
+//         emit steelEagleModeChanged(_steelEagleMode);
+//     }
+// }

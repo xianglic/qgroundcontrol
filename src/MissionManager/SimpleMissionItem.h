@@ -53,11 +53,6 @@ public:
     Q_PROPERTY(QmlObjectListModel*  nanFacts        READ nanFacts       CONSTANT)
 
 
-    // Steel Eagle Mode
-    Q_PROPERTY(QGroundControlQmlGlobal::SteelEagleMode seMode READ steelEagleMode WRITE setSteelEagleMode NOTIFY steelEagleModeChanged)
-
-    QGroundControlQmlGlobal::SteelEagleMode steelEagleMode(void) const { return _steelEagleMode; }
-    void setSteelEagleMode               (QGroundControlQmlGlobal::SteelEagleMode seMode);
 
 
 
@@ -158,7 +153,7 @@ signals:
     void isLoiterItemChanged        (void);
     void showLoiterRadiusChanged    (void);
     void loiterRadiusChanged        (double loiterRadius);
-    void steelEagleModeChanged      (int seMode);
+    
 
 private slots:
     void _setDirty                              (void);
@@ -226,7 +221,7 @@ private:
     static const char* _jsonAltitudeKey;
     static const char* _jsonAMSLAltAboveTerrainKey;
 
-    QGroundControlQmlGlobal::SteelEagleMode    _steelEagleMode               = QGroundControlQmlGlobal::DetectTask;
+   
 };
 
 #endif
