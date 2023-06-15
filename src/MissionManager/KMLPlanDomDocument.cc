@@ -39,6 +39,8 @@ KMLPlanDomDocument::KMLPlanDomDocument()
     _addStyles();
 }
 
+
+
 void getDescription(QString& htmlString, TakeoffMissionItem* item){
 
     QString convertedValue;
@@ -334,29 +336,77 @@ void KMLPlanDomDocument::_addFlightPath(Vehicle* vehicle, QList<MissionItem*> rg
 
 void KMLPlanDomDocument::_addComplexItems(QmlObjectListModel* visualItems)
 {
+    QString description;
+    QList<QGeoCoordinate> rgFlightCoords;
     for (int i=0; i<visualItems->count(); i++) {
         std::cout<<"hi this is one count\n";
         TakeoffMissionItem* takeoff = visualItems->value<TakeoffMissionItem*>(i);
+        SimpleMissionItem* simpleItem = visualItems->value<SimpleMissionItem*>(i);
+        ComplexMissionItem* complexItem = visualItems->value<ComplexMissionItem*>(i);
         if (takeoff) {
             std::cout<<"hi this is takeoff\n";
 
-  
-            
             QGeoCoordinate g = takeoff->coordinate();
-            std::cout<<"geo: "<<kmlCoordString(g).toStdString()<<"\n";
+            Fact* alt = takeoff->altitude();
 
-            QString test;
-            getDescription(test, takeoff);
-            std::cout<<"des: "<<test.toStdString()<<"\n";
-            
+            QString convertedValue;
+            // Read the value using the appropriate getter function
+            QVariant value = alt->cookedValue();
+            // Convert the QVariant to the desired type if needed
+            convertedValue = value.toString();
+
+            std::cout<<"take off geo: "<<kmlCoordString(g).toStdString()<<"\n";
+            std::cout<<"take off geo alt: "<<convertedValue.toStdString()<<"\n";
+            getDescription(description, takeoff);
+            rgFlightCoords += g;
+        }else if (simpleItem){
+            QGeoCoordinate g = simpleItem->coordinate();
+            std::cout<<" waypoint geo: "<<kmlCoordString(g).toStdString()<<"\n";
+            rgFlightCoords += g;
+        }else if (complexItem){
+
+            QmlObjectListModel* subseqItemsList = complexItem->flightPathSegments();
+
+            std::cout<<" complex geo: "<<"\n";
+            for (int i=0; i<subseqItemsList->count(); i++){
+                FlightPathSegment* flightPath = subseqItemsList->value<FlightPathSegment*>(i);
+                QGeoCoordinate coordi_1 = flightPath->coordinate1();
+                double altitude = qIsNaN(flightPath->coord1AMSLAlt() ) ? 0 : flightPath->coord1AMSLAlt();
+                coordi_1.setAltitude(altitude);
+
+                //debug
+                std::cout << std::fixed << std::setprecision(7) << "subLongitude1: " << coordi_1.longitude() << " ";
+                std::cout << std::fixed << std::setprecision(7) << "subLatitude1: " << coordi_1.latitude() << " ";
+                std::cout << std::fixed << std::setprecision(7) << "subaltitude1: " << altitude << std::endl;
+
+                rgFlightCoords += coordi_1;
+                
+                if (i == subseqItemsList->count() - 1){ // last one coordinate 2 must be included
+                    QGeoCoordinate coordi_2 = flightPath->coordinate2();
+                    double altitude = qIsNaN(flightPath->coord2AMSLAlt() ) ? 0 : flightPath->coord2AMSLAlt();
+                    coordi_2.setAltitude(altitude);
+
+                    // debug
+                    std::cout << std::fixed << std::setprecision(7) << "subLongitude2: " << coordi_2.longitude() << " ";
+                    std::cout << std::fixed << std::setprecision(7) << "subLatitude2: " << coordi_2.latitude() << " ";
+                    std::cout << std::fixed << std::setprecision(7) << "subaltitude2: " << altitude << std::endl;
+                    
+                    
+                    rgFlightCoords += coordi_2;
+                }
+            }
         }
-
-
-        // ComplexMissionItem* complexItem = visualItems->value<ComplexMissionItem*>(i);
-        // if (complexItem) {
-        //     complexItem->addKMLVisuals(*this);
-        // }
+        
     }
+    
+    std::cout<<"des: "<<description.toStdString()<<"\n";
+    
+    QString coordString;
+    for (const QGeoCoordinate& coord : rgFlightCoords) {
+        coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
+    }
+
+    std::cout<<"overall coord: "<<coordString.toStdString()<<"\n";
 }
 
 void KMLPlanDomDocument::addMission(Vehicle* vehicle, QmlObjectListModel* visualItems, QList<MissionItem*> rgMissionItems)

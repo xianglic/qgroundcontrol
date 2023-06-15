@@ -30,6 +30,7 @@ const char* TakeoffMissionItem::detectTask_hover_delayName            = "DetectT
 // obstacle task
 const char* TakeoffMissionItem::obstacleTask_speedName                = "ObstacleTask_speed";
 const char* TakeoffMissionItem::obstacleTask_altitudeName             = "ObstacleTask_altitude";
+const char* TakeoffMissionItem::obstacleTask_modelName                = "ObstacleTask_model";
 
 
 // tracking task
@@ -41,6 +42,8 @@ TakeoffMissionItem::TakeoffMissionItem(PlanMasterController* masterController, b
     , _settingsItem     (settingsItem)
 {
     _init(forLoad);
+
+    _initCustomizedFields();
 }
 
 TakeoffMissionItem::TakeoffMissionItem(MAV_CMD takeoffCmd, PlanMasterController* masterController, bool flyView, MissionSettingsItem* settingsItem, bool forLoad)
@@ -52,39 +55,8 @@ TakeoffMissionItem::TakeoffMissionItem(MAV_CMD takeoffCmd, PlanMasterController*
     setCommand(takeoffCmd);
     _init(forLoad);
 
+    _initCustomizedFields();
 
-    FactMetaData md1 = FactMetaData(FactMetaData::valueTypeDouble);
-    md1.setRawMax(50);
-
-    _detectTask_gimbal_pitchFact    = Fact("Gimbal Pitch",             &md1);
-    _detectTask_drone_rotationFact   =Fact("Drone Rotation",             &md1);
-    _detectTask_sample_rateFact      = Fact("Sample Rate",             &md1);
-    _detectTask_hover_delayFact       = Fact("Hover Delay",             &md1);
-    _obstacleTask_speedFact           = Fact("Speed",             &md1); // obstacle task
-    _obstacleTask_altitudeFact        = Fact("Altitude",             &md1);
-    _trackingTask_gimbal_pitchFact    =Fact("Gimbal Pitch",             &md1);// tracking task
-    _trackingTask_classFact           =Fact(0, "Class",             FactMetaData::valueTypeString);
-
-    _detectTask_gimbal_pitchFact.setRawValue(100);
-    _detectTask_drone_rotationFact.setRawValue(qQNaN());
-    _detectTask_hover_delayFact.setRawValue(qQNaN());
-    _detectTask_sample_rateFact.setRawValue(qQNaN());
-
-    _obstacleTask_speedFact.setRawValue(qQNaN());
-    _obstacleTask_altitudeFact.setRawValue(qQNaN());
-
-    _trackingTask_gimbal_pitchFact.setRawValue(qQNaN());
-    _trackingTask_classFact.setRawValue(qQNaN());
-
-
-    // Build the brand list from known model for detect tasks
-    _detectTask_modellist.append("coco");
-    _detectTask_modellist.append("oidv4");
-
-
-    // Build the brand list from known model for detect tasks
-    _trackingTask_modellist.append("coco");
-    _trackingTask_modellist.append("robomaster");
 }
 
 TakeoffMissionItem::TakeoffMissionItem(const MissionItem& missionItem, PlanMasterController* masterController, bool flyView, MissionSettingsItem* settingsItem, bool forLoad)
@@ -92,6 +64,8 @@ TakeoffMissionItem::TakeoffMissionItem(const MissionItem& missionItem, PlanMaste
     , _settingsItem     (settingsItem)
 {
     _init(forLoad);
+
+    _initCustomizedFields();
 }
 
 TakeoffMissionItem::~TakeoffMissionItem()
@@ -99,6 +73,80 @@ TakeoffMissionItem::~TakeoffMissionItem()
 
 }
 
+void TakeoffMissionItem::_initCustomizedFields (){
+    
+    // detect task
+    FactMetaData md1 = FactMetaData(FactMetaData::valueTypeDouble);
+    md1.setRawMax(90.0);
+    md1.setRawMin(-90.0);
+    md1.setRawDefaultValue(-45.0);
+    md1.setDecimalPlaces(1);
+    md1.setRawUnits("deg");
+
+    FactMetaData md2 = FactMetaData(FactMetaData::valueTypeDouble);
+    md2.setRawMax(360.0);
+    md2.setRawMin(0.0);
+    md2.setRawDefaultValue(0.0);
+    md2.setDecimalPlaces(1);
+    md2.setRawUnits("deg");
+
+    FactMetaData md3 = FactMetaData(FactMetaData::valueTypeUint32);
+    md3.setRawMax(30);
+    md3.setRawMin(1);
+    md3.setRawDefaultValue(2);
+    md3.setRawUnits("#fr/sec");
+
+
+    FactMetaData md4 = FactMetaData(FactMetaData::valueTypeUint32);
+    md4.setRawMax(10);
+    md4.setRawMin(1);
+    md4.setRawDefaultValue(5);
+    md4.setRawUnits("sec");
+
+    // Build the brand list from known model for detect tasks
+    _detectTask_modellist.append("coco");
+    _detectTask_modellist.append("oidv4");
+
+    _detectTask_gimbal_pitchFact    = Fact("Gimbal Pitch",             &md1);
+    _detectTask_drone_rotationFact   =Fact("Drone Rotation",             &md2);
+    _detectTask_sample_rateFact      = Fact("Sample Rate",             &md3);
+    _detectTask_hover_delayFact       = Fact("Hover Delay",             &md4);
+
+
+    // obstacle task
+    FactMetaData md5 = FactMetaData(FactMetaData::valueTypeDouble);
+    md5.setRawDefaultValue(5.0);
+    md5.setDecimalPlaces(1);
+
+    FactMetaData md6 = FactMetaData(FactMetaData::valueTypeDouble);
+    md6.setRawDefaultValue(qQNaN());
+    md6.setDecimalPlaces(1);
+    
+
+    _obstacleTask_speedFact           = Fact("Speed",             &md5); // obstacle task
+    _obstacleTask_altitudeFact        = Fact("Altitude",             &md6);
+    _obstacleTask_modelFact           =Fact(0, "Model",             FactMetaData::valueTypeString);
+    _obstacleTask_modelFact.setRawValue("DPT_Large");
+
+
+
+    // tracking task
+    FactMetaData md7 = FactMetaData(FactMetaData::valueTypeDouble);
+    md7.setRawMax(90.0);
+    md7.setRawMin(-90.0);
+    md7.setRawDefaultValue(-30.0);
+    md7.setRawUnits("deg");
+    md7.setDecimalPlaces(1);
+
+    _trackingTask_gimbal_pitchFact    =Fact("Gimbal Pitch",             &md7);// tracking task
+    _trackingTask_classFact           =Fact(0, "Class",             FactMetaData::valueTypeString);
+    _trackingTask_classFact.setRawValue("Person");
+
+
+    // Build the brand list from known model for tracking tasks
+    _trackingTask_modellist.append("coco");
+    _trackingTask_modellist.append("robomaster");
+}
 
 void TakeoffMissionItem::_init(bool forLoad)
 {

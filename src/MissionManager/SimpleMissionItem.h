@@ -179,6 +179,7 @@ private:
     void _updateOptionalSections(void);
     void _rebuildNaNFacts       (void);
     void _rebuildComboBoxFacts  (void);
+  
 
     
     MissionItem     _missionItem;

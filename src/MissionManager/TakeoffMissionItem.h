@@ -70,6 +70,7 @@ public:
     // obstacle task
     Q_PROPERTY(Fact*            obstacleTask_speed          READ obstacleTask_speed                                 CONSTANT)
     Q_PROPERTY(Fact*            obstacleTask_altitude       READ obstacleTask_altitude                              CONSTANT)
+    Q_PROPERTY(Fact*            obstacleTask_model          READ obstacleTask_model                                 CONSTANT)
 
     // tracking task 
     Q_PROPERTY(Fact*            trackingTask_gimbal_pitch   READ trackingTask_gimbal_pitch                          CONSTANT)
@@ -89,6 +90,7 @@ public:
     // obstacle task
     Fact* obstacleTask_speed            (void) { return &_obstacleTask_speedFact; }
     Fact* obstacleTask_altitude         (void) {return &_obstacleTask_altitudeFact;}
+    Fact* obstacleTask_model         (void) {return &_obstacleTask_modelFact;}
 
 
     // tracking task
@@ -109,6 +111,7 @@ signals:
 private:
     void _init(bool forLoad);
     void _initLaunchTakeoffAtSameLocation(void);
+    void _initCustomizedFields  (void);
 
     MissionSettingsItem*    _settingsItem;
     bool                    _launchTakeoffAtSameLocation = true;
@@ -127,6 +130,7 @@ private:
     // obstacle task
     Fact _obstacleTask_speedFact;
     Fact _obstacleTask_altitudeFact; 
+    Fact _obstacleTask_modelFact; 
 
     // tracking task
     Fact _trackingTask_gimbal_pitchFact;
@@ -144,7 +148,8 @@ private:
 
     // obstacle task
     static const char* obstacleTask_speedName;
-    static const char* obstacleTask_altitudeName;  
+    static const char* obstacleTask_altitudeName;
+    static const char* obstacleTask_modelName;  
 
 
     // tracking task

@@ -121,7 +121,7 @@ Rectangle {
             ColumnLayout {
                 anchors.left:       parent.left
                 anchors.right:      parent.right
-                spacing: 0
+                spacing: 3
                 visible: missionItem.isTakeoffItem
 
 
@@ -156,7 +156,7 @@ Rectangle {
                 GridLayout {
                     Layout.fillWidth:   true
                     columnSpacing:      _margin
-                    rowSpacing:         _margin
+                    rowSpacing:         1
                     columns:            2
                     enabled:            missionItem.seMode === QGroundControl.DetectTask
 
@@ -200,61 +200,61 @@ Rectangle {
                 GridLayout {
                     Layout.fillWidth:   true
                     columnSpacing:      _margin
-                    rowSpacing:         _margin
+                    rowSpacing:         1
                     columns:            2
                     enabled:            missionItem.seMode === QGroundControl.ObstacleTask
 
 
                     QGCLabel { text: qsTr("model") }
-                    // FactTextField {
-                    //     fact:               missionItem.obstacleTask_model
-                    //     Layout.fillWidth:   true
-                    // }
+                    FactTextField {
+                        fact:               missionItem.obstacleTask_model
+                        Layout.fillWidth:   true
+                    }
 
                     QGCLabel { text: qsTr("speed") }
-                    // FactTextField {
-                    //     fact:               missionItem.obstacleTask_speed
-                    //     Layout.fillWidth:   true
-                    // }
+                    FactTextField {
+                        fact:               missionItem.obstacleTask_speed
+                        Layout.fillWidth:   true
+                    }
 
                     QGCLabel { text: qsTr("altitude") }
-                    // FactTextField {
-                    //     fact:               missionItem.obstacleTask_altitude
-                    //     Layout.fillWidth:   true
-                    // }
+                    FactTextField {
+                        fact:               missionItem.obstacleTask_altitude
+                        Layout.fillWidth:   true
+                    }
                 }
 
                 // tracking
                 GridLayout {
                     Layout.fillWidth:   true
                     columnSpacing:      _margin
-                    rowSpacing:         _margin
+                    rowSpacing:         1
                     columns:            2
                     enabled:            missionItem.seMode === QGroundControl.TrackingTask
 
                     QGCLabel { text: qsTr("gimbal_pitch") }
-                    // FactTextField {
-                    //     fact:               missionItem.trackingTask_gimbal_pitch
-                    //     Layout.fillWidth:   true
-                    // }
+                    FactTextField {
+                        fact:               missionItem.trackingTask_gimbal_pitch
+                        Layout.fillWidth:   true
+                    }
 
                             
                     QGCLabel { text: qsTr("model") }
-                    // QGCComboBox {
+                    QGCComboBox {
                         
-                    //     id:                 trackingTaskModelCombo
-                    //     Layout.fillWidth:   true
+                        id:                 trackingTaskModelCombo
+                        Layout.fillWidth:   true
                     
-                    //     model:              missionItem.trackingTask_modellist
+                        model:              missionItem.trackingTask_modellist
 
-                    //     onActivated:        missionItem.trackingTask_model_2 = currentText
-                    // }
+                        onActivated:        missionItem.trackingTask_model_2 = currentText
+                    }
 
                     QGCLabel { text: qsTr("class") }
-                    // FactTextField {
-                    //     fact:               missionItem.trackingTask_class
-                    //     Layout.fillWidth:   true
-                    // }
+                    FactTextField {
+                        fact:               missionItem.trackingTask_class
+                        Layout.fillWidth:   true
+                    }
                 }
             }
 
