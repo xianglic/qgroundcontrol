@@ -33,7 +33,6 @@ private:
     void _addStyles         (void);
     void _addFlightPath     (Vehicle* vehicle, QList<MissionItem*> rgMissionItems);
     void _addComplexItems   (QmlObjectListModel* visualItems);
-    // void _addCustomizedTask (Vehicle* vehicle, QList<MissionItem*> rgMissionItems, QmlObjectListModel* visualItems);
-    // void _formatKML         (QString convertedValue, int& taskCounter, QmlObjectListModel* subseqItemsList);
+    void _steelEagleKMLFormat(QmlObjectListModel* visualItems);
     // void _formatKMLComplex  (QString htmlString, int& taskCounter, QmlObjectListModel* subseqItemsList);
 };
