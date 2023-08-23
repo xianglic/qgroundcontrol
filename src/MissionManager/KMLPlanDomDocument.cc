@@ -20,13 +20,9 @@
 #include <QStringList>
 
 #include "TransectStyleComplexItem.h"
-<<<<<<< HEAD
-#include "SimpleMissionItem.h"
-=======
 #include "StructureScanComplexItem.h"
 #include "SimpleMissionItem.h"
 #include "TakeoffMissionItem.h"
->>>>>>> e3d599453f60fef48d0a15133b28ac55c2a15e4d
 
 #include <iostream>
 #include <QVariant>
@@ -43,44 +39,6 @@ KMLPlanDomDocument::KMLPlanDomDocument()
     _addStyles();
 }
 
-<<<<<<< HEAD
-void KMLPlanDomDocument::_addCustomizedTask(Vehicle* vehicle, QList<MissionItem*> rgMissionItems, QmlObjectListModel* visualItems){
-
-    // build up the flight path points
-    int taskCounter = 1;
-    for (int i=0; i<visualItems->count(); i++) {
-        // debug
-        std::cout << "chen test " << "\n";
-        TransectStyleComplexItem* complexItem = visualItems->value<TransectStyleComplexItem*>(i);
-
-        if (complexItem) {
-
-            // add place mark
-            QDomElement placemarkElement = createElement("Placemark");
-            _rootDocumentElement.appendChild(placemarkElement);
-            addTextElement(placemarkElement, "name",         "SteelEagleTask"+ QString::number(taskCounter));
-            taskCounter++;
-
-            // add description of the task
-            QDomElement descriptionElement = createElement("description");
-            QString htmlString;
-            QString convertedValue;
-            Fact* detectFact = (complexItem->detectTask());
-            // Read the value using the appropriate getter function
-            QVariant value = detectFact->cookedValue();
-            // Convert the QVariant to the desired type if needed
-            convertedValue = value.toString();
-            htmlString += QStringLiteral("DetectTask: {model: '%1'}\n").arg(convertedValue);
-            QDomCDATASection cdataSection = createCDATASection(htmlString);
-            descriptionElement.appendChild(cdataSection);
-            placemarkElement.appendChild(descriptionElement);
-
-
-            // Build up all missions points for task
-            QList<QGeoCoordinate> rgFlightCoords;
-
-            QmlObjectListModel* subseqItemsList = complexItem->flightPathSegments();
-=======
 
 
 void getDescription(QString& htmlString, TakeoffMissionItem* item){
@@ -169,7 +127,6 @@ void KMLPlanDomDocument::_steelEagleKMLFormat(QmlObjectListModel* visualItems){
             QmlObjectListModel* subseqItemsList = complexItem->flightPathSegments();
 
             std::cout<<" complex geo: "<<"\n";
->>>>>>> e3d599453f60fef48d0a15133b28ac55c2a15e4d
             for (int i=0; i<subseqItemsList->count(); i++){
                 FlightPathSegment* flightPath = subseqItemsList->value<FlightPathSegment*>(i);
                 QGeoCoordinate coordi_1 = flightPath->coordinate1();
@@ -192,29 +149,11 @@ void KMLPlanDomDocument::_steelEagleKMLFormat(QmlObjectListModel* visualItems){
                     std::cout << std::fixed << std::setprecision(7) << "subLongitude2: " << coordi_2.longitude() << " ";
                     std::cout << std::fixed << std::setprecision(7) << "subLatitude2: " << coordi_2.latitude() << " ";
                     std::cout << std::fixed << std::setprecision(7) << "subaltitude2: " << altitude << std::endl;
-<<<<<<< HEAD
-                   
-=======
                     
->>>>>>> e3d599453f60fef48d0a15133b28ac55c2a15e4d
                     
                     rgFlightCoords += coordi_2;
                 }
             }
-<<<<<<< HEAD
-
-            // Create a LineString element from the coords
-            QDomElement lineStringElement = createElement("LineString");
-            placemarkElement.appendChild(lineStringElement);
-
-            QString coordString;
-            for (const QGeoCoordinate& coord : rgFlightCoords) {
-                coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
-            }
-            addTextElement(lineStringElement, "coordinates", coordString);
-        }
-    }
-=======
         }
         
     }
@@ -246,7 +185,6 @@ void KMLPlanDomDocument::_steelEagleKMLFormat(QmlObjectListModel* visualItems){
     QDomElement lineStringElement = createElement("LineString");
     placemarkElement.appendChild(lineStringElement);
     addTextElement(lineStringElement, "coordinates", coordString);
->>>>>>> e3d599453f60fef48d0a15133b28ac55c2a15e4d
 }
 
 // void KMLPlanDomDocument::_formatKMLComplex(QString htmlString, int& taskCounter, QmlObjectListModel* subseqItemsList ){
