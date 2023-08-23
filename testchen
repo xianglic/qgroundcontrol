@@ -1,0 +1,336 @@
+Project MESSAGE: Qt version 5.15.2
+Project MESSAGE: Linux build
+Project MESSAGE: Found ccache, enabling
+Project MESSAGE: Daily Build
+Project MESSAGE: GIT_DESCRIBE 28dd1db69
+Project MESSAGE: QGroundControl APP_VERSION_STR VERSION vUnknown 0.0.0
+Project MESSAGE: Release flavor
+Project MESSAGE: Skipping support for Pairing
+Project MESSAGE: Using MAVLink dialect 'ardupilotmega'.
+Project MESSAGE: Skipping support for Zeroconf (unsupported platform)
+Project MESSAGE: Including support for AirMap
+Project MESSAGE: Taisync disabled
+Project MESSAGE: Microhard disabled
+collect2 version 9.4.0
+/usr/bin/ld.gold -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/cctmFA7D.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. --version -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+Project MESSAGE: Including support for video streaming
+Project MESSAGE: This project is using private headers and will therefore be tied to this specific Qt module build version.
+Project MESSAGE: Running this project against other versions of the Qt modules may crash at any arbitrary point.
+Project MESSAGE: This is not a bug, but a result of using Qt internals. You have been warned!
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/CameraCalc.cc:14:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:163469: CameraCalc.o] Error 1
+make: *** Waiting for unfinished jobs....
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/PlanCreator.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:180328: PlanCreator.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/LandingComplexItem.h:12,
+                 from /project/source/src/MissionManager/FixedWingLandingComplexItem.h:13,
+                 from /project/source/src/MissionManager/FixedWingLandingComplexItem.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:170280: FixedWingLandingComplexItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/CameraSection.h:13,
+                 from /project/source/src/MissionManager/CameraSection.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:164303: CameraSection.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/GeoFenceController.cc:23:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:171086: GeoFenceController.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/PlanElementController.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:179542: PlanElementController.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/MissionItem.cc:18:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:177135: MissionItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/SimpleMissionItem.h:14,
+                 from /project/source/src/MissionManager/SpeedSection.cc:13:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:187131: SpeedSection.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/Corridor2PlanCreator.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:168604: Corridor2PlanCreator.o] Error 1
+In file included from /project/source/src/MissionManager/KMLPlanDomDocument.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+/project/source/src/MissionManager/KMLPlanDomDocument.cc: In function 'void _formatKMLComplex(TransectStyleComplexItem*, int&, QmlObjectListModel*)':
+/project/source/src/MissionManager/KMLPlanDomDocument.cc:44:36: error: 'createElement' was not declared in this scope
+   44 |     QDomElement placemarkElement = createElement("Placemark");
+      |                                    ^~~~~~~~~~~~~
+/project/source/src/MissionManager/KMLPlanDomDocument.cc:45:5: error: '_rootDocumentElement' was not declared in this scope
+   45 |     _rootDocumentElement.appendChild(placemarkElement);
+      |     ^~~~~~~~~~~~~~~~~~~~
+/project/source/src/MissionManager/KMLPlanDomDocument.cc:46:5: error: 'addTextElement' was not declared in this scope
+   46 |     addTextElement(placemarkElement, "name",         "SteelEagleTask"+ QString::number(taskCounter));
+      |     ^~~~~~~~~~~~~~
+/project/source/src/MissionManager/KMLPlanDomDocument.cc:84:40: error: 'class TransectStyleComplexItem' has no member named 'obstacleTask_class'; did you mean 'obstacleTask_model'?
+   84 |         convertedValue = (complexItem->obstacleTask_class())->cookedValue().toString();
+      |                                        ^~~~~~~~~~~~~~~~~~
+      |                                        obstacleTask_model
+/project/source/src/MissionManager/KMLPlanDomDocument.cc:91:37: error: 'createCDATASection' was not declared in this scope; did you mean 'QDomCDATASection'?
+   91 |     QDomCDATASection cdataSection = createCDATASection(htmlString);
+      |                                     ^~~~~~~~~~~~~~~~~~
+      |                                     QDomCDATASection
+/project/source/src/MissionManager/KMLPlanDomDocument.cc:132:51: error: 'kmlCoordString' was not declared in this scope; did you mean 'coordString'?
+  132 |         coordString += QStringLiteral("%1\n").arg(kmlCoordString(coord));
+      |                                                   ^~~~~~~~~~~~~~
+      |                                                   coordString
+/project/source/src/MissionManager/KMLPlanDomDocument.cc: In member function 'void KMLPlanDomDocument::_addCustomizedTask(Vehicle*, QList<MissionItem*>, QmlObjectListModel*)':
+/project/source/src/MissionManager/KMLPlanDomDocument.cc:212:31: error: cannot convert 'TransectStyleComplexItem*' to 'int*'
+  212 |             _formatKMLComplex(complexItem, taskCounter, subseqItemsList);
+      |                               ^~~~~~~~~~~
+      |                               |
+      |                               TransectStyleComplexItem*
+In file included from /project/source/src/MissionManager/KMLPlanDomDocument.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:56: note:   initializing argument 1 of 'void KMLPlanDomDocument::_formatKMLComplex(int*, int&, QmlObjectListModel*)'
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+make: *** [Makefile:172692: KMLPlanDomDocument.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/LandingComplexItem.h:12,
+                 from /project/source/src/MissionManager/LandingComplexItem.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:173532: LandingComplexItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/MissionSettingsItem.h:13,
+                 from /project/source/src/MissionManager/MissionSettingsItem.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:178743: MissionSettingsItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/SimpleMissionItem.h:14,
+                 from /project/source/src/MissionManager/TakeoffMissionItem.h:12,
+                 from /project/source/src/MissionManager/TakeoffMissionItem.cc:13:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:191322: TakeoffMissionItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/BlankPlanCreator.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:169441: BlankPlanCreator.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/SurveyPlanCreator.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/ComplexMissionItem.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:190483: SurveyPlanCreator.o] Error 1
+make: *** [Makefile:165248: ComplexMissionItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/VisualMissionItem.cc:13:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:192999: VisualMissionItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/PlanMasterController.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:181909: PlanMasterController.o] Error 1
+In file included from ../source/src/MissionManager/MissionController.h:16,
+                 from ../source/src/MissionManager/VisualMissionItem.h:26,
+                 from ../source/src/MissionManager/ComplexMissionItem.h:12,
+                 from ../source/src/MissionManager/CameraSection.h:13,
+                 from moc_CameraSection.cpp:10:
+../source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:334831: moc_CameraSection.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/SimpleMissionItem.h:14,
+                 from /project/source/src/MissionManager/RallyPointController.cc:18:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:184726: RallyPointController.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/CorridorScanPlanCreator.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:167764: CorridorScanPlanCreator.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/TransectStyleComplexItem.h:12,
+                 from /project/source/src/MissionManager/CorridorScanComplexItem.h:12,
+                 from /project/source/src/MissionManager/CorridorScanComplexItem.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/TransectStyleComplexItem.h:12,
+                 from /project/source/src/MissionManager/Corridor2.h:12,
+                 from /project/source/src/MissionManager/Corridor2.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:166924: Corridor2.o] Error 1
+make: *** [Makefile:166086: CorridorScanComplexItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/StructureScanComplexItem.h:14,
+                 from /project/source/src/MissionManager/StructureScanComplexItem.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:187967: StructureScanComplexItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/SimpleMissionItem.h:14,
+                 from /project/source/src/MissionManager/SimpleMissionItem.cc:14:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:186295: SimpleMissionItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/QmlControls/TerrainProfile.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:208729: TerrainProfile.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/MissionManager/StructureScanPlanCreator.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:188805: StructureScanPlanCreator.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/LandingComplexItem.h:12,
+                 from /project/source/src/MissionManager/VTOLLandingComplexItem.h:12,
+                 from /project/source/src/MissionManager/VTOLLandingComplexItem.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:193838: VTOLLandingComplexItem.o] Error 1
+In file included from ../source/src/MissionManager/MissionController.h:16,
+                 from ../source/src/MissionManager/VisualMissionItem.h:26,
+                 from ../source/src/MissionManager/ComplexMissionItem.h:12,
+                 from ../source/src/MissionManager/TransectStyleComplexItem.h:12,
+                 from ../source/src/MissionManager/CorridorScanComplexItem.h:12,
+                 from moc_CorridorScanComplexItem.cpp:10:
+../source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/TransectStyleComplexItem.h:12,
+                 from /project/source/src/MissionManager/TransectStyleComplexItem.cc:10:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:334840: moc_CorridorScanComplexItem.o] Error 1
+make: *** [Makefile:192161: TransectStyleComplexItem.o] Error 1
+In file included from ../source/src/MissionManager/MissionController.h:16,
+                 from ../source/src/MissionManager/VisualMissionItem.h:26,
+                 from ../source/src/MissionManager/ComplexMissionItem.h:12,
+                 from moc_ComplexMissionItem.cpp:10:
+../source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:334837: moc_ComplexMissionItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/VisualMissionItem.h:26,
+                 from /project/source/src/MissionManager/ComplexMissionItem.h:12,
+                 from /project/source/src/MissionManager/TransectStyleComplexItem.h:12,
+                 from /project/source/src/MissionManager/SurveyComplexItem.h:12,
+                 from /project/source/src/MissionManager/SurveyComplexItem.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:189643: SurveyComplexItem.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/MissionController.cc:11:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:176350: MissionController.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/Airmap/AirMapFlightPlanManager.cc:17:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:323980: AirMapFlightPlanManager.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/MissionManager/PlanMasterController.h:14,
+                 from /project/source/src/QGCApplication.cc:65:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:196548: QGCApplication.o] Error 1
+In file included from /project/source/src/MissionManager/MissionController.h:16,
+                 from /project/source/src/Vehicle/Vehicle.cc:25:
+/project/source/src/MissionManager/KMLPlanDomDocument.h:38:30: error: 'TransectStyleComplexItem' has not been declared
+   38 |     void _formatKMLComplex  (TransectStyleComplexItem* complexItem, int& taskCounter, QmlObjectListModel* subseqItemsList);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:243206: Vehicle.o] Error 1

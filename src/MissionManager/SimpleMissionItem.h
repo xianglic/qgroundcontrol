@@ -29,6 +29,8 @@ public:
 
     ~SimpleMissionItem();
 
+
+
     Q_PROPERTY(QString          category                READ category                                           NOTIFY commandChanged)
     Q_PROPERTY(bool             friendlyEditAllowed     READ friendlyEditAllowed                                NOTIFY friendlyEditAllowedChanged)
     Q_PROPERTY(bool             rawEdit                 READ rawEdit                WRITE setRawEdit            NOTIFY rawEditChanged)              ///< true: raw item editing with all params
@@ -49,6 +51,10 @@ public:
     Q_PROPERTY(QmlObjectListModel*  comboboxFacts   READ comboboxFacts  CONSTANT)
     Q_PROPERTY(QmlObjectListModel*  textFieldFacts  READ textFieldFacts CONSTANT)
     Q_PROPERTY(QmlObjectListModel*  nanFacts        READ nanFacts       CONSTANT)
+
+
+
+
 
     /// This should be called before changing the command. It is needed if the command changes
     /// from an item which does not include a coordinate to an item which requires a coordinate.
@@ -147,6 +153,7 @@ signals:
     void isLoiterItemChanged        (void);
     void showLoiterRadiusChanged    (void);
     void loiterRadiusChanged        (double loiterRadius);
+    
 
 private slots:
     void _setDirty                              (void);
@@ -172,7 +179,9 @@ private:
     void _updateOptionalSections(void);
     void _rebuildNaNFacts       (void);
     void _rebuildComboBoxFacts  (void);
+  
 
+    
     MissionItem     _missionItem;
     bool            _rawEdit =                  false;
     bool            _dirty =                    false;
@@ -212,6 +221,8 @@ private:
     static const char* _jsonAltitudeModeKey;
     static const char* _jsonAltitudeKey;
     static const char* _jsonAMSLAltAboveTerrainKey;
+
+   
 };
 
 #endif

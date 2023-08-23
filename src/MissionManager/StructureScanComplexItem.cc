@@ -29,6 +29,7 @@ const char* StructureScanComplexItem::settingsGroup =               "StructureSc
 const char* StructureScanComplexItem::_entranceAltName =            "EntranceAltitude";
 const char* StructureScanComplexItem::scanBottomAltName =           "ScanBottomAlt";
 const char* StructureScanComplexItem::structureHeightName =         "StructureHeight";
+const char* StructureScanComplexItem::detectModelName =             "DetectModel";
 const char* StructureScanComplexItem::layersName =                  "Layers";
 const char* StructureScanComplexItem::gimbalPitchName =             "GimbalPitch";
 const char* StructureScanComplexItem::startFromTopName =            "StartFromTop";
@@ -47,6 +48,7 @@ StructureScanComplexItem::StructureScanComplexItem(PlanMasterController* masterC
     , _cameraCalc               (masterController, settingsGroup)
     , _scanBottomAltFact        (settingsGroup, _metaDataMap[scanBottomAltName])
     , _structureHeightFact      (settingsGroup, _metaDataMap[structureHeightName])
+    , _detectModelFact          (settingsGroup, _metaDataMap[detectModelName])
     , _layersFact               (settingsGroup, _metaDataMap[layersName])
     , _gimbalPitchFact          (settingsGroup, _metaDataMap[gimbalPitchName])
     , _startFromTopFact         (settingsGroup, _metaDataMap[startFromTopName])
@@ -61,6 +63,7 @@ StructureScanComplexItem::StructureScanComplexItem(PlanMasterController* masterC
     connect(&_layersFact,           &Fact::valueChanged, this, &StructureScanComplexItem::_setDirty);
     connect(&_gimbalPitchFact,      &Fact::valueChanged, this, &StructureScanComplexItem::_setDirty);
     connect(&_startFromTopFact,     &Fact::valueChanged, this, &StructureScanComplexItem::_setDirty);
+    connect(&_detectModelFact,      &Fact::valueChanged, this, &StructureScanComplexItem::_setDirty);
 
     connect(&_startFromTopFact,     &Fact::valueChanged, this, &StructureScanComplexItem::_signalTopBottomAltChanged);
     connect(&_layersFact,           &Fact::valueChanged, this, &StructureScanComplexItem::_signalTopBottomAltChanged);
@@ -186,6 +189,7 @@ void StructureScanComplexItem::save(QJsonArray&  missionItems)
     saveObject[_entranceAltName] =      _entranceAltFact.rawValue().toDouble();
     saveObject[scanBottomAltName] =     _scanBottomAltFact.rawValue().toDouble();
     saveObject[structureHeightName] =   _structureHeightFact.rawValue().toDouble();
+    saveObject[detectModelName] =       _detectModelFact.rawValue().toString();
     saveObject[layersName] =            _layersFact.rawValue().toDouble();
     saveObject[gimbalPitchName] =       _gimbalPitchFact.rawValue().toDouble();
     saveObject[startFromTopName] =      _startFromTopFact.rawValue().toBool();

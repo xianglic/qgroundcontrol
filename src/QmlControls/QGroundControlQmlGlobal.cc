@@ -313,3 +313,17 @@ QString QGroundControlQmlGlobal::altitudeModeShortDescription(AltMode altMode)
     // Should never get here but makes some compilers happy
     return QString();
 }
+
+QString QGroundControlQmlGlobal::steelEagleModeShortDescription(SteelEagleMode seMode)
+{
+    switch (seMode) {
+    case DetectTask:
+        return tr("Detect Task");
+    case ObstacleTask:
+        return tr("Obstacle Task");
+    case TrackingTask:
+        return tr("Tracking Task");
+    }
+    // Should never get here but makes some compilers happy
+    return QString();
+}

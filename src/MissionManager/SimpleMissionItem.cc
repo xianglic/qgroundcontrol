@@ -1103,3 +1103,5 @@ void SimpleMissionItem::_possibleRadiusChanged(void)
         emit loiterRadiusChanged(loiterRadius());
     }
 }
+
+

@@ -237,6 +237,14 @@ Rectangle {
                     visible:            presetsStatsHeader.checked
                 }
             } // Main editing column
+
+            // Scotty Tab
+            TransectStyleComplexItemScottyFollow {
+                Layout.fillWidth:   true
+                spacing:            _margin
+                visible:            tabBar.currentIndex === 4
+                missionItem:        _missionItem
+            }
         } // Top level  Column
 
         Component {

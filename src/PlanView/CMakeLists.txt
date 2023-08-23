@@ -23,15 +23,18 @@ add_custom_target(PlanViewQml
 		RallyPointMapVisuals.qml
 		SimpleItemEditor.qml
 		SimpleItemMapVisual.qml
+		SimpleItemTabBar.qml
 		StructureScanEditor.qml
 		StructureScanMapVisual.qml
 		SurveyItemEditor.qml
 		SurveyMapVisual.qml
+		TakeoffMissionItemEditor.qml
 		TakeoffItemMapVisual.qml
 		TerrainStatus.qml
 		TransectStyleComplexItemStats.qml
 		TransectStyleComplexItemTabBar.qml
 		TransectStyleComplexItemTerrainFollow.qml
+		TransectStyleComplexItemScottyFollow.qml
 		TransectStyleMapVisuals.qml
 		VTOLLandingPatternEditor.qml
 		VTOLLandingPatternMapVisual.qml

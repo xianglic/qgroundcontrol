@@ -2713,6 +2713,11 @@ QGroundControlQmlGlobal::AltMode MissionController::globalAltitudeModeDefault(vo
     }
 }
 
+QGroundControlQmlGlobal::SteelEagleMode MissionController::globalSteelEagleModeDefault(void)
+{
+    return _globalSteelEagleMode;   
+}
+
 void MissionController::setGlobalAltitudeMode(QGroundControlQmlGlobal::AltMode altMode)
 {
     if (_globalAltMode != altMode) {
