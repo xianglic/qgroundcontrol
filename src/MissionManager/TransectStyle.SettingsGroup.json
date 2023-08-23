@@ -28,6 +28,95 @@
     "default":     ""
 },
 {
+    "name":             "DetectTask_gimbal_pitch",
+    "shortDesc": "DetectTask: Gimbal Pitch",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "max":              90.0,
+    "min":              -90.0,
+    "units":            "deg",
+    "default":     -45
+},
+{
+    "name":             "DetectTask_model",
+    "shortDesc": "DetectTask: Model",
+    "type":             "string",
+    "default":     "coco"
+},
+{
+    "name":             "DetectTask_drone_rotation",
+    "shortDesc": "DetectTask: Drone Rotation",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "max":              360,
+    "min":              0,
+    "units":            "deg",
+    "default":     0.0
+},
+{
+    "name":             "DetectTask_sample_rate",
+    "shortDesc": "DetectTask: Sample Rate",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "max":              30,
+    "min":              1,
+    "units":            "sec",
+    "default":     2
+},
+{
+    "name":             "DetectTask_hover_delay",
+    "shortDesc": "DetectTask: Hover Delay",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "max":              10,
+    "min":              1,
+    "units":            "sec",
+    "default":     5
+},
+{
+    "name":             "ObstacleTask_model",
+    "shortDesc": "ObstacleTask: Model",
+    "type":             "string",
+    "default":     "DPT_Large"
+},
+{
+    "name":             "ObstacleTask_speed",
+    "shortDesc": "ObstacleTask: Speed",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m/s",
+    "default":     5
+},
+{
+    "name":             "ObstacleTask_altitude",
+    "shortDesc": "ObstacleTask: Speed",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m"
+},
+{
+    "name":             "TrackingTask_gimbal_pitch",
+    "shortDesc": "TrackingTask: Gimbal Pitch",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "max":              90.0,
+    "min":              -90.0,
+    "units":            "deg",
+    "default":     -30
+},
+{
+    "name":             "TrackingTask_model",
+    "shortDesc": "TrackingTask: Model",
+    "type":             "string",
+    "default":     "coco"
+},
+{
+    "name":             "TrackingTask_class",
+    "shortDesc": "DetectTask: Class",
+    "type":             "string",
+    "default":     "person"
+},
+{
     "name":             "CameraTriggerInTurnAround",
     "shortDesc": "Camera continues taking images in turn arounds.",
     "type":             "bool",

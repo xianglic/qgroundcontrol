@@ -67,6 +67,16 @@ TransectStyleComplexItemEditor {
                 visible:            !forPresets
             }
 
+            // QGCLabel {
+            //     text:       qsTr("DetectTask")
+            //     visible:    !forPresets
+            // }
+            // FactTextField {
+            //     fact:               _missionItem.detectTask
+            //     Layout.fillWidth:   true
+            //     visible:            !forPresets
+            // }
+
             QGCOptionsComboBox {
                 Layout.columnSpan:  2
                 Layout.fillWidth:   true

@@ -55,7 +55,15 @@ public:
         AltitudeModeTerrainFrame,       // MAV_FRAME_GLOBAL_TERRAIN_ALT
         AltitudeModeNone,               // Being used as distance value unrelated to ground (for example distance to structure)
     };
+
+    enum SteelEagleMode{
+        ObstacleTask,
+        DetectTask,            
+        TrackingTask, 
+    };
+
     Q_ENUM(AltMode)
+    Q_ENUM(SteelEagleMode)
 
     Q_PROPERTY(QString              appName                 READ    appName                 CONSTANT)
     Q_PROPERTY(LinkManager*         linkManager             READ    linkManager             CONSTANT)
@@ -142,6 +150,9 @@ public:
 
     Q_INVOKABLE QString altitudeModeExtraUnits(AltMode altMode);        ///< String shown in the FactTextField.extraUnits ui
     Q_INVOKABLE QString altitudeModeShortDescription(AltMode altMode);  ///< String shown when a user needs to select an altitude mode
+    
+    // Q_INVOKABLE QString steelEagleModeExtraUnits(SteelEagleMode seMode);  
+    Q_INVOKABLE QString steelEagleModeShortDescription(SteelEagleMode seMode);
 
     // Property accesors
 

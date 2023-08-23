@@ -3,6 +3,7 @@ Module QGroundControl.Controls
 AnalyzePage                             1.0 AnalyzePage.qml
 AppMessages                             1.0 AppMessages.qml
 AltModeDialog                           1.0 AltModeDialog.qml
+SteelEagleModeDialog                    1.0 SteelEagleModeDialog.qml
 AxisMonitor                             1.0 AxisMonitor.qml
 CameraCalcCamera                        1.0 CameraCalcCamera.qml
 CameraCalcGrid                          1.0 CameraCalcGrid.qml
@@ -99,6 +100,7 @@ SectionHeader                           1.0 SectionHeader.qml
 SetupPage                               1.0 SetupPage.qml
 SignalStrength                          1.0 SignalStrength.qml
 SimpleItemMapVisuals                    1.0 SimpleItemMapVisuals.qml
+SimpleItemTabBar                        1.0 SimpleItemTabBar.qml
 SliderSwitch                            1.0 SliderSwitch.qml
 SubMenuButton                           1.0 SubMenuButton.qml
 SurveyMapVisuals                        1.0 SurveyMapVisuals.qml
@@ -107,6 +109,7 @@ TransectStyleComplexItemEditor          1.0 TransectStyleComplexItemEditor.qml
 TransectStyleComplexItemStats           1.0 TransectStyleComplexItemStats.qml
 TransectStyleComplexItemTabBar          1.0 TransectStyleComplexItemTabBar.qml
 TransectStyleComplexItemTerrainFollow   1.0 TransectStyleComplexItemTerrainFollow.qml
+TransectStyleComplexItemScottyFollow    1.0 TransectStyleComplexItemScottyFollow.qml
 TransectStyleMapVisuals                 1.0 TransectStyleMapVisuals.qml
 ToolStrip                               1.0 ToolStrip.qml
 ToolStripHoverButton                    1.0 ToolStripHoverButton.qml

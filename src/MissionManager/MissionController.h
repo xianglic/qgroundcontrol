@@ -260,6 +260,8 @@ public:
     QGroundControlQmlGlobal::AltMode globalAltitudeModeDefault(void);
     void setGlobalAltitudeMode(QGroundControlQmlGlobal::AltMode altMode);
 
+    QGroundControlQmlGlobal::SteelEagleMode globalSteelEagleModeDefault(void);
+
 signals:
     void visualItemsChanged                 (void);
     void waypointPathChanged                (void);
@@ -402,6 +404,7 @@ private:
     bool                        _missionContainsVTOLTakeoff =   false;
 
     QGroundControlQmlGlobal::AltMode _globalAltMode = QGroundControlQmlGlobal::AltitudeModeRelative;
+    QGroundControlQmlGlobal::SteelEagleMode _globalSteelEagleMode = QGroundControlQmlGlobal::DetectTask;
 
     static const char*  _settingsGroup;
 
